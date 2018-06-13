@@ -2,9 +2,12 @@
 
 #include "utils/GLIncludes.h"
 
+#include "utils/config.h"
+
 int main()
 {
 	GLFWwindow* window;
+	Config config;
 
 	/* Initializaing GLFW */
 	if (!glfwInit())
@@ -14,7 +17,7 @@ int main()
 	}
 
 	/* Pointing the window pointer to a window object */ 
-	window = glfwCreateWindow(800, 800, "Snake game", NULL, NULL);
+	window = glfwCreateWindow(config.width, config.height, config.windowName, NULL, NULL);
 
 	/* Basic error checking if the window was created succefully */
 	if (window == NULL)
