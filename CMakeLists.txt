@@ -10,6 +10,8 @@ find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
+add_subdirectory(utils)
+
 add_executable(glfwFramework main.cc)
 
-target_link_libraries(glfwFramework glfw GL GLEW)
+target_link_libraries(glfwFramework utils glfw GL GLEW)
