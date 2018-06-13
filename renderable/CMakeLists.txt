@@ -1,1 +1,1 @@
-add_library(renderable vbo.cc)
+add_library(renderable vbo.cc shader.cc)

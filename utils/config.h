@@ -1,3 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #include <iostream> // for cout
 
 struct Config
@@ -10,3 +13,5 @@ public:
 	int height;
 	const char* windowName;
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef VBO_H
+#define VBO_H
+
 #include "utils/GLIncludes.h"
 
 class VBO
@@ -13,3 +16,5 @@ public:
 private:
 	unsigned int VBOId;
 };
+
+#endif
