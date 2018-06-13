@@ -34,6 +34,10 @@ int main()
 		return -1;
 	}
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	/* Making the window poniter as the current openGL context */
 	glfwMakeContextCurrent(window);
 
@@ -45,6 +49,8 @@ int main()
 	}
 
 	glClearColor(0.3f, 1.0f, 1.0f, 1.0f);
+	
+	Shader testShader = Shader("../sVertex.vert", "../sFragment.frag");
 
 	while(!glfwWindowShouldClose(window))
 	{
