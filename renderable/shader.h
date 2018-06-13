@@ -13,8 +13,8 @@ class Shader
 public:
 	Shader(const char* vertexShaderPath, const char* fragmentShaderPath);
 
-	const unsigned int& getShaderID();
-	void use();
+	const unsigned int& getShaderID() const;
+	void use() const;
 private:
 	void checkCompileErrors(unsigned int shader, std::string type);
 private:

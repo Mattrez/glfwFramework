@@ -59,10 +59,10 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 }
 
 /* Returns a const reference of the shaderID */
-const unsigned int& Shader::getShaderID() { return shaderID; }
+const unsigned int& Shader::getShaderID() const { return shaderID; }
 
 /* Set's the program as this shader */
-void Shader::use() { glUseProgram(shaderID); }
+void Shader::use() const { glUseProgram(shaderID); }
 
 /* Give info about the compile or linking errors that happend */
 void Shader::checkCompileErrors(unsigned int shader, std::string type)

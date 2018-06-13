@@ -3,6 +3,11 @@
 #include "utils/GLIncludes.h"
 
 #include "utils/config.h"
+#include "renderable/renderer.h"
+#include "renderable/vao.h"
+#include "renderable/vbo.h"
+#include "renderable/layoutElement.h"
+#include "renderable/shader.h"
 
 int main()
 {

@@ -1,3 +1,6 @@
+#ifndef LAYOUTELEMENT_H
+#define LAYOUTELEMENT_H
+
 struct LayoutElement
 {
 	/* You canno't make a LayoutElement object without having data for it */
@@ -11,3 +14,5 @@ public:
 	const unsigned int type;
 	const unsigned int normalized;
 };
+
+#endif

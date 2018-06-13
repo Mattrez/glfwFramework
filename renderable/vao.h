@@ -1,3 +1,6 @@
+#ifndef VAO_H
+#define VAO_H
+
 #include <vector>
 
 #include "utils/GLIncludes.h"
@@ -22,3 +25,5 @@ private:
 	unsigned int VAOId;
 	std::vector <LayoutElement> elements;
 };
+
+#endif
