@@ -11,7 +11,8 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 add_subdirectory(utils)
+add_subdirectory(renderable)
 
 add_executable(glfwFramework main.cc)
 
-target_link_libraries(glfwFramework utils glfw GL GLEW)
+target_link_libraries(glfwFramework utils renderable glfw GL GLEW)

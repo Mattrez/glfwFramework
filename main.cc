@@ -6,7 +6,9 @@
 
 int main()
 {
+	/* GLFW window handle for loading openGL */
 	GLFWwindow* window;
+
 	Config config;
 
 	/* Initializaing GLFW */
