@@ -13,19 +13,21 @@
 class VAO
 {
 public:
-	VAO();
+	VAO(unsigned int indices[], unsigned int size);
 	~VAO();
 
 	void bind() const;
 	void unbind() const;
 
 	void addToElements(unsigned int count, unsigned int GLtype, unsigned int normalized);
-	void populateLayouts(const VBO& rVBO, const EBO& rEBO);
+	void populateLayouts(const VBO& rVBO);
 
 	unsigned int getId() const;
+	const EBO& getEBO() const;
 private:	
 	unsigned int VAOId;
 	std::vector <LayoutElement> elements;
+	EBO ebo;
 };
 
 #endif

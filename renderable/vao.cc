@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-VAO::VAO()
+VAO::VAO(unsigned int indices[], unsigned int size) :
+	ebo(indices, size)
 {
 	glGenVertexArrays(1, &VAOId);
 }
@@ -28,11 +29,12 @@ void VAO::addToElements(unsigned int count, unsigned int GLtype, unsigned int no
 	elements.emplace_back(LayoutElement(count, GLtype, normalized ));
 }
 
-void VAO::populateLayouts(const VBO& rVBO, const EBO& rEBO)
+void VAO::populateLayouts(const VBO& rVBO)
 {
 	/* Binding the given VBO for data */
 	rVBO.bind();
 
+	/* Binding the VAO first and then the EBO for safety */
 	VAO::bind();
 
 	/* Calculate stride */
@@ -47,7 +49,7 @@ void VAO::populateLayouts(const VBO& rVBO, const EBO& rEBO)
 	unsigned int offset = 0;
 
 	/* Binding the EBO for the indices */ 
-	rEBO.bind();
+	ebo.bind();
 
 	/* Setting all of the buffer layouts with data according to the elements */
 	for (int i = 0; i < elements.size(); i++)
@@ -67,3 +69,4 @@ void VAO::populateLayouts(const VBO& rVBO, const EBO& rEBO)
 }
 
 unsigned int VAO::getId() const { return VAOId; }
+const EBO& VAO::getEBO() const { return ebo; }
