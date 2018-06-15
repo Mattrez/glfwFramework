@@ -48,14 +48,42 @@ int main()
 		return -1;
 	}
 
-	glClearColor(0.3f, 1.0f, 1.0f, 1.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	Shader testShader = Shader("../sVertex.vert", "../sFragment.frag");
+	
+	float verties[] =
+	{
+		-0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		 0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		-0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+
+		-0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		 0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		 0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+	};
+
+	Renderer renderer;
+	VBO vbo = VBO(verties, sizeof(verties));
+	VAO vao;
+
+	/* Positions */
+	vao.addToElements(3, GL_FLOAT, GL_FALSE);
+	/* Color */
+	vao.addToElements(3, GL_FLOAT, GL_FALSE);
+
+	vao.populateLayouts(vbo);
 
 	while(!glfwWindowShouldClose(window))
 	{
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT);
+
+//		renderer.draw(vao, testShader);
+		testShader.use();
+		vao.bind();
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(window);

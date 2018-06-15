@@ -1,5 +1,7 @@
 #include "renderable/vao.h"
 
+#include <iostream>
+
 VAO::VAO()
 {
 	glGenVertexArrays(1, &VAOId);
@@ -31,6 +33,8 @@ void VAO::populateLayouts(const VBO& rVBO)
 	/* Binding the given VBO for data */
 	rVBO.bind();
 
+	VAO::bind();
+
 	/* Calculate stride */
 	unsigned int stride = 0;
 	for (const auto& element : elements)
@@ -46,13 +50,18 @@ void VAO::populateLayouts(const VBO& rVBO)
 	{
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Casting to unitptr_t so that compiler is happy*/
-			elements[i].normalized, stride * sizeof(float), (void*)(uintptr_t)offset);
+			elements[i].normalized, stride * sizeof(float), (void*)(offset * sizeof(float)));
+		glEnableVertexAttribArray(i);
 
 		offset += elements[i].count;
+		std::cout << offset << '\n';
 	}
 
 	/* Unbinding the given VBO because it's not needed anymore */
 	rVBO.unbind();
+	
+	/* Deleting all of the data from the elements vector */
+	//	elements.clear();
 }
 
 unsigned int VAO::getId() const { return VAOId; }
