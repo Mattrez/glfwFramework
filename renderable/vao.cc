@@ -28,7 +28,7 @@ void VAO::addToElements(unsigned int count, unsigned int GLtype, unsigned int no
 	elements.emplace_back(LayoutElement(count, GLtype, normalized ));
 }
 
-void VAO::populateLayouts(const VBO& rVBO)
+void VAO::populateLayouts(const VBO& rVBO, const EBO& rEBO)
 {
 	/* Binding the given VBO for data */
 	rVBO.bind();
@@ -45,6 +45,9 @@ void VAO::populateLayouts(const VBO& rVBO)
 
 	/* Offset to the element in the VBO */	
 	unsigned int offset = 0;
+
+	/* Binding the EBO for the indices */ 
+	rEBO.bind();
 
 	/* Setting all of the buffer layouts with data according to the elements */
 	for (int i = 0; i < elements.size(); i++)

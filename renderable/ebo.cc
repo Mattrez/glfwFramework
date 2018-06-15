@@ -1,6 +1,7 @@
 #include "renderable/ebo.h"
 
-EBO::EBO(unsigned int indices[], unsigned int size)
+EBO::EBO(unsigned int indices[], unsigned int size) :
+	count(size / sizeof(indices[0]))
 {
 	glGenBuffers(1, &EBOId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOId);

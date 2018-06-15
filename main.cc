@@ -8,6 +8,7 @@
 #include "renderable/vbo.h"
 #include "renderable/layoutElement.h"
 #include "renderable/shader.h"
+#include "renderable/ebo.h"
 
 int main()
 {
@@ -54,18 +55,21 @@ int main()
 	
 	float verties[] =
 	{
-		-0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
-		 0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
-		-0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
-
-		-0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
-		 0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
-		 0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		 0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V0
+		 0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V1
+		-0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V2
+		-0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f, //V3
+	};
+	
+	unsigned int indi[] = 
+	{
+		0, 1, 3,
+		1, 2, 3
 	};
 
 	Renderer renderer;
 	VBO vbo = VBO(verties, sizeof(verties));
-
+	EBO ebo = EBO(indi, sizeof(indi));
 	VAO vao;
 
 	/* Positions */
@@ -73,14 +77,14 @@ int main()
 	/* Color */
 	vao.addToElements(3, GL_FLOAT, GL_FALSE);
 
-	vao.populateLayouts(vbo);
+	vao.populateLayouts(vbo, ebo);
 
 	while(!glfwWindowShouldClose(window))
 	{
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		renderer.draw(vao, testShader);
+		renderer.draw(vao, ebo, testShader);
 //		testShader.use();
 //		vao.bind();
 //

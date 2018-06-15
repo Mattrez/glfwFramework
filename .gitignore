@@ -1,3 +1,6 @@
 build/
 libs/
 include/
+*.swp
+renderable/*.swp
+utils/*.swp

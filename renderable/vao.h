@@ -7,6 +7,7 @@
 #include "utils/GLIncludes.h"
 
 #include "renderable/vbo.h"
+#include "renderable/ebo.h"
 #include "renderable/layoutElement.h"
 
 class VAO
@@ -19,7 +20,7 @@ public:
 	void unbind() const;
 
 	void addToElements(unsigned int count, unsigned int GLtype, unsigned int normalized);
-	void populateLayouts(const VBO& rVBO);
+	void populateLayouts(const VBO& rVBO, const EBO& rEBO);
 
 	unsigned int getId() const;
 private:	

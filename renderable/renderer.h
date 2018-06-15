@@ -11,7 +11,7 @@ class Renderer
 public:
 	Renderer();
 	
-	void draw(const VAO& rVAO, const Shader& rShader);
+	void draw(const VAO& rVAO, const EBO& rEBO, const Shader& rShader);
 private:
 };
 
