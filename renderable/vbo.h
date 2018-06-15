@@ -6,15 +6,17 @@
 class VBO
 {
 public:
-	VBO(float data[], int size);
+	VBO(float data[], unsigned int size);
 	~VBO();
 	
 	void bind() const;
 	void unbind() const;
 
 	unsigned int getId() const;
+	unsigned int getTypeSize() const;
 private:
 	unsigned int VBOId;
+	unsigned int typeSize;
 };
 
 #endif

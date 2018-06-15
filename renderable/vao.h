@@ -2,6 +2,7 @@
 #define VAO_H
 
 #include <vector>
+#include <numeric> // for std::accumulate
 
 #include "utils/GLIncludes.h"
 

@@ -54,9 +54,9 @@ int main()
 	
 	float verties[] =
 	{
-		-0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
-		 0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
-		-0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
+		-0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
+		 0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
+		-0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f,
 
 		-0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
 		 0.5f, -0.5f, 1.0f, 1.0f, 0.6f, 0.3f,
@@ -65,6 +65,7 @@ int main()
 
 	Renderer renderer;
 	VBO vbo = VBO(verties, sizeof(verties));
+
 	VAO vao;
 
 	/* Positions */
@@ -79,11 +80,11 @@ int main()
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-//		renderer.draw(vao, testShader);
-		testShader.use();
-		vao.bind();
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		renderer.draw(vao, testShader);
+//		testShader.use();
+//		vao.bind();
+//
+//		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(window);

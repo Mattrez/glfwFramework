@@ -37,10 +37,11 @@ void VAO::populateLayouts(const VBO& rVBO)
 
 	/* Calculate stride */
 	unsigned int stride = 0;
-	for (const auto& element : elements)
+	/* Accumulating all of the values of the elements vector from the value 'count'*/
+	stride = std::accumulate(elements.begin(), elements.end(), 0, [](int result, const LayoutElement& le)
 	{
-		stride += element.count;
-	}
+		return result + le.count;
+	});
 
 	/* Offset to the element in the VBO */	
 	unsigned int offset = 0;
@@ -49,19 +50,17 @@ void VAO::populateLayouts(const VBO& rVBO)
 	for (int i = 0; i < elements.size(); i++)
 	{
 		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Casting to unitptr_t so that compiler is happy*/
-			elements[i].normalized, stride * sizeof(float), (void*)(offset * sizeof(float)));
-		glEnableVertexAttribArray(i);
+		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Cast to unitptr_t so that compiler is happy */
+			elements[i].normalized, stride * rVBO.getTypeSize(), (void*)(offset * rVBO.getTypeSize()));
 
 		offset += elements[i].count;
-		std::cout << offset << '\n';
 	}
 
 	/* Unbinding the given VBO because it's not needed anymore */
 	rVBO.unbind();
 	
 	/* Deleting all of the data from the elements vector */
-	//	elements.clear();
+	elements.clear();
 }
 
 unsigned int VAO::getId() const { return VAOId; }

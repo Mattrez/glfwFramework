@@ -1,6 +1,8 @@
 #include "renderable/vbo.h"
 
-VBO::VBO(float data[], int size)
+VBO::VBO(float data[], unsigned int size) :
+	/* Getting the size of the type */
+	typeSize((size) / (size / sizeof(data[0])))
 {
 	glGenBuffers(1, &VBOId);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
@@ -23,3 +25,4 @@ void VBO::unbind() const
 }
 
 unsigned int VBO::getId() const { return VBOId; }
+unsigned int VBO::getTypeSize() const { return typeSize; }
