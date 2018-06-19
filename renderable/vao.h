@@ -14,6 +14,8 @@ class VAO
 {
 public:
 	VAO(unsigned int indices[], unsigned int size);
+	VAO(VAO& rVAO);
+	VAO(VAO&& rvVAO);
 	~VAO();
 
 	void bind() const;

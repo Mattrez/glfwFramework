@@ -8,6 +8,20 @@ VAO::VAO(unsigned int indices[], unsigned int size) :
 	glGenVertexArrays(1, &VAOId);
 }
 
+VAO::VAO(VAO& rVAO) :
+	VAOId(rVAO.VAOId),
+	elements(rVAO.elements),
+	ebo(rVAO.ebo)
+{ }
+
+VAO::VAO(VAO&& rvVAO) :
+	VAOId(rvVAO.VAOId),
+	elements(rvVAO.elements),
+	ebo(std::move(rvVAO.ebo))
+{
+	rvVAO.VAOId = 0;
+}
+
 VAO::~VAO()
 {
 	glDeleteVertexArrays(1, &VAOId);

@@ -7,6 +7,8 @@ class VBO
 {
 public:
 	VBO(float data[], unsigned int size);
+	VBO(VBO& rVBO);
+	VBO(VBO&& rvVBO);
 	~VBO();
 	
 	void bind() const;

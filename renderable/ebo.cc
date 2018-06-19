@@ -8,6 +8,19 @@ EBO::EBO(unsigned int indices[], unsigned int size) :
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
 
+EBO::EBO(EBO& rEBO) :
+	EBOId(rEBO.EBOId),
+	count(rEBO.count)
+{ }
+
+EBO::EBO(EBO&& rvEBO) :
+	EBOId(rvEBO.EBOId),
+	count(rvEBO.count)
+{
+	rvEBO.EBOId = 0;
+	rvEBO.count = 0;
+}
+
 EBO::~EBO()
 {
 	glDeleteBuffers(1, &EBOId);

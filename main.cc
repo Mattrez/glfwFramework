@@ -9,6 +9,7 @@
 #include "renderable/layoutElement.h"
 #include "renderable/shader.h"
 #include "renderable/ebo.h"
+#include "objects/rObject.h"
 
 int main()
 {
@@ -76,13 +77,17 @@ int main()
 
 	vao.populateLayouts(vbo);
 
+	rObject object;
+	object.addVBO(std::move(vbo));
+	object.addVAO(std::move(vao));
+
 	while(!glfwWindowShouldClose(window))
 	{
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		/* Draw call */	
-		Renderer::draw(vao, testShader);
+		Renderer::draw(&object, testShader);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(window);

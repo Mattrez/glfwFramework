@@ -5,13 +5,14 @@
 
 #include "renderable/vao.h"
 #include "renderable/shader.h"
+#include "objects/rObject.h"
 
 class Renderer
 {
 public:
 	Renderer();
 	
-	static void draw(const VAO& rVAO, const Shader& rShader);
+	static void draw(rObject* prObject, const Shader& rShader);
 };
 
 #endif

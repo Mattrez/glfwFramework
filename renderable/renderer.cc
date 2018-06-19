@@ -3,15 +3,19 @@
 Renderer::Renderer()
 { }
 
-void Renderer::draw(const VAO& rVAO, const Shader& rShader)
+void Renderer::draw(rObject* prObject, const Shader& rShader)
 {
 	/* Binding the VAO and Shader so openGL knows what to use */
 	rShader.use();
-	rVAO.bind();
-
-	/* Draw call */
-	glDrawElements(GL_TRIANGLES, rVAO.getEBO().getCount(), GL_UNSIGNED_INT, 0);
+	const auto& VAOs = prObject->getVAOs();
+	for (unsigned int i = 0; i < VAOs.size(); i++)
+	{
+		VAOs[i].bind();
 	
-	/* No use for VAO anymore so unbind it */
-	rVAO.unbind();
+		/* Draw call */
+		glDrawElements(GL_TRIANGLES, VAOs[i].getEBO().getCount(), GL_UNSIGNED_INT, 0);
+		
+		/* No use for VAO anymore so unbind it */
+		VAOs[i].unbind();
+	}
 }

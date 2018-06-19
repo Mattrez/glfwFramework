@@ -14,7 +14,8 @@ set(GLEWLIB ${CMAKE_SOURCE_DIR}/libs/GLEW/libglew32.a)
 
 add_subdirectory(utils)
 add_subdirectory(renderable)
+add_subdirectory(objects)
 
 add_executable(glfwFramework main.cc)
 
-target_link_libraries(glfwFramework utils renderable ${GLFWLIB} -lopengl32 ${CMAKE_SOURCE_DIR}/libs/GLEW/libglew32.a)
+target_link_libraries(glfwFramework utils renderable objects ${GLFWLIB} -lopengl32 ${CMAKE_SOURCE_DIR}/libs/GLEW/libglew32.a)
