@@ -7,10 +7,27 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 {
 	/* Binding the VAO and Shader so openGL knows what to use */
 	rShader.use();
+
+	/* Setting a static projection */
+	rShader.setMat4("projection", projection);
+
 	const auto& VAOs = prObject->getVAOs();
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
 		VAOs[i].bind();
+
+		/* Creating and setting the model to the data in the object */
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(prObject->getPosition()));
+		model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
+		model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
+
+		/* Scaling to the size */
+		model = glm::scale(model, glm::vec3(prObject->getSize(), 1.0f));
+
+		/* Setting the shader uniform */
+		rShader.setMat4("model", model);
 	
 		/* Draw call */
 		glDrawElements(GL_TRIANGLES, VAOs[i].getEBO().getCount(), GL_UNSIGNED_INT, 0);
@@ -19,3 +36,6 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 		VAOs[i].unbind();
 	}
 }
+
+/* Static variables */
+glm::mat4 Renderer::projection = glm::ortho(0.0f, 800.0f, 0.0f, 800.0f, -1.0f, 1000.0f);

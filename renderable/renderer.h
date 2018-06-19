@@ -2,7 +2,10 @@
 #define RENDERER_H
 
 #include "utils/GLIncludes.h"
+/* Specific GL includes */
+#include <glm/gtc/matrix_transform.hpp>
 
+#include "utils/config.h"
 #include "renderable/vao.h"
 #include "renderable/shader.h"
 #include "objects/rObject.h"
@@ -13,6 +16,8 @@ public:
 	Renderer();
 	
 	static void draw(rObject* prObject, const Shader& rShader);
+private:
+	static glm::mat4 projection;
 };
 
 #endif

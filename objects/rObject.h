@@ -17,6 +17,13 @@ public:
 	void addVBO(VBO&& rvVBO);
 	void addVAO(VAO&& rvVAO);
 
+	/* Setters */
+	void setPosition(glm::vec3 setPosition);
+	void setColor(glm::vec3 setColor);
+	void setSize(glm::vec2 setSize);
+	void setRotation(float setRotation);
+
+	/* Getters */
 	const std::vector <VBO>& getVBOs() const;
 	const std::vector <VAO>& getVAOs() const;
 	const glm::vec3& getPosition() const;

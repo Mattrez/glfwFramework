@@ -64,6 +64,21 @@ const unsigned int& Shader::getShaderID() const { return shaderID; }
 /* Set's the program as this shader */
 void Shader::use() const { glUseProgram(shaderID); }
 
+void Shader::setInt(const std::string& name, int value) const
+{
+	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
+}
+
+void Shader::setFloat(const std::string& name, float value) const
+{
+	glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value);
+}
+
+void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
+{
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
 /* Give info about the compile or linking errors that happend */
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
 {

@@ -54,10 +54,10 @@ int main()
 	
 	float verties[] =
 	{
-		 0.5f,  0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V0
-		 0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V1
-		-0.5f, -0.5f, 1.0f, 0.0f, 0.6f, 0.3f, //V2
-		-0.5f,  0.5f, 1.0f, 1.0f, 0.6f, 0.3f, //V3
+		 0.5f,  0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V0
+		 0.5f, -0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V1
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V2
+		-0.5f,  0.5f, 0.0f, 1.0f, 0.6f, 0.3f, //V3
 	};
 	
 	unsigned int indi[] = 
@@ -80,6 +80,8 @@ int main()
 	rObject object;
 	object.addVBO(std::move(vbo));
 	object.addVAO(std::move(vao));
+	object.setPosition(glm::vec3(400.0f, 400.0f, 1.0f));
+	object.setSize(glm::vec2(200.0f, 200.0f));
 
 	while(!glfwWindowShouldClose(window))
 	{
