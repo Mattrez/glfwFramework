@@ -8,8 +8,22 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 	/* Binding the VAO and Shader so openGL knows what to use */
 	rShader.use();
 
-	/* Setting a static projection */
-	rShader.setMat4("projection", projection);
+	/* Choosing a projection on Perspective var in rObject */
+	switch(prObject->getPerspective())
+	{
+		case rObject::Perspective::ORTHO :
+		{
+			/* Setting a ortho projection */
+			rShader.setMat4("projection", ortho);
+			break;
+		}
+		case rObject::Perspective::PROJ :
+		{
+			/* Setting a proj projection */
+			rShader.setMat4("projection", proj);
+			break;
+		}
+	}
 
 	const auto& VAOs = prObject->getVAOs();
 	for (unsigned int i = 0; i < VAOs.size(); i++)
@@ -38,4 +52,5 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 }
 
 /* Static variables */
-glm::mat4 Renderer::projection = glm::ortho(0.0f, 800.0f, 0.0f, 800.0f, -1.0f, 1000.0f);
+glm::mat4 Renderer::ortho = glm::ortho(0.0f, 800.0f, 0.0f, 800.0f, -1.0f, 1000.0f);
+glm::mat4 Renderer::proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, -1.0f, 1000.0f);

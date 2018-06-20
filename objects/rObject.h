@@ -11,6 +11,8 @@
 class rObject
 {
 public:
+	enum class Perspective;
+public:
 	rObject();
 	
 	void addVBO(const VBO& rVBO);
@@ -21,6 +23,7 @@ public:
 	void setColor(glm::vec3 setColor);
 	void setSize(glm::vec2 setSize);
 	void setRotation(float setRotation);
+	void setPerspective(Perspective setPers);
 
 	/* Getters */
 	const std::vector <const VBO*>& getVBOs() const;
@@ -29,6 +32,7 @@ public:
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
 	float getRotation() const;
+	Perspective getPerspective() const;
 private:
 	std::vector <const VBO*> VBOs;
 	std::vector <const VAO*> VAOs;
@@ -36,6 +40,13 @@ private:
 	glm::vec3 color;
 	glm::vec2 size;
 	float rotation;
+	Perspective perspective;
+public:
+	enum class Perspective
+	{
+		ORTHO,
+		PROJ
+	};
 };
 
 #endif

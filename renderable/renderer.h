@@ -17,7 +17,8 @@ public:
 	
 	static void draw(rObject* prObject, const Shader& rShader);
 private:
-	static glm::mat4 projection;
+	static glm::mat4 ortho;
+	static glm::mat4 proj;
 };
 
 #endif
