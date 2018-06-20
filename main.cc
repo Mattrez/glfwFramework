@@ -16,8 +16,6 @@ int main()
 	/* GLFW window handle for loading openGL */
 	GLFWwindow* window;
 
-	Config config;
-
 	/* Initializaing GLFW */
 	if (!glfwInit())
 	{
@@ -25,8 +23,11 @@ int main()
 		return -1;
 	}
 
+	/* Creating and getting the instance of the config Singeltonn */
+	auto conf = Config::get();
+
 	/* Pointing the window pointer to a window object */ 
-	window = glfwCreateWindow(config.width, config.height, config.windowName, NULL, NULL);
+	window = glfwCreateWindow(conf.width, conf.height, conf.windowName, NULL, NULL);
 
 	/* Basic error checking if the window was created succefully */
 	if (window == NULL)

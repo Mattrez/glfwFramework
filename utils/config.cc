@@ -1,9 +1,17 @@
 #include "utils/config.h"
 
+/* Default singelton */
+Config& Config::get()
+{
+	static Config instance;
+	return instance;
+}
+
 /* Default config of the window */
 Config::Config() :
-	width(800),
-	height(800),
+	fov(45.0f),
+	width(800.0f),
+	height(800.0f),
 	windowName("glfwFramework")
 { }
 

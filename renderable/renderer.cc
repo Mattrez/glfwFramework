@@ -52,5 +52,9 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 }
 
 /* Static variables */
-glm::mat4 Renderer::ortho = glm::ortho(0.0f, 800.0f, 0.0f, 800.0f, -1.0f, 1000.0f);
-glm::mat4 Renderer::proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, -1.0f, 1000.0f);
+
+/* Config instance */
+auto c = Config::get();
+
+glm::mat4 Renderer::ortho = glm::ortho(0.0f, c.width, 0.0f, c.height, -1.0f, 1000.0f);
+glm::mat4 Renderer::proj = glm::perspective(glm::radians(c.fov), c.width/c.height, -1.0f, 1000.0f);

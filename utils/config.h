@@ -5,12 +5,16 @@
 
 struct Config
 {
+public:
+	static Config& get();
+private:
 	Config();
 	
 	Config(const char* configPath);
 public:
-	int width;
-	int height;
+	float fov;
+	float width;
+	float height;
 	const char* windowName;
 };
 
