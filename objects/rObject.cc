@@ -5,17 +5,18 @@ rObject::rObject() :
 	color(1.0f, 1.0f, 1.0f),
 	size(100.0f, 100.0f),
 	rotation(0.0f)
+{ }
+
+/* Receive a const VBO reference and emplace the adress of it in the vector */
+void rObject::addVBO(const VBO& rVBO)
 {
+	VBOs.emplace_back(&rVBO);
 }
 
-void rObject::addVBO(VBO&& rvVBO)
+/* Receive a const VAO reference and emplace the adress of it in the vector */
+void rObject::addVAO(const VAO& rVAO)
 {
-	VBOs.emplace_back(rvVBO);
-}
-
-void rObject::addVAO(VAO&& rvVAO)
-{
-	VAOs.emplace_back(rvVAO);
+	VAOs.emplace_back(&rVAO);
 }
 
 /* Setters */
@@ -25,8 +26,8 @@ void rObject::setSize(glm::vec2 setSize)			 { size = setSize; }
 void rObject::setRotation(float setRotation)		 { rotation = setRotation; }
 
 /* Getters */
-const std::vector <VBO>& rObject::getVBOs() const { return VBOs; }
-const std::vector <VAO>& rObject::getVAOs() const { return VAOs; }
+const std::vector <const VBO*>& rObject::getVBOs() const { return VBOs; }
+const std::vector <const VAO*>& rObject::getVAOs() const { return VAOs; }
 const glm::vec3& rObject::getPosition() const { return position; }
 const glm::vec3& rObject::getColor() const	 { return color; }
 const glm::vec2& rObject::getSize() const		 { return size; }

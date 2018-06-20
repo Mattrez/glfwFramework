@@ -14,7 +14,7 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 	const auto& VAOs = prObject->getVAOs();
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
-		VAOs[i].bind();
+		VAOs[i]->bind();
 
 		/* Creating and setting the model to the data in the object */
 		glm::mat4 model;
@@ -30,10 +30,10 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 		rShader.setMat4("model", model);
 	
 		/* Draw call */
-		glDrawElements(GL_TRIANGLES, VAOs[i].getEBO().getCount(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, VAOs[i]->getEBO().getCount(), GL_UNSIGNED_INT, 0);
 		
 		/* No use for VAO anymore so unbind it */
-		VAOs[i].unbind();
+		VAOs[i]->unbind();
 	}
 }
 

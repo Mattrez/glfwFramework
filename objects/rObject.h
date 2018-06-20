@@ -2,7 +2,6 @@
 #define ROBJECT_H
 
 #include <vector>
-#include <memory> // for std::unique_ptr
 
 #include "utils/GLIncludes.h"
 
@@ -14,8 +13,8 @@ class rObject
 public:
 	rObject();
 	
-	void addVBO(VBO&& rvVBO);
-	void addVAO(VAO&& rvVAO);
+	void addVBO(const VBO& rVBO);
+	void addVAO(const VAO& rVAO);
 
 	/* Setters */
 	void setPosition(glm::vec3 setPosition);
@@ -24,15 +23,15 @@ public:
 	void setRotation(float setRotation);
 
 	/* Getters */
-	const std::vector <VBO>& getVBOs() const;
-	const std::vector <VAO>& getVAOs() const;
+	const std::vector <const VBO*>& getVBOs() const;
+	const std::vector <const VAO*>& getVAOs() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
 	float getRotation() const;
 private:
-	std::vector <VBO> VBOs;
-	std::vector <VAO> VAOs;
+	std::vector <const VBO*> VBOs;
+	std::vector <const VAO*> VAOs;
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;

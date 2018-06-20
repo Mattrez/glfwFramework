@@ -50,12 +50,12 @@ int main()
 		return -1;
 	}
 
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.4f, 0.7f, 1.0f, 1.0f);
 	
 	float verties[] =
 	{
-		 0.5f,  0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V0
-		 0.5f, -0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V1
+		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //V0
+		 0.5f, -0.5f, 0.0f, 0.3f, 0.6f, 1.0f, //V1
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V2
 		-0.5f,  0.5f, 0.0f, 1.0f, 0.6f, 0.3f, //V3
 	};
@@ -77,9 +77,9 @@ int main()
 
 	vao.populateLayouts(vbo);
 
+	/* Creating a renderableObject and filling it with data */
 	rObject object;
-	object.addVBO(std::move(vbo));
-	object.addVAO(std::move(vao));
+	object.addVAO(vao);
 	object.setPosition(glm::vec3(400.0f, 400.0f, 1.0f));
 	object.setSize(glm::vec2(200.0f, 200.0f));
 
