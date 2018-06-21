@@ -5,8 +5,8 @@
 
 #include "utils/GLIncludes.h"
 
-#include "renderable/VBO.h"
-#include "renderable/VAO.h"
+#include "renderable/vbo.h"
+#include "renderable/vao.h"
 
 class rObject
 {

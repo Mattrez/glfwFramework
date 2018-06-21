@@ -11,4 +11,4 @@ void main()
 {
 	gl_Position = projection * model * vec4(position, 1.0);
 	outColor = color;
-};
+}

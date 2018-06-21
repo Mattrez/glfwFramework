@@ -26,6 +26,10 @@ int main()
 	/* Creating and getting the instance of the config Singeltonn */
 	auto conf = Config::get();
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	/* Pointing the window pointer to a window object */ 
 	window = glfwCreateWindow(conf.width, conf.height, conf.windowName, NULL, NULL);
 
@@ -36,10 +40,6 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Making the window poniter as the current openGL context */
 	glfwMakeContextCurrent(window);
