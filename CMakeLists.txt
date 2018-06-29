@@ -7,6 +7,8 @@ include_directories("includes/")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set (OpenGL_GL_PREFERENCE GLVND)
+
 find_package(glfw3  REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW  REQUIRED)

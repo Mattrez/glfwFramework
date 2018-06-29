@@ -15,7 +15,6 @@ public:
 public:
 	rObject();
 	
-	void addVBO(const VBO& rVBO);
 	void addVAO(const VAO& rVAO);
 
 	/* Setters */
@@ -26,7 +25,6 @@ public:
 	void setPerspective(Perspective setPers);
 
 	/* Getters */
-	const std::vector <const VBO*>& getVBOs() const;
 	const std::vector <const VAO*>& getVAOs() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
@@ -34,7 +32,6 @@ public:
 	float getRotation() const;
 	Perspective getPerspective() const;
 private:
-	std::vector <const VBO*> VBOs;
 	std::vector <const VAO*> VAOs;
 	glm::vec3 position;
 	glm::vec3 color;

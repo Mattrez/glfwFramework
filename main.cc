@@ -9,7 +9,20 @@
 #include "renderable/layoutElement.h"
 #include "renderable/shader.h"
 #include "renderable/ebo.h"
+#include "renderable/camera.h"
 #include "objects/rObject.h"
+
+auto conf = Config::get();
+
+float lastX = 400.0f;
+float lastY = 400.0f;
+bool firstMouse = true;
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void processInput(GLFWwindow *window);
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 int main()
 {
@@ -40,9 +53,15 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
+   
+   /* Setting of all the callbacks */
+   glfwSetCursorPosCallback(window, mouse_callback);
 
 	/* Making the window poniter as the current openGL context */
 	glfwMakeContextCurrent(window);
+
+   /* Telling OpenGL to take control over our mouse */
+   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	/* Error checking for initializaing GLEW */ 
 	if(glewInit())
@@ -51,14 +70,15 @@ int main()
 		return -1;
 	}
 
-	glClearColor(0.4f, 0.7f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+   glEnable(GL_DEPTH_TEST);
 	
 	float verties[] =
 	{
-		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //V0
-		 0.5f, -0.5f, 0.0f, 0.3f, 0.6f, 1.0f, //V1
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.6f, 0.3f, //V2
-		-0.5f,  0.5f, 0.0f, 1.0f, 0.6f, 0.3f, //V3
+		 0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 1.0f, //V0
+		 0.5f, -0.5f, 0.5f, 0.3f, 0.6f, 1.0f, //V1
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.6f, 0.3f, //V2
+		-0.5f,  0.5f, 0.5f, 1.0f, 0.6f, 0.3f, //V3
 	};
 	
 	unsigned int indi[] = 
@@ -67,7 +87,8 @@ int main()
 		1, 2, 3
 	};
 
-	Shader testShader = Shader("../sVertex.vert", "../sFragment.frag");
+	Shader testShader = Shader("../shaders/sVertex.vert", "../shaders/sFragment.frag");
+   Camera cam = Camera();
 	VBO vbo = VBO(verties, sizeof(verties));
 	VAO vao = VAO(indi, sizeof(indi));
 
@@ -81,13 +102,20 @@ int main()
 	/* Creating a renderableObject and filling it with data */
 	rObject object;
 	object.addVAO(vao);
-	object.setPosition(glm::vec3(400.0f, 400.0f, 1.0f));
-	object.setSize(glm::vec2(200.0f, 200.0f));
+   object.setPosition({ 0.0f, 0.0f, 0.0f });
+
+   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	while(!glfwWindowShouldClose(window))
 	{
+      float currentFrame = glfwGetTime();
+      deltaTime = currentFrame - lastFrame;
+      lastFrame = currentFrame;
+
+      processInput(window);
+
 		/* Clearing the screen with set color */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */	
 		Renderer::draw(&object, testShader);
@@ -102,4 +130,39 @@ int main()
 	/* Cleaning GLFW up */
 	glfwTerminate();
 	return 0;
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+   if (firstMouse)
+   {
+      lastX = xpos;
+      lastY = ypos;
+      firstMouse = false;
+   }
+   
+   float xoffset = xpos - lastX;
+   float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+   
+   lastX = xpos;
+   lastY = ypos;
+
+   Camera& cam = Renderer::getCamera();
+   cam.processMouseMovement(xoffset, yoffset);
+}
+
+void processInput(GLFWwindow *window)
+{
+   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+      glfwSetWindowShouldClose(window, true);
+
+   Camera& cam = Renderer::getCamera();
+   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+      cam.processKeyboard(Camera::Movement::FORWARD, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+      cam.processKeyboard(Camera::Movement::BACKWARD, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+      cam.processKeyboard(Camera::Movement::LEFT, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+      cam.processKeyboard(Camera::Movement::RIGHT, deltaTime);
 }
