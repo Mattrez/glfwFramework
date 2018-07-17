@@ -9,19 +9,6 @@ VBO::VBO(float data[], unsigned int size) :
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
 
-VBO::VBO(VBO& rVBO) :
-	VBOId(rVBO.VBOId),
-	typeSize(rVBO.typeSize)
-{ }
-
-VBO::VBO(VBO&& rvVBO) :
-	VBOId(rvVBO.VBOId),
-	typeSize(rvVBO.typeSize)
-{
-	rvVBO.VBOId = 0;
-	rvVBO.typeSize = 0;
-}
-
 VBO::~VBO()
 {
 	glDeleteBuffers(1, &VBOId);

@@ -16,7 +16,8 @@ find_package(GLEW  REQUIRED)
 add_subdirectory(utils)
 add_subdirectory(renderable)
 add_subdirectory(objects)
+add_subdirectory(bin)
 
-add_executable(glfwFramework main.cc)
+add_executable(exec main.cc)
 
-target_link_libraries(glfwFramework utils renderable objects ${GLFWLIB} glfw GL GLEW)
+target_link_libraries(exec bin utils renderable objects ${GLFWLIB} glfw GL GLEW)

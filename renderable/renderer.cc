@@ -3,10 +3,11 @@
 Renderer::Renderer()
 { }
 
-void Renderer::draw(rObject* prObject, const Shader& rShader)
+void Renderer::draw(rObject* prObject, const Shader& shaderDea)
 {
-	/* Binding the VAO and Shader so openGL knows what to use */
-	rShader.use();
+	/* Binding the Shader */
+	/* ShaderAtlas::get().getShader(ID)->use(); */
+	shaderDea.use();
 
 	/* Choosing a projection on Perspective var in rObject */
 	switch(prObject->getPerspective())
@@ -14,13 +15,15 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 		case rObject::Perspective::ORTHO :
 		{
 			/* Setting a ortho projection */
-			rShader.setMat4("projection", ortho);
+			/* ShaderAtlas::get().getShader(ID)->setMat4("projection", ortho); */
+			shaderDea.setMat4("projection", ortho);
 			break;
 		}
 		case rObject::Perspective::PROJ :
 		{
 			/* Setting a proj projection */
-			rShader.setMat4("projection", proj);
+			/* ShaderAtlas::get().getShader(ID)->setMat4("projection", proj); */
+			shaderDea.setMat4("projection", proj);
 			break;
 		}
 	}
@@ -28,7 +31,8 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 	const auto& VAOs = prObject->getVAOs();
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
-		VAOs[i]->bind();
+		/* Binding all of the VAOs */
+		VAOAtlas::get().getVAO(VAOId::Basic)->bind();
 
 		/* Creating and setting the model to the data in the object */
 		glm::mat4 model;
@@ -42,16 +46,18 @@ void Renderer::draw(rObject* prObject, const Shader& rShader)
 
       /* View matrix */
       glm::mat4 view = camera.getViewMatrix();
-      rShader.setMat4("view", view);
+      /* ShaderAtlas::get().getShader(ID)->setMat4("view", view); */
+		shaderDea.setMat4("view", view);
 	
 		/* Setting the shader uniform */
-		rShader.setMat4("model", model);
+		/* ShaderAtlas::get().getShader(ID)->setMat4("model", model); */
+		shaderDea.setMat4("model", model);
 
 		/* Draw call */
-		glDrawElements(GL_TRIANGLES, VAOs[i]->getEBO().getCount(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, VAOAtlas::get().getVAO(VAOId::Basic)->getEBO().getCount(), GL_UNSIGNED_INT, 0);
 		
 		/* No use for VAO anymore so unbind it */
-		VAOs[i]->unbind();
+		VAOAtlas::get().getVAO(VAOId::Basic)->unbind();
 	}
 }
 

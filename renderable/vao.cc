@@ -2,24 +2,11 @@
 
 #include <iostream>
 
-VAO::VAO(unsigned int indices[], unsigned int size) :
-	ebo(indices, size)
+VAO::VAO(unsigned int indices[], unsigned int sizeEBO, float data[], unsigned int sizeVBO) :
+	vbo(data, sizeVBO),
+	ebo(indices, sizeEBO)
 {
 	glGenVertexArrays(1, &VAOId);
-}
-
-VAO::VAO(VAO& rVAO) :
-	VAOId(rVAO.VAOId),
-	elements(rVAO.elements),
-	ebo(rVAO.ebo)
-{ }
-
-VAO::VAO(VAO&& rvVAO) :
-	VAOId(rvVAO.VAOId),
-	elements(rvVAO.elements),
-	ebo(std::move(rvVAO.ebo))
-{
-	rvVAO.VAOId = 0;
 }
 
 VAO::~VAO()
@@ -43,10 +30,10 @@ void VAO::addToElements(unsigned int count, unsigned int GLtype, unsigned int no
 	elements.emplace_back(LayoutElement(count, GLtype, normalized ));
 }
 
-void VAO::populateLayouts(const VBO& rVBO)
+void VAO::populateLayouts()
 {
 	/* Binding the given VBO for data */
-	rVBO.bind();
+	vbo.bind();
 
 	/* Binding the VAO first and then the EBO for safety */
 	VAO::bind();
@@ -70,13 +57,13 @@ void VAO::populateLayouts(const VBO& rVBO)
 	{
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Cast to unitptr_t so that compiler is happy */
-			elements[i].normalized, stride * rVBO.getTypeSize(), (void*)(offset * rVBO.getTypeSize()));
+			elements[i].normalized, stride * vbo.getTypeSize(), (void*)(offset * vbo.getTypeSize()));
 
 		offset += elements[i].count;
 	}
 
 	/* Unbinding the given VBO because it's not needed anymore */
-	rVBO.unbind();
+	vbo.unbind();
 	
 	/* Deleting all of the data from the elements vector */
 	elements.clear();

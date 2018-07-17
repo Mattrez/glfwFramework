@@ -5,8 +5,7 @@
 
 #include "utils/GLIncludes.h"
 
-#include "renderable/vbo.h"
-#include "renderable/vao.h"
+#include "renderable/vaoAtlas.h"
 
 class rObject
 {
@@ -15,7 +14,7 @@ public:
 public:
 	rObject();
 	
-	void addVAO(const VAO& rVAO);
+	void addVAO(VAOId ID);
 
 	/* Setters */
 	void setPosition(glm::vec3 setPosition);
@@ -25,14 +24,14 @@ public:
 	void setPerspective(Perspective setPers);
 
 	/* Getters */
-	const std::vector <const VAO*>& getVAOs() const;
+	const std::vector <VAOId>& getVAOs() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
 	float getRotation() const;
 	Perspective getPerspective() const;
 private:
-	std::vector <const VAO*> VAOs;
+	std::vector <VAOId> VAOs;
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;

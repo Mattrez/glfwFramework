@@ -1,1 +1,1 @@
-add_library(utils config.cc)
+add_library(utils config.cc timer.cc)

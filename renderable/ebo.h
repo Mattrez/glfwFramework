@@ -7,8 +7,6 @@ class EBO
 {
 public:
 	EBO(unsigned int indices[], unsigned int size);
-	EBO(EBO& rEBO);
-	EBO(EBO&& rvEBO);
 	~EBO();
 
 	void bind() const;

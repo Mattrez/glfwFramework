@@ -9,9 +9,9 @@ rObject::rObject() :
 { }
 
 /* Receive a const VAO reference and emplace the adress of it in the vector */
-void rObject::addVAO(const VAO& rVAO)
+void rObject::addVAO(VAOId ID)
 {
-	VAOs.emplace_back(&rVAO);
+	VAOs.emplace_back(ID);
 }
 
 /* Setters */
@@ -22,9 +22,9 @@ void rObject::setRotation(float setRotation)		 { rotation = setRotation; }
 void rObject::setPerspective(Perspective setPers){ perspective = setPers; }
 
 /* Getters */
-const std::vector <const VAO*>& rObject::getVAOs() const { return VAOs; }
 const glm::vec3& rObject::getPosition() const { return position; }
 const glm::vec3& rObject::getColor() const	 { return color; }
 const glm::vec2& rObject::getSize() const		 { return size; }
 float rObject::getRotation() const				 { return rotation; }
+const std::vector <VAOId>& rObject::getVAOs() const 	 { return VAOs; }
 rObject::Perspective rObject::getPerspective() const	 { return perspective; }
