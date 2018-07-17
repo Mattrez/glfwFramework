@@ -30,7 +30,9 @@ App::App()
 	}
    
    /* Setting of all the callbacks */
+	glfwSetWindowUserPointer(pWindow, this);
    glfwSetCursorPosCallback(pWindow, mouse_callback);
+	glfwSetKeyCallback(pWindow, key_callback);
 
 	/* Making the window poniter as the current openGL context */
 	glfwMakeContextCurrent(pWindow);
@@ -131,17 +133,18 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
 void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
 	App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow));
+	/* App* pApp = (App*)glfwGetWindowUserPointer(pWindow); */
 
    if (key == GLFW_KEY_ESCAPE and action == GLFW_RELEASE)
       glfwSetWindowShouldClose(pWindow, true);
 
    Camera& cam = Renderer::getCamera();
-   if (key == GLFW_KEY_W and action == GLFW_RELEASE)
+   if (key == GLFW_KEY_W and action != GLFW_PRESS)
       cam.processKeyboard(Camera::Movement::FORWARD, pApp->timer.getDeltaTime());
-   if (key == GLFW_KEY_S and action == GLFW_RELEASE)
+   if (key == GLFW_KEY_S and action != GLFW_PRESS)
       cam.processKeyboard(Camera::Movement::BACKWARD, pApp->timer.getDeltaTime());
-   if (key == GLFW_KEY_A and action == GLFW_RELEASE)
+   if (key == GLFW_KEY_A and action != GLFW_PRESS)
       cam.processKeyboard(Camera::Movement::LEFT, pApp->timer.getDeltaTime());
-   if (key == GLFW_KEY_D and action == GLFW_RELEASE)
+   if (key == GLFW_KEY_D and action != GLFW_PRESS)
       cam.processKeyboard(Camera::Movement::RIGHT, pApp->timer.getDeltaTime());
 }
