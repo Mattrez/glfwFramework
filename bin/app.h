@@ -25,6 +25,7 @@ public:
 	~App();
 
 	void mainLoop();
+	void processKeyboard();
 
 	friend void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos);
 	friend void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);

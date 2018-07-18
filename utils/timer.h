@@ -10,11 +10,11 @@ public:
 
 	void setDeltaTime();
 
-	double getDeltaTime() const;
+	float getDeltaTime() const;
 private:
-	double currentTime;
-	double lastTime;
-	double deltaTime;
+	float currentTime;
+	float lastTime;
+	float deltaTime;
 };
 
 #endif

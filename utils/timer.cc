@@ -9,10 +9,10 @@ Timer::Timer() :
 /* Calls glfwGetTime to get total run time, and parse it to dTime */
 void Timer::setDeltaTime()
 {
-	currentTime = glfwGetTime();
+	currentTime = static_cast <float> (glfwGetTime());
 	deltaTime = currentTime - lastTime;
 	lastTime = currentTime;
 }
 
 /* Getter */
-double Timer::getDeltaTime() const { return deltaTime; }
+float Timer::getDeltaTime() const { return deltaTime; }

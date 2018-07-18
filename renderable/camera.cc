@@ -6,7 +6,7 @@ Camera::Camera() :
    Position(glm::vec3( 0.0f, 0.0f, 3.0f )),
    WorldUp(glm::vec3( 0.0f, 1.0f, 0.0f )),
    Front(glm::vec3( 0.0f, 0.0f, -1.0f )),
-   MovementSpeed(2.5f),
+   MovementSpeed(4.5f),
    MouseSensitivity(0.1f),
    Zoom(45.0f),
    Yaw(-90.0f),
@@ -35,19 +35,19 @@ glm::mat4 Camera::getViewMatrix() const
 
 void Camera::processKeyboard(Movement camMov, float deltaTime)
 {
-   float velocity = MovementSpeed * deltaTime;
-   if (camMov == Movement::FORWARD) {
-      Position += Front * velocity;
-   }
-   if (camMov == Movement::BACKWARD) {
-      Position -= Front * velocity;
-   }
-   if (camMov == Movement::LEFT) {
-      Position -= Right * velocity;
-   }
-   if (camMov == Movement::RIGHT) {
-      Position += Right * velocity;
-   }
+	float velocity = MovementSpeed * deltaTime;
+	if (camMov == Movement::FORWARD) {
+		Position += Front * velocity;
+	}
+	if (camMov == Movement::BACKWARD) {
+		Position -= Front * velocity;
+	}
+	if (camMov == Movement::LEFT) {
+		Position -= Right * velocity;
+	}
+	if (camMov == Movement::RIGHT) {
+		Position += Right * velocity;
+	}
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch)
