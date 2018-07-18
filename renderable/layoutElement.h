@@ -8,7 +8,7 @@ struct LayoutElement
 		count(count),
 		type(type),
 		normalized(normalized)
-{ } 
+{ }
 public:
 	const unsigned int count;
 	const unsigned int type;

@@ -25,7 +25,7 @@ public:
 
 	unsigned int getId() const;
 	const EBO& getEBO() const;
-private:	
+private:
 	unsigned int VAOId;
 	std::vector <LayoutElement> elements;
 	EBO ebo;

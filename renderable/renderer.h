@@ -16,14 +16,14 @@ class Renderer
 {
 public:
 	Renderer();
-	
+
 	/* static void draw(rObject* prObject, ShaderId ID); */
 	static void draw(rObject* prObject, ShaderId sID);
-   static Camera& getCamera();
+	static Camera& getCamera();
 private:
 	static glm::mat4 ortho;
 	static glm::mat4 proj;
-   static Camera camera;
+	static Camera camera;
 };
 
 #endif

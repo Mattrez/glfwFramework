@@ -9,7 +9,7 @@ public:
 	VBO(float data[], unsigned int size);
 	VBO() = default;
 	~VBO();
-	
+
 	void bind() const;
 	void unbind() const;
 

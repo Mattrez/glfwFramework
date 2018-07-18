@@ -31,7 +31,7 @@ App::App()
 
 	/* Setting of all the callbacks */
 	glfwSetWindowUserPointer(pWindow, this);
-   glfwSetCursorPosCallback(pWindow, mouse_callback);
+	glfwSetCursorPosCallback(pWindow, mouse_callback);
 	glfwSetKeyCallback(pWindow, key_callback);
 
 	/* Making the window poniter as the current openGL context */
@@ -58,7 +58,6 @@ App::App()
 		-0.5f,  0.5f, 0.5f, 1.0f, 0.6f, 0.3f, //V3
 	};
 
-	
 	unsigned int indi[] =
 	{
 		0, 1, 3,

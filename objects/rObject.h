@@ -13,7 +13,7 @@ public:
 	enum class Perspective;
 public:
 	rObject();
-	
+
 	void addVAO(VAOId ID);
 
 	/* Setters */

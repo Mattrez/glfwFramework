@@ -43,18 +43,18 @@ void Renderer::draw(rObject* prObject, ShaderId sID)
 		/* Scaling to the size */
 		model = glm::scale(model, glm::vec3(prObject->getSize(), 1.0f));
 
-      /* View matrix */
-      glm::mat4 view = camera.getViewMatrix();
-      ShaderAtlas::get().getShader(sID)->setMat4("view", view);
+		/* View matrix */
+		glm::mat4 view = camera.getViewMatrix();
+		ShaderAtlas::get().getShader(sID)->setMat4("view", view);
 		/* shaderDea.setMat4("view", view); */
-	
+
 		/* Setting the shader uniform */
 		ShaderAtlas::get().getShader(sID)->setMat4("model", model);
 		/* shaderDea.setMat4("model", model); */
 
 		/* Draw call */
 		glDrawElements(GL_TRIANGLES, VAOAtlas::get().getVAO(VAOId::Basic)->getEBO().getCount(), GL_UNSIGNED_INT, 0);
-		
+
 		/* No use for VAO anymore so unbind it */
 		VAOAtlas::get().getVAO(VAOId::Basic)->unbind();
 	}

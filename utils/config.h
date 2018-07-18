@@ -9,7 +9,7 @@ public:
 	static Config& get();
 private:
 	Config();
-	
+
 	Config(const char* configPath);
 public:
 	float fov;

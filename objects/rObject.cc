@@ -1,8 +1,8 @@
 #include "objects/rObject.h"
 
 rObject::rObject() :
-   position(0.0f, 0.0f, 0.0f),
-   size(1.0f, 1.0f),
+	position(0.0f, 0.0f, 0.0f),
+	size(1.0f, 1.0f),
 	color(1.0f, 1.0f, 1.0f),
 	rotation(0.0f),
 	perspective(Perspective::PROJ)
@@ -26,5 +26,5 @@ const glm::vec3& rObject::getPosition() const { return position; }
 const glm::vec3& rObject::getColor() const	 { return color; }
 const glm::vec2& rObject::getSize() const		 { return size; }
 float rObject::getRotation() const				 { return rotation; }
-const std::vector <VAOId>& rObject::getVAOs() const 	 { return VAOs; }
+const std::vector <VAOId>& rObject::getVAOs() const	 { return VAOs; }
 rObject::Perspective rObject::getPerspective() const	 { return perspective; }

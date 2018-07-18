@@ -32,17 +32,17 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 	}
 
 	/* Compile the shaders */
-	const char* vShaderCode = vertexCode.c_str();	
-	const char* fShaderCode = fragmentCode.c_str();	
+	const char* vShaderCode = vertexCode.c_str();
+	const char* fShaderCode = fragmentCode.c_str();
 	unsigned int vertex, fragment;
 //	int success;
 //	char infoLog[512];
-	/* Creating the Vertex Shader */ 
+	/* Creating the Vertex Shader */
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vShaderCode, NULL);
 	glCompileShader(vertex);
 	checkCompileErrors(vertex, "VERTEX");
-	/* Creating the Fragment Shader */ 
+	/* Creating the Fragment Shader */
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment, 1, &fShaderCode, NULL);
 	glCompileShader(fragment);
@@ -53,7 +53,7 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 	glAttachShader(shaderID, fragment);
 	glLinkProgram(shaderID);
 	checkCompileErrors(shaderID, "PROGRAM");
-	/* Get rid off shaders, as we'll not use them any more */ 
+	/* Get rid off shaders, as we'll not use them any more */
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
 }
