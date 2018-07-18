@@ -3,6 +3,7 @@
 
 #include <map>
 #include <memory> // for shared_ptr
+#include <iostream>
 
 #include "renderable/vao.h"
 
@@ -16,7 +17,8 @@ class VAOAtlas
 public:
 	static VAOAtlas& get();
 
-	void addVAO(VAOId ID, unsigned int indices[], unsigned int sizeEBO, float data[], unsigned int sizeVBO);
+	void addVAO(VAOId ID, unsigned int indices[], unsigned int sizeEBO,
+					float data[], unsigned int sizeVBO);
 	
 	std::shared_ptr <VAO> getVAO(VAOId ID);
 

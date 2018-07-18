@@ -18,7 +18,7 @@ public:
 	Renderer();
 	
 	/* static void draw(rObject* prObject, ShaderId ID); */
-	static void draw(rObject* prObject, const Shader& shaderDea);
+	static void draw(rObject* prObject, ShaderId sID);
    static Camera& getCamera();
 private:
 	static glm::mat4 ortho;

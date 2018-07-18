@@ -2,6 +2,7 @@ build/
 libs/
 include/
 *.swp
+tags
 renderable/*.swp
 utils/*.swp
 glm/

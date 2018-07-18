@@ -6,9 +6,11 @@ ShaderAtlas& ShaderAtlas::get()
 	return instance;
 }
 
-void ShaderAtlas::addShader(ShaderId ID, const char* vertexShaderPath, const char* fragmentShaderPath)
+void ShaderAtlas::addShader(ShaderId ID, const char* vertexShaderPath,
+									 const char* fragmentShaderPath)
 {
-	Shaders.emplace(std::make_pair(ID, std::make_shared<Shader> (vertexShaderPath, fragmentShaderPath)));
+	Shaders.emplace(std::make_pair(ID, std::make_shared<Shader>
+						(vertexShaderPath, fragmentShaderPath)));
 }
 
 std::shared_ptr <Shader> ShaderAtlas::getShader(ShaderId ID)

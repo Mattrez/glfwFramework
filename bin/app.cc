@@ -19,7 +19,7 @@ App::App()
 
 	auto config = Config::get();
 
-	/* Pointing the window pointer to a window object */ 
+	/* Pointing the window pointer to a window object */
 	pWindow = glfwCreateWindow(config.width, config.height, config.windowName, NULL, NULL);
 
 	/* Basic error checking if the window was created succefully */
@@ -28,7 +28,7 @@ App::App()
 		std::cout << "[ERROR]: Failed to create GLFW window\n";
 		glfwTerminate();
 	}
-   
+
    /* Setting of all the callbacks */
 	glfwSetWindowUserPointer(pWindow, this);
    glfwSetCursorPosCallback(pWindow, mouse_callback);
@@ -40,7 +40,7 @@ App::App()
    /* Telling OpenGL to take control over our mouse */
    glfwSetInputMode(pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	/* Error checking for initializaing GLEW */ 
+	/* Error checking for initializaing GLEW */
 	if (glewInit())
 	{
 		std::cout << "[ERROR]: Failed to load GLEW\n";
@@ -59,7 +59,7 @@ App::App()
 	};
 
 	
-	unsigned int indi[] = 
+	unsigned int indi[] =
 	{
 		0, 1, 3,
 		1, 2, 3
@@ -74,11 +74,12 @@ App::App()
 
 	VAOAtlas::get().getVAO(VAOId::Basic)->populateLayouts();
 
-	/* ShaderAtlas::get().addShader(ShaderId::Basic, "../shaders/sVertex.vert", "../shaders/sFragment.frag"); */
+	ShaderAtlas::get().addShader(ShaderId::Basic,
+			"../shaders/sVertex.vert", "../shaders/sFragment.frag");
 
-	/* Creating a renderableObject and filling it with data */
+	/* RenderableObject filling it with data */
 	object.addVAO(VAOId::Basic);
-   object.setPosition({ 0.0f, 0.0f, 0.0f });
+	object.setPosition({ 0.0f, 0.0f, 0.0f });
 }
 
 App::~App()
@@ -90,7 +91,6 @@ App::~App()
 void App::mainLoop()
 {
 	Shader debugSha("../shaders/sVertex.vert", "../shaders/sFragment.frag");
-	auto test = VAOAtlas::get().getVAO(VAOId::Basic);
 	while(!glfwWindowShouldClose(pWindow))
 	{
 		/* Updates delta time */
@@ -99,8 +99,8 @@ void App::mainLoop()
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		/* Draw call */	
-		Renderer::draw(&object, debugSha);
+		/* Draw call */
+		Renderer::draw(&object, ShaderId::Basic);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);
@@ -119,10 +119,10 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
       pApp->data.lastY = ypos;
       pApp->data.firstMouse = false;
    }
-   
+
    float xoffset = xpos - pApp->data.lastX;
    float yoffset = pApp->data.lastY - ypos; // reversed since y-coordinates go from bottom to top
-   
+
    pApp->data.lastX = xpos;
    pApp->data.lastY = ypos;
 
@@ -133,7 +133,6 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
 void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
 	App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow));
-	/* App* pApp = (App*)glfwGetWindowUserPointer(pWindow); */
 
    if (key == GLFW_KEY_ESCAPE and action == GLFW_RELEASE)
       glfwSetWindowShouldClose(pWindow, true);

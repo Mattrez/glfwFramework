@@ -13,10 +13,10 @@ void VAOAtlas::addVAO(VAOId ID, unsigned int indices[], unsigned int sizeEBO, fl
 
 std::shared_ptr <VAO> VAOAtlas::getVAO(VAOId ID)
 {
-	/* auto searchFind = VAOs.find(ID); */
-	/* if (searchFind == VAOs.end()) { std::cout << "NOT FOUND! VAO\n"; return searchFind->second; } */
-	/* else{ */
-	/* 	return searchFind->second; */
-	/* } */
-	return VAOs[ID];
+	auto searchFind = VAOs.find(ID);
+	if (searchFind == VAOs.end()) { std::cout << "NOT FOUND! VAO\n"; return searchFind->second; }
+	else{
+		return searchFind->second;
+	}
+	/* return VAOs[ID]; */
 }
