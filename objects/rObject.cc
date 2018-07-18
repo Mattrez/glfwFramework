@@ -5,7 +5,8 @@ rObject::rObject() :
 	size(1.0f, 1.0f),
 	color(1.0f, 1.0f, 1.0f),
 	rotation(0.0f),
-	perspective(Perspective::PROJ)
+	perspective(Perspective::PROJ),
+	sID(ShaderId::Basic)
 { }
 
 /* Receive a const VAO reference and emplace the adress of it in the vector */
@@ -20,11 +21,13 @@ void rObject::setColor(glm::vec3 setColor)		 { color = setColor; }
 void rObject::setSize(glm::vec2 setSize)			 { size = setSize; }
 void rObject::setRotation(float setRotation)		 { rotation = setRotation; }
 void rObject::setPerspective(Perspective setPers){ perspective = setPers; }
+void rObject::setShaderId(ShaderId setID) 		 { sID = setID; }
 
 /* Getters */
 const glm::vec3& rObject::getPosition() const { return position; }
 const glm::vec3& rObject::getColor() const	 { return color; }
 const glm::vec2& rObject::getSize() const		 { return size; }
 float rObject::getRotation() const				 { return rotation; }
+ShaderId rObject::getShaderId() const			 { return sID; }
 const std::vector <VAOId>& rObject::getVAOs() const	 { return VAOs; }
 rObject::Perspective rObject::getPerspective() const	 { return perspective; }

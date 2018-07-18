@@ -79,6 +79,7 @@ App::App()
 	/* RenderableObject filling it with data */
 	object.addVAO(VAOId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
+	object.setShaderId(ShaderId::Basic);
 }
 
 App::~App()
@@ -98,7 +99,7 @@ void App::mainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */
-		Renderer::draw(&object, ShaderId::Basic);
+		Renderer::draw(&object);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);

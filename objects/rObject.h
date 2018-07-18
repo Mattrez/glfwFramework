@@ -5,7 +5,10 @@
 
 #include "utils/GLIncludes.h"
 
+#include "renderable/vao.h"
+#include "renderable/shader.h"
 #include "renderable/vaoAtlas.h"
+#include "renderable/shaderAtlas.h"
 
 class rObject
 {
@@ -22,6 +25,7 @@ public:
 	void setSize(glm::vec2 setSize);
 	void setRotation(float setRotation);
 	void setPerspective(Perspective setPers);
+	void setShaderId(ShaderId setID);
 
 	/* Getters */
 	const std::vector <VAOId>& getVAOs() const;
@@ -29,12 +33,14 @@ public:
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
 	float getRotation() const;
+	ShaderId getShaderId() const;
 	Perspective getPerspective() const;
 private:
 	std::vector <VAOId> VAOs;
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;
+	ShaderId sID;
 	float rotation;
 	Perspective perspective;
 public:

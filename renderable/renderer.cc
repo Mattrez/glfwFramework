@@ -3,10 +3,10 @@
 Renderer::Renderer()
 { }
 
-void Renderer::draw(rObject* prObject, ShaderId sID)
+void Renderer::draw(rObject* prObject)
 {
 	/* Binding the Shader */
-	ShaderAtlas::get().getShader(sID)->use();
+	ShaderAtlas::get().getShader(prObject->getShaderId())->use();
 
 	/* Choosing a projection on Perspective var in rObject */
 	switch(prObject->getPerspective())
@@ -14,15 +14,13 @@ void Renderer::draw(rObject* prObject, ShaderId sID)
 		case rObject::Perspective::ORTHO :
 		{
 			/* Setting a ortho projection */
-			ShaderAtlas::get().getShader(sID)->setMat4("projection", ortho);
-			/* shaderDea.setMat4("projection", ortho); */
+			ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("projection", ortho);
 			break;
 		}
 		case rObject::Perspective::PROJ :
 		{
 			/* Setting a proj projection */
-			ShaderAtlas::get().getShader(sID)->setMat4("projection", proj);
-			/* shaderDea.setMat4("projection", proj); */
+			ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("projection", proj);
 			break;
 		}
 	}
@@ -45,15 +43,15 @@ void Renderer::draw(rObject* prObject, ShaderId sID)
 
 		/* View matrix */
 		glm::mat4 view = camera.getViewMatrix();
-		ShaderAtlas::get().getShader(sID)->setMat4("view", view);
-		/* shaderDea.setMat4("view", view); */
+		ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("view", view);
 
 		/* Setting the shader uniform */
-		ShaderAtlas::get().getShader(sID)->setMat4("model", model);
-		/* shaderDea.setMat4("model", model); */
+		ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("model", model);
 
 		/* Draw call */
-		glDrawElements(GL_TRIANGLES, VAOAtlas::get().getVAO(VAOId::Basic)->getEBO().getCount(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES,
+				VAOAtlas::get().getVAO(VAOId::Basic)->getEBO().getCount(),
+				GL_UNSIGNED_INT, 0);
 
 		/* No use for VAO anymore so unbind it */
 		VAOAtlas::get().getVAO(VAOId::Basic)->unbind();
