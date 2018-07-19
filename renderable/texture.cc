@@ -1,6 +1,6 @@
 #include "renderable/texture.h"
 
-Texture::Texture(std::string texturePath, bool hasAlpha)
+Texture::Texture(const std::string& texturePath, bool hasAlpha)
 {
 	glGenTextures(1, &ID);
 	/* Wrapping settings */

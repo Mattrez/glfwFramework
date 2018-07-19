@@ -18,5 +18,4 @@ std::shared_ptr <VAO> VAOAtlas::getVAO(VAOId ID)
 	else{
 		return searchFind->second;
 	}
-	/* return VAOs[ID]; */
 }

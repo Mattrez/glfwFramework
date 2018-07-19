@@ -10,7 +10,7 @@
 class Texture
 {
 public:
-	Texture(std::string texturePath, bool hasAlpha);
+	Texture(const std::string& texturePath, bool hasAlpha);
 	~Texture();
 
 	void bind(unsigned int index) const;

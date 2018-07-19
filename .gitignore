@@ -1,6 +1,7 @@
 build/
 libs/
 include/
+include/stb_image.h
 *.swp
 tags
 renderable/*.swp

@@ -19,7 +19,7 @@ public:
 
 	void addVAO(VAOId ID, unsigned int indices[], unsigned int sizeEBO,
 					float data[], unsigned int sizeVBO);
-	
+
 	std::shared_ptr <VAO> getVAO(VAOId ID);
 
 	VAOAtlas(VAOAtlas const&) = delete;
