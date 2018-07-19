@@ -2,6 +2,8 @@
 
 #include "bin/app.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+
 int main()
 {
 	App app;
