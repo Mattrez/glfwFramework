@@ -40,8 +40,8 @@ private:
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;
-	ShaderId sID;
 	float rotation;
+	ShaderId sID;
 	Perspective perspective;
 public:
 	enum class Perspective

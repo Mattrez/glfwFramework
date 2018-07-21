@@ -7,6 +7,11 @@ include_directories("includes/")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} \
+	-Wall \
+	-Wextra \
+	-pedantic")
+
 set (OpenGL_GL_PREFERENCE GLVND)
 
 find_package(glfw3  REQUIRED)

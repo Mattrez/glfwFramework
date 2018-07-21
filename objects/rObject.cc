@@ -2,11 +2,11 @@
 
 rObject::rObject() :
 	position(0.0f, 0.0f, 0.0f),
-	size(1.0f, 1.0f),
 	color(1.0f, 1.0f, 1.0f),
+	size(1.0f, 1.0f),
 	rotation(0.0f),
-	perspective(Perspective::PROJ),
-	sID(ShaderId::Basic)
+	sID(ShaderId::Basic),
+	perspective(Perspective::PROJ)
 { }
 
 /* Receive a const VAO reference and emplace the adress of it in the vector */

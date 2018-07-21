@@ -4,26 +4,26 @@
 
 Camera::Camera() :
 	Position(glm::vec3( 0.0f, 0.0f, 3.0f )),
-	WorldUp(glm::vec3( 0.0f, 1.0f, 0.0f )),
 	Front(glm::vec3( 0.0f, 0.0f, -1.0f )),
+	WorldUp(glm::vec3( 0.0f, 1.0f, 0.0f )),
+	Yaw(-90.0f),
+	Pitch(0.0f),
 	MovementSpeed(4.5f),
 	MouseSensitivity(0.1f),
-	Zoom(45.0f),
-	Yaw(-90.0f),
-	Pitch(0.0f)
+	Zoom(45.0f)
 {
 	updateCameraVectors();
 }
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
 	Position(position),
-	WorldUp(up),
 	Front(glm::vec3( 0.0f, 0.0f, -1.0f )),
+	WorldUp(up),
+	Yaw(yaw),
+	Pitch(pitch),
 	MovementSpeed(2.5f),
 	MouseSensitivity(0.1f),
-	Zoom(45.0f),
-	Yaw(yaw),
-	Pitch(pitch)
+	Zoom(45.0f)
 {
 	updateCameraVectors();
 }

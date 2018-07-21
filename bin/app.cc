@@ -146,7 +146,8 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
 
 void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
 {
-	App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow));
+	/* Not used, if needed comment out */
+	/* App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow)); */
 
 	if (key == GLFW_KEY_ESCAPE and action == GLFW_RELEASE)
 		glfwSetWindowShouldClose(pWindow, true);

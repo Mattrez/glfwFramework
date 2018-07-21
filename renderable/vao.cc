@@ -3,8 +3,8 @@
 #include <iostream>
 
 VAO::VAO(unsigned int indices[], unsigned int sizeEBO, float data[], unsigned int sizeVBO) :
-	vbo(data, sizeVBO),
-	ebo(indices, sizeEBO)
+	ebo(indices, sizeEBO),
+	vbo(data, sizeVBO)
 {
 	glGenVertexArrays(1, &VAOId);
 }
@@ -53,11 +53,11 @@ void VAO::populateLayouts()
 	ebo.bind();
 
 	/* Setting all of the buffer layouts with data according to the elements */
-	for (int i = 0; i < elements.size(); i++)
+	for (unsigned int i = 0; i < elements.size(); i++)
 	{
 		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Cast to unitptr_t so that compiler is happy */
-			elements[i].normalized, stride * vbo.getTypeSize(), (void*)(offset * vbo.getTypeSize()));
+		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Casting to uintptr_t so that compiler is happy */
+			elements[i].normalized, stride * vbo.getTypeSize(), (void*)(uintptr_t)(offset * vbo.getTypeSize()));
 
 		offset += elements[i].count;
 	}
