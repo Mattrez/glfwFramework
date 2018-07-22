@@ -49,13 +49,15 @@ App::App()
 	/* Settings for openGL */
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float verties[] =
 	{
-		 0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 1.0f, //V0
-		 0.5f, -0.5f, 0.5f, 0.3f, 0.6f, 1.0f, //V1
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.6f, 0.3f, //V2
-		-0.5f,  0.5f, 0.5f, 1.0f, 0.6f, 0.3f, //V3
+		 0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, //V0
+		 0.5f, -0.5f, 0.5f, 0.3f, 0.6f, 1.0f, 1.0f, 0.0f, //V1
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.6f, 0.3f, 0.0f, 0.0f, //V2
+		-0.5f,  0.5f, 0.5f, 1.0f, 0.6f, 0.3f, 0.0f, 1.0f, //V3
 	};
 
 	unsigned int indi[] =
@@ -70,6 +72,8 @@ App::App()
 	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(3, GL_FLOAT, GL_FALSE);
 	/* Color */
 	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(3, GL_FLOAT, GL_FALSE);
+	/* Texture Coordinates */
+	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(2, GL_FLOAT, GL_FALSE);
 
 	VAOAtlas::get().getVAO(VAOId::Basic)->populateLayouts();
 
@@ -80,6 +84,9 @@ App::App()
 	object.addVAO(VAOId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
+	object.setTextureId(TextureId::Basic);
+
+	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
 }
 
 App::~App()
@@ -106,6 +113,7 @@ void App::mainLoop()
 
 		/* Process the keyboard evenets */
 		processKeyboard();
+
 		/* Polling the events that happend */
 		glfwPollEvents();
 	}

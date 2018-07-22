@@ -13,8 +13,8 @@ public:
 	Texture(const std::string& texturePath, bool hasAlpha);
 	~Texture();
 
-	void bind(unsigned int index) const;
-	void unbind(unsigned int index) const;
+	void bind(unsigned int index = 0) const;
+	void unbind(unsigned int index = 0) const;
 
 	unsigned int getID() const;
 private:

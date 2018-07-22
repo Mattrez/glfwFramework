@@ -22,12 +22,14 @@ void rObject::setSize(glm::vec2 setSize)			 { size = setSize; }
 void rObject::setRotation(float setRotation)		 { rotation = setRotation; }
 void rObject::setPerspective(Perspective setPers){ perspective = setPers; }
 void rObject::setShaderId(ShaderId setID) 		 { sID = setID; }
+void rObject::setTextureId(TextureId setID) 		 { tID = setID; }
 
 /* Getters */
+const std::vector <VAOId>& rObject::getVAOs() const	 { return VAOs; }
 const glm::vec3& rObject::getPosition() const { return position; }
 const glm::vec3& rObject::getColor() const	 { return color; }
 const glm::vec2& rObject::getSize() const		 { return size; }
 float rObject::getRotation() const				 { return rotation; }
 ShaderId rObject::getShaderId() const			 { return sID; }
-const std::vector <VAOId>& rObject::getVAOs() const	 { return VAOs; }
+TextureId rObject::getTextureId() const 		 { return tID; }
 rObject::Perspective rObject::getPerspective() const	 { return perspective; }

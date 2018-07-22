@@ -8,6 +8,9 @@ void Renderer::draw(rObject* prObject)
 	/* Binding the Shader */
 	ShaderAtlas::get().getShader(prObject->getShaderId())->use();
 
+	/* Binding the single Texture */
+	TextureAtlas::get().getTexture(prObject->getTextureId())->bind();
+
 	/* Choosing a projection on Perspective var in rObject */
 	switch(prObject->getPerspective())
 	{
@@ -56,6 +59,9 @@ void Renderer::draw(rObject* prObject)
 		/* No use for VAO anymore so unbind it */
 		VAOAtlas::get().getVAO(VAOId::Basic)->unbind();
 	}
+
+	/* Unbinding the Texture */
+	TextureAtlas::get().getTexture(prObject->getTextureId())->unbind();
 }
 
 Camera& Renderer::getCamera() { return camera; }

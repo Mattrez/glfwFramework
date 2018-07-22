@@ -46,10 +46,10 @@ void VAO::populateLayouts()
 		return result + le.count;
 	});
 
-	/* Offset to the element in the VBO */	
+	/* Offset to the element in the VBO */
 	unsigned int offset = 0;
 
-	/* Binding the EBO for the indices */ 
+	/* Binding the EBO for the indices */
 	ebo.bind();
 
 	/* Setting all of the buffer layouts with data according to the elements */
@@ -64,7 +64,7 @@ void VAO::populateLayouts()
 
 	/* Unbinding the given VBO because it's not needed anymore */
 	vbo.unbind();
-	
+
 	/* Deleting all of the data from the elements vector */
 	elements.clear();
 }

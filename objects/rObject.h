@@ -9,6 +9,8 @@
 #include "renderable/shader.h"
 #include "renderable/vaoAtlas.h"
 #include "renderable/shaderAtlas.h"
+#include "renderable/texture.h"
+#include "renderable/textureAtlas.h"
 
 class rObject
 {
@@ -26,6 +28,7 @@ public:
 	void setRotation(float setRotation);
 	void setPerspective(Perspective setPers);
 	void setShaderId(ShaderId setID);
+	void setTextureId(TextureId setID);
 
 	/* Getters */
 	const std::vector <VAOId>& getVAOs() const;
@@ -34,6 +37,7 @@ public:
 	const glm::vec2& getSize() const;
 	float getRotation() const;
 	ShaderId getShaderId() const;
+	TextureId getTextureId() const;
 	Perspective getPerspective() const;
 private:
 	std::vector <VAOId> VAOs;
@@ -42,6 +46,7 @@ private:
 	glm::vec2 size;
 	float rotation;
 	ShaderId sID;
+	TextureId tID;
 	Perspective perspective;
 public:
 	enum class Perspective
