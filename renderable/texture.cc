@@ -21,7 +21,7 @@ Texture::Texture(const std::string& texturePath, bool hasAlpha)
 		/* If the image is .png or simmilar */
 		if (hasAlpha)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
 							GL_UNSIGNED_BYTE, data);
 		}
 		/* If the image is .jpg or simmilar */

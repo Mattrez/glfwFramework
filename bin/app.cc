@@ -47,8 +47,14 @@ App::App()
 	}
 
 	/* Settings for openGL */
+
+	/* Background color */
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	/* Enabling Z-Buffer */
 	glEnable(GL_DEPTH_TEST);
+
+	/* Enabling transparency */
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -80,13 +86,13 @@ App::App()
 	ShaderAtlas::get().addShader(ShaderId::Basic,
 			"../shaders/sVertex.vert", "../shaders/sFragment.frag");
 
+	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
+
 	/* RenderableObject filling it with data */
 	object.addVAO(VAOId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 	object.setTextureId(TextureId::Basic);
-
-	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
 }
 
 App::~App()
