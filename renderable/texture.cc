@@ -39,9 +39,53 @@ Texture::Texture(const std::string& texturePath, bool hasAlpha)
 	stbi_image_free(data);
 }
 
+Texture::Texture(
+			const std::string& texturePath,
+			GLuint warp_s_val,
+			GLuint warp_t_val,
+			GLuint min_filter_val,
+			GLuint mag_filter_val,
+			bool hasAlpha) :
+	Texture(texturePath, hasAlpha)
+{
+	setWrapS(warp_s_val);
+	setWrapT(warp_t_val);
+	setMinFilter(min_filter_val);
+	setMagFilter(mag_filter_val);
+}
+
 Texture::~Texture()
 {
 	glDeleteTextures(1, &ID);
+}
+
+/* Binding our texture then setting the correct parameter */
+void Texture::setWrapS (GLuint setValue)
+{
+	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, setValue);
+	unbind();
+}
+
+void Texture::setWrapT (GLuint setValue)
+{
+	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, setValue);
+	unbind();
+}
+
+void Texture::setMinFilter (GLuint setValue)
+{
+	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, setValue);
+	unbind();
+}
+
+void Texture::setMagFilter (GLuint setValue)
+{
+	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, setValue);
+	unbind();
 }
 
 void Texture::bind(unsigned int index) const

@@ -11,10 +11,22 @@ class Texture
 {
 public:
 	Texture(const std::string& texturePath, bool hasAlpha);
+	Texture(
+			const std::string& texturePath,
+			GLuint warp_s_val,
+			GLuint warp_t_val,
+			GLuint min_filter_val,
+			GLuint mag_filter_val,
+			bool hasAlpha);
 	~Texture();
 
-	void bind(unsigned int index = 0) const;
-	void unbind(unsigned int index = 0) const;
+	void setWrapS 			(GLuint setValue);
+	void setWrapT 			(GLuint setValue);
+	void setMinFilter 	(GLuint setValue);
+	void setMagFilter 	(GLuint setValue);
+
+	void bind 		(unsigned int index = 0) const;
+	void unbind 	(unsigned int index = 0) const;
 
 	unsigned int getID() const;
 private:
