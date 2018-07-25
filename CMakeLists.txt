@@ -14,9 +14,12 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} \
 
 set (OpenGL_GL_PREFERENCE GLVND)
 
+find_package(GLEW  REQUIRED)
 find_package(glfw3  REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLEW  REQUIRED)
+find_package(Freetype REQUIRED)
+
+include_directories(${FREETYPE_INCLUDE_DIRS})
 
 add_subdirectory(utils)
 add_subdirectory(renderable)
@@ -25,4 +28,4 @@ add_subdirectory(bin)
 
 add_executable(exec main.cc)
 
-target_link_libraries(exec bin utils renderable objects ${GLFWLIB} glfw GL GLEW)
+target_link_libraries(exec bin utils renderable objects ${GLFWLIB} glfw GL GLEW freetype)
