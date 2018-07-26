@@ -11,6 +11,7 @@ class Texture
 {
 public:
 	Texture(const std::string& texturePath, bool hasAlpha);
+	Texture(int width, int height, const void* imageData);
 	Texture(
 			const std::string& texturePath,
 			GLuint warp_s_val,
@@ -29,6 +30,13 @@ public:
 	void unbind 	(unsigned int index = 0) const;
 
 	unsigned int getID() const;
+private:
+	void createGLTexture(
+								GLuint type,
+								GLuint warp_s_val,
+								GLuint warp_t_val,
+								GLuint min_filter_val,
+								GLuint mag_filter_val);
 private:
 	unsigned int ID;
 };
