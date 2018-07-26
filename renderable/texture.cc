@@ -33,7 +33,7 @@ Texture::Texture(const std::string& texturePath, bool hasAlpha)
 	stbi_image_free(data);
 }
 
-Texture(int width, int height, const void* imageData)
+Texture::Texture(int width, int height, const void* imageData)
 {
 	createGLTexture(GL_TEXTURE_2D, GL_CLAMP_TO_EDGE,
 							GL_CLAMP_TO_EDGE, GL_LINEAR, GL_LINEAR);
