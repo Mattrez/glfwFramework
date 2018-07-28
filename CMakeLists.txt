@@ -1,8 +1,13 @@
 project(glfwFramework)
 cmake_minimum_required(VERSION 3.3)
 
-include_directories(".")
-include_directories("includes/")
+include_directories(
+    ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/bin
+    ${PROJECT_SOURCE_DIR}/includes
+    ${PROJECT_SOURCE_DIR}/objects
+    ${PROJECT_SOURCE_DIR}/renderable
+    ${PROJECT_SOURCE_DIR}/utils)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
