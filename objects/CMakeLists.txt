@@ -1,1 +1,1 @@
-add_library(objects rObject.cc)
+add_library(objects rObject.cc textObject.cc)
