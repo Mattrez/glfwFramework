@@ -72,24 +72,40 @@ App::App()
 		1, 2, 3
 	};
 
-	VAOAtlas::get().addVAO(VAOId::Basic, indi, sizeof(indi), verties, sizeof(verties));
+	auto& rMA = ModelAtlas::get();
+
+	rMA.addModel(ModelId::Basic,
+				 indi,
+				 sizeof(indi),
+				 verties,
+				 sizeof(verties));
+
+	auto pBM = rMA.getModel(ModelId::Basic);
 
 	/* Positions */
-	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(3, GL_FLOAT, GL_FALSE);
+	pBM->getVAO().addToElements(3, GL_FLOAT, GL_FALSE);
 	/* Color */
-	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(3, GL_FLOAT, GL_FALSE);
+	pBM->getVAO().addToElements(3, GL_FLOAT, GL_FALSE);
 	/* Texture Coordinates */
-	VAOAtlas::get().getVAO(VAOId::Basic)->addToElements(2, GL_FLOAT, GL_FALSE);
+	pBM->getVAO().addToElements(2, GL_FLOAT, GL_FALSE);
 
-	VAOAtlas::get().getVAO(VAOId::Basic)->populateLayouts();
+	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
+		
 
+	/* Basic Shader */
 	ShaderAtlas::get().addShader(ShaderId::Basic,
-			"../shaders/sVertex.vert", "../shaders/sFragment.frag");
+								 "../shaders/sVertex.vert",
+								 "../shaders/sFragment.frag");
+
+	/* Basic Text Shader */
+	ShaderAtlas::get().addShader(ShaderId::Text,
+								 "../shaders/sText.vert",
+								 "../shaders/sText.frag");
 
 	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
 
 	/* RenderableObject filling it with data */
-	object.addVAO(VAOId::Basic);
+	object.addModel(ModelId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 	object.setTextureId(TextureId::Basic);

@@ -14,7 +14,7 @@
 #include "renderable/shader.h"
 #include "renderable/ebo.h"
 #include "renderable/camera.h"
-#include "renderable/vaoAtlas.h"
+#include "renderable/modelAtlas.h"
 #include "renderable/shaderAtlas.h"
 #include "renderable/texture.h"
 #include "renderable/textureAtlas.h"

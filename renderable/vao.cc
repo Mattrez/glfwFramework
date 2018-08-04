@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-VAO::VAO(unsigned int indices[], unsigned int sizeEBO, float data[], unsigned int sizeVBO) :
-	ebo(indices, sizeEBO),
-	vbo(data, sizeVBO)
+VAO::VAO()
 {
 	glGenVertexArrays(1, &VAOId);
 }
@@ -30,7 +28,7 @@ void VAO::addToElements(unsigned int count, unsigned int GLtype, unsigned int no
 	elements.emplace_back(LayoutElement(count, GLtype, normalized ));
 }
 
-void VAO::populateLayouts()
+void VAO::populateLayouts(const VBO& vbo, const EBO& ebo)
 {
 	/* Binding the given VBO for data */
 	vbo.bind();
@@ -70,4 +68,3 @@ void VAO::populateLayouts()
 }
 
 unsigned int VAO::getId() const { return VAOId; }
-const EBO& VAO::getEBO() const { return ebo; }

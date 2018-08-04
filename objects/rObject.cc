@@ -10,9 +10,9 @@ rObject::rObject() :
 { }
 
 /* Receive a const VAO reference and emplace the adress of it in the vector */
-void rObject::addVAO(VAOId ID)
+void rObject::addModel(ModelId ID)
 {
-	VAOs.emplace_back(ID);
+	Models.emplace_back(ID);
 }
 
 /* Setters */
@@ -25,11 +25,11 @@ void rObject::setShaderId(ShaderId setID) 		 { sID = setID; }
 void rObject::setTextureId(TextureId setID) 		 { tID = setID; }
 
 /* Getters */
-const std::vector <VAOId>& rObject::getVAOs() const	 { return VAOs; }
-const glm::vec3& rObject::getPosition() const { return position; }
-const glm::vec3& rObject::getColor() const	 { return color; }
-const glm::vec2& rObject::getSize() const		 { return size; }
-float rObject::getRotation() const				 { return rotation; }
-ShaderId rObject::getShaderId() const			 { return sID; }
-TextureId rObject::getTextureId() const 		 { return tID; }
-rObject::Perspective rObject::getPerspective() const	 { return perspective; }
+const std::vector <ModelId>& rObject::getVAOs() const	{ return Models; }
+const glm::vec3& rObject::getPosition() const			{ return position; }
+const glm::vec3& rObject::getColor() const				{ return color; }
+const glm::vec2& rObject::getSize() const				{ return size; }
+float rObject::getRotation() const						{ return rotation; }
+ShaderId rObject::getShaderId() const					{ return sID; }
+TextureId rObject::getTextureId() const					{ return tID; }
+rObject::Perspective rObject::getPerspective() const	{ return perspective; }

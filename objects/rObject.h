@@ -7,7 +7,7 @@
 
 #include "renderable/vao.h"
 #include "renderable/shader.h"
-#include "renderable/vaoAtlas.h"
+#include "renderable/modelAtlas.h"
 #include "renderable/shaderAtlas.h"
 #include "renderable/texture.h"
 #include "renderable/textureAtlas.h"
@@ -19,7 +19,7 @@ public:
 public:
 	rObject();
 
-	void addVAO(VAOId ID);
+	void addModel(ModelId ID);
 
 	/* Setters */
 	void setPosition(glm::vec3 setPosition);
@@ -31,7 +31,7 @@ public:
 	void setTextureId(TextureId setID);
 
 	/* Getters */
-	const std::vector <VAOId>& getVAOs() const;
+	const std::vector <ModelId>& getVAOs() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
@@ -40,7 +40,7 @@ public:
 	TextureId getTextureId() const;
 	Perspective getPerspective() const;
 private:
-	std::vector <VAOId> VAOs;
+	std::vector <ModelId> Models;
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;

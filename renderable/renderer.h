@@ -11,6 +11,7 @@
 #include "renderable/camera.h"
 #include "renderable/shaderAtlas.h"
 #include "objects/rObject.h"
+#include "objects/textObject.h"
 
 class Renderer
 {
@@ -19,6 +20,7 @@ public:
 
 	/* static void draw(rObject* prObject, ShaderId ID); */
 	static void draw(rObject* prObject);
+	static void drawText(TextObject* pTObject);
 	static Camera& getCamera();
 private:
 	static glm::mat4 ortho;
