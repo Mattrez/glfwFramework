@@ -1,11 +1,11 @@
 #include "renderable/ebo.h"
 
-EBO::EBO(unsigned int indices[], unsigned int size) :
+EBO::EBO(unsigned int indices[], unsigned int size, GLenum drawType) :
 	count(size / sizeof(indices[0]))
 {
 	glGenBuffers(1, &EBOId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, drawType);
 }
 
 EBO::~EBO()

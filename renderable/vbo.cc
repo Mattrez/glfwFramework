@@ -1,12 +1,12 @@
 #include "renderable/vbo.h"
 
-VBO::VBO(float data[], unsigned int size) :
+VBO::VBO(float data[], unsigned int size, GLenum drawType) :
 	/* Getting the size of the type */
 	typeSize((size) / (size / sizeof(data[0])))
 {
 	glGenBuffers(1, &VBOId);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, size, data, drawType);
 }
 
 VBO::~VBO()

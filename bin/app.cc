@@ -77,8 +77,10 @@ App::App()
 	rMA.addModel(ModelId::Basic,
 				 indi,
 				 sizeof(indi),
+				 GL_STATIC_DRAW,
 				 verties,
-				 sizeof(verties));
+				 sizeof(verties),
+				 GL_STATIC_DRAW);
 
 	auto pBM = rMA.getModel(ModelId::Basic);
 

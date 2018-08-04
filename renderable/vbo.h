@@ -6,7 +6,7 @@
 class VBO
 {
 public:
-	VBO(float data[], unsigned int size);
+	VBO(float data[], unsigned int size, GLenum drawType);
 	VBO() = default;
 	~VBO();
 

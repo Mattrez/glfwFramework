@@ -8,7 +8,8 @@
 
 enum class ShaderId
 {
-	Basic
+	Basic,
+	Text
 };
 
 class ShaderAtlas

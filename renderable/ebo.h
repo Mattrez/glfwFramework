@@ -6,7 +6,7 @@
 class EBO
 {
 public:
-	EBO(unsigned int indices[], unsigned int size);
+	EBO(unsigned int indices[], unsigned int size, GLenum drawType);
 	~EBO();
 
 	void bind() const;
