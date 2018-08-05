@@ -8,10 +8,10 @@ ModelAtlas& ModelAtlas::get()
 
 void ModelAtlas::addModel(ModelId ID,
 						  unsigned int indices[],
-						  unsigned int sizeEBO,
+						  glm::uvec2 sizeEBO,
 						  GLenum drawTypeEBO,
 						  float data[],
-						  unsigned int sizeVBO,
+						  glm::uvec2 sizeVBO,
 						  GLenum drawTypeVBO) {
 	Models.emplace(std::make_pair(ID,
 								  std::make_shared <RenderData> (indices,

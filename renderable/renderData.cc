@@ -1,10 +1,10 @@
 #include "renderData.h"
 
 RenderData::RenderData(unsigned int indices[],
-					   unsigned int sizeEBO,
+					   glm::uvec2 sizeEBO,
 					   GLenum drawTypeEBO,
 					   float data[],
-					   unsigned int sizeVBO,
+					   glm::uvec2 sizeVBO,
 					   GLenum drawTypeVBO) :
 	vao(),
 	vbo(data, sizeVBO, drawTypeVBO),

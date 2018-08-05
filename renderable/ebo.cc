@@ -1,11 +1,16 @@
 #include "renderable/ebo.h"
 
-EBO::EBO(unsigned int indices[], unsigned int size, GLenum drawType) :
-	count(size / sizeof(indices[0]))
+/* size.x should be sizeof(type) */
+/* size.y should be the amount of cells */
+EBO::EBO(unsigned int indices[], glm::uvec2 size, GLenum drawType) :
+	count(size.y)
 {
 	glGenBuffers(1, &EBOId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, drawType);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+				 size.x * size.y,
+				 indices,
+				 drawType);
 }
 
 EBO::~EBO()

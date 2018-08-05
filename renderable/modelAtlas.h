@@ -9,7 +9,8 @@
 
 enum class ModelId
 {
-	Basic
+	Basic,
+	Text
 };
 
 class ModelAtlas
@@ -19,10 +20,10 @@ public:
 
 	void addModel(ModelId ID,
 				  unsigned int indices[],
-				  unsigned int sizeEBO,
+				  glm::uvec2 sizeEBO,
 				  GLenum drawTypeEBO,
 				  float data[],
-				  unsigned int sizeVBO,
+				  glm::uvec2 sizeVBO,
 				  GLenum drawTypeVBO);
 
 	std::shared_ptr <RenderData> getModel(ModelId ID);

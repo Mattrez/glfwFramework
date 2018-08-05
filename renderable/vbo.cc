@@ -1,12 +1,16 @@
 #include "renderable/vbo.h"
 
-VBO::VBO(float data[], unsigned int size, GLenum drawType) :
-	/* Getting the size of the type */
-	typeSize((size) / (size / sizeof(data[0])))
+/* size.x should be sizeof(type) */
+/* size.y should be the amount of cells */
+VBO::VBO(float data[], glm::uvec2 size, GLenum drawType) :
+	typeSize(size.x)
 {
 	glGenBuffers(1, &VBOId);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
-	glBufferData(GL_ARRAY_BUFFER, size, data, drawType);
+	glBufferData(GL_ARRAY_BUFFER,
+				 size.x * size.y,
+				 data,
+				 drawType);
 }
 
 VBO::~VBO()

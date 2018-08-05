@@ -9,10 +9,10 @@ class RenderData
 {
 public:
 	RenderData(unsigned int indices[],
-			   unsigned int sizeEBO,
+			   glm::uvec2 sizeEBO,
 			   GLenum drawTypeEBO,
 			   float data[],
-			   unsigned int sizeVBO,
+			   glm::uvec2 sizeVBO,
 			   GLenum drawTypeVBO);
 
 	VAO& getVAO();

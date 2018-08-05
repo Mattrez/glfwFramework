@@ -76,10 +76,10 @@ App::App()
 
 	rMA.addModel(ModelId::Basic,
 				 indi,
-				 sizeof(indi),
+				 { sizeof(unsigned int), 6 },
 				 GL_STATIC_DRAW,
 				 verties,
-				 sizeof(verties),
+				 { sizeof(float), 4 * 8 },
 				 GL_STATIC_DRAW);
 
 	auto pBM = rMA.getModel(ModelId::Basic);
@@ -92,7 +92,18 @@ App::App()
 	pBM->getVAO().addToElements(2, GL_FLOAT, GL_FALSE);
 
 	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
-		
+
+	rMA.addModel(ModelId::Text,
+				 indi,
+				 { sizeof(unsigned int), 6 },
+				 GL_STATIC_DRAW,
+				 NULL,
+				 { sizeof(float), 4 * 4 },
+				 GL_DYNAMIC_DRAW);
+
+	pBM = rMA.getModel(ModelId::Text);
+
+	pBM->getVAO().addToElements(4, GL_FLOAT, GL_FALSE);	
 
 	/* Basic Shader */
 	ShaderAtlas::get().addShader(ShaderId::Basic,
