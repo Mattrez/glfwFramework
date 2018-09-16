@@ -2,20 +2,23 @@
 #define CONFIG_H
 
 #include <iostream> // for cout
+#include <fstream>
+#include <algorithm>
 
 struct Config
 {
 public:
-	static Config& get();
+	static Config& get(const std::string& configPath = "");
 private:
-	Config();
-
 	Config(const char* configPath);
+
+	void setValue(std::string& name, std::string& value);
 public:
-	float fov;
-	float width;
-	float height;
-	const char* windowName;
+	bool created = false;
+	float fov = 45.0f;
+	float width = 800.0f;
+	float height = 800.0f;
+	const char* windowName = "glfwFramework";
 };
 
 #endif

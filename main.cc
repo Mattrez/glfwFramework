@@ -7,6 +7,9 @@
 
 int main()
 {
+	/* Calls config's ctor */
+	Config::get("../res/config.ini");
+
 	App app;
 
 	app.mainLoop();

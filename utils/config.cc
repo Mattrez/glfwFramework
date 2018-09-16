@@ -1,25 +1,51 @@
 #include "utils/config.h"
 
 /* Default singelton */
-Config& Config::get()
+Config& Config::get(const std::string& configPath)
 {
-	static Config instance;
+	static Config instance (configPath.c_str());
 	return instance;
 }
 
-/* Default config of the window */
-Config::Config() :
-	fov(45.0f),
-	width(800.0f),
-	height(800.0f),
-	windowName("glfwFramework")
-{ }
+Config::Config(const char* configPath)
+{
+	std::ifstream cfgFile (configPath);
 
-/* Constructor that changes the config variables accoring to the given file */
-/* !!! NOT YET SUPPORTED !!! */
-/* Config::Config(const char* configPath) : */
-/* 	Config() */
-/* { */
-/* 	std::cout << "Reading config from a file not yet supported\n"; */
-/* 	std::cout << "Setting the variables to default!\n"; */
-/* } */
+	if(cfgFile.is_open())
+	{
+		std::string line;
+		while(getline(cfgFile, line))
+		{
+			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+			if (line[0] == '#' || line.empty()) { continue; }
+			auto delimiterPos = line.find("=");
+			auto name = line.substr(0, delimiterPos);
+			auto value = line.substr(delimiterPos + 1);
+			setValue(name, value);
+		}
+	}
+	else
+	{
+		std::cout << "[ERROR]: Couldn't open the config file\n";
+	}
+}
+
+void Config::setValue(std::string& name, std::string& value)
+{
+	if (name == "fov")
+	{
+		fov = static_cast <float> (std::stoi(value));
+	}
+	else if (name == "width")
+	{
+		width = static_cast <float> (std::stoi(value));
+	}
+	else if (name == "height")
+	{
+		height = static_cast <float> (std::stoi(value));
+	}
+	else if (name == "windowName")
+	{
+		windowName = name.c_str();
+	}
+}
