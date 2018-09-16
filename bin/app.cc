@@ -74,6 +74,12 @@ App::App()
 		1, 2, 3
 	};
 
+	unsigned int textIndi[] =
+	{
+		0, 1, 3,
+		0, 3, 2,
+	};
+
 	auto& rMA = ModelAtlas::get();
 
 	rMA.addModel(ModelId::Basic,
@@ -96,11 +102,11 @@ App::App()
 	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
 
 	rMA.addModel(ModelId::Text,
-				 indi,
+				 textIndi,
 				 { sizeof(unsigned int), 6 },
 				 GL_STATIC_DRAW,
 				 NULL,
-				 { sizeof(float), 6 * 4 },
+				 { sizeof(float), 4 * 4 },
 				 GL_DYNAMIC_DRAW);
 
 	pBM = rMA.getModel(ModelId::Text);

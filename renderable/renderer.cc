@@ -96,23 +96,13 @@ void Renderer::drawText(TextObject* pTObject)
 		float w = ch->size.x * pTObject->getSize().x;
 		float h = ch->size.y * pTObject->getSize().y;
 
-//		float verices [] =
-//		{
-//			xPos,		yPos + h,	0.0f,	0.0f,
-//			xPos,		yPos,		0.0f,	1.0f,
-//			xPos + w,	yPos + h,	1.0f,   0.0f,
-//			xPos + w,	yPos,		1.0f,	1.0f,
-//		};
-
-		GLfloat verices[6][4] = {
-            { xPos,     yPos + h,   0.0, 0.0 },            
-            { xPos,     yPos,       0.0, 1.0 },
-            { xPos + w, yPos,       1.0, 1.0 },
-
-            { xPos,     yPos + h,   0.0, 0.0 },
-            { xPos + w, yPos,       1.0, 1.0 },
-            { xPos + w, yPos + h,   1.0, 0.0 }           
-        };
+		float verices [] =
+		{
+			xPos,		yPos + h,	0.0f,	0.0f,
+			xPos,		yPos,		0.0f,	1.0f,
+			xPos + w,	yPos + h,	1.0f,   0.0f,
+			xPos + w,	yPos,		1.0f,	1.0f,
+		};
 
 		/* Binding the currently drawn Gylph texture */
 		ch->charTexture->bind();
@@ -122,18 +112,14 @@ void Renderer::drawText(TextObject* pTObject)
 		GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verices), verices));
 		pMA->getVBO().unbind();
 
-		GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-
-//		pMA->getEBO().bind();
-//		glDrawElements(GL_TRIANGLES,
-//					   pMA->getEBO().getCount(),
-//					   GL_UNSIGNED_INT,
-//					   0);
+		GLCall(glDrawElements(GL_TRIANGLES,
+							  pMA->getEBO().getCount(),
+							  GL_UNSIGNED_INT,
+							  0));
 
 		x += (ch->advance >> 6) * pTObject->getSize().x; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 
 		/* No use for the Texture anymore */
-		//pMA->getVBO().unbind();
 		ch->charTexture->unbind();
 	}
 	/* Freeing the VAO */
@@ -148,5 +134,5 @@ Camera& Renderer::getCamera() { return camera; }
 auto c = Config::get();
 
 Camera Renderer::camera = Camera();
-glm::mat4 Renderer::ortho = glm::ortho(0.0f, c.width, 0.0f, c.height, 0.1f, 100.0f);
+glm::mat4 Renderer::ortho = glm::ortho(0.0f, static_cast<float> (c.width), 0.0f, static_cast <float> (c.height), 0.1f, 100.0f);
 glm::mat4 Renderer::proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
