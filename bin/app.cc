@@ -1,4 +1,4 @@
-#include "bin/app.h"
+#include "app.h"
 
 /* All of GLFW callbacks declaration */
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -49,7 +49,7 @@ App::App()
 	/* Settings for openGL */
 
 	/* Background color */
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	/* Enabling Z-Buffer */
 	glEnable(GL_DEPTH_TEST);
@@ -57,6 +57,8 @@ App::App()
 	/* Enabling transparency */
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//glEnable(GL_CULL_FACE);
 
 	float verties[] =
 	{
@@ -98,12 +100,14 @@ App::App()
 				 { sizeof(unsigned int), 6 },
 				 GL_STATIC_DRAW,
 				 NULL,
-				 { sizeof(float), 4 * 4 },
+				 { sizeof(float), 6 * 4 },
 				 GL_DYNAMIC_DRAW);
 
 	pBM = rMA.getModel(ModelId::Text);
 
 	pBM->getVAO().addToElements(4, GL_FLOAT, GL_FALSE);	
+
+	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
 
 	/* Basic Shader */
 	ShaderAtlas::get().addShader(ShaderId::Basic,
@@ -117,11 +121,20 @@ App::App()
 
 	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
 
+	FontAtlas::get().addFont(FontId::Basic, "../res/arial.ttf");
+
 	/* RenderableObject filling it with data */
 	object.addModel(ModelId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 	object.setTextureId(TextureId::Basic);
+
+	tObjext.setModelId(ModelId::Text);
+	tObjext.setPosition({ 25.5f, 25.5f, 1.0f });
+	tObjext.setRotation(0.0f);
+	tObjext.setShaderId(ShaderId::Text);
+	tObjext.setSize({ 1.0f, 1.0f });
+	tObjext.setText("GFrame");
 }
 
 App::~App()
@@ -142,6 +155,7 @@ void App::mainLoop()
 
 		/* Draw call */
 		Renderer::draw(&object);
+		Renderer::drawText(&tObjext);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);
@@ -177,14 +191,14 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
 		pApp->data.firstMouse = false;
 	}
 
-	float xoffset = xpos - pApp->data.lastX;
-	float yoffset = pApp->data.lastY - ypos; // reversed since y-coordinates go from bottom to top
+	double xoffset = xpos - pApp->data.lastX;
+	double yoffset = pApp->data.lastY - ypos; // reversed since y-coordinates go from bottom to top
 
 	pApp->data.lastX = xpos;
 	pApp->data.lastY = ypos;
 
 	Camera& cam = Renderer::getCamera();
-	cam.processMouseMovement(xoffset, yoffset);
+	cam.processMouseMovement(static_cast<float> (xoffset), static_cast<float> (yoffset));
 }
 
 void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
@@ -192,6 +206,6 @@ void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 	/* Not used, if needed comment out */
 	/* App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow)); */
 
-	if (key == GLFW_KEY_ESCAPE and action == GLFW_RELEASE)
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
 		glfwSetWindowShouldClose(pWindow, true);
 }

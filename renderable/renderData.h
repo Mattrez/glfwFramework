@@ -1,9 +1,9 @@
 #ifndef RENDERDATA_H
 #define RENDERDATA_H
 
-#include "renderable/vao.h"
-#include "renderable/vbo.h"
-#include "renderable/ebo.h"
+#include "vao.h"
+#include "vbo.h"
+#include "ebo.h"
 
 class RenderData
 {

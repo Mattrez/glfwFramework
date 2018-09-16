@@ -19,6 +19,7 @@
 #include "renderable/texture.h"
 #include "renderable/textureAtlas.h"
 #include "objects/rObject.h"
+#include "objects/textObject.h"
 
 class App
 {
@@ -35,8 +36,8 @@ private:
 	struct mouseData
 	{
 		bool firstMouse = true;
-		float lastX;
-		float lastY;
+		double lastX;
+		double lastY;
 	};
 private:
 	GLFWwindow* pWindow;
@@ -44,6 +45,7 @@ private:
 	mouseData data;
 	/* Debug only */
 	rObject object;
+	TextObject tObjext;
 };
 
 #endif

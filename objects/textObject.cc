@@ -1,4 +1,4 @@
-#include "objects/textObject.h"
+#include "textObject.h"
 
 TextObject::TextObject() :
 	position(400.0f, 400.0f, 0.0f),
@@ -26,6 +26,7 @@ void TextObject::setSize(glm::vec2 setSize) { size = setSize; }
 void TextObject::setRotation(float setRotation) { rotation = setRotation; }
 void TextObject::setText(const std::string& setText) { text = setText; }
 void TextObject::setShaderId(ShaderId setID) { sID = setID; }
+void TextObject::setModelId(ModelId setID) { mID = setID; }
 
 /* Getters */
 const glm::vec3& TextObject::getPosition() const { return position; }
@@ -33,3 +34,4 @@ const glm::vec2& TextObject::getSize() const { return size; }
 float TextObject::getRotation() const { return rotation; }
 const std::string& TextObject::getText() const { return text; }
 ShaderId TextObject::getShaderId() const { return sID; }
+ModelId TextObject::getModelId() const { return mID; }

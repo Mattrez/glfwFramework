@@ -1,4 +1,4 @@
-#include "objects/rObject.h"
+#include "rObject.h"
 
 rObject::rObject() :
 	position(0.0f, 0.0f, 0.0f),
@@ -21,11 +21,11 @@ void rObject::setColor(glm::vec3 setColor)		 { color = setColor; }
 void rObject::setSize(glm::vec2 setSize)			 { size = setSize; }
 void rObject::setRotation(float setRotation)		 { rotation = setRotation; }
 void rObject::setPerspective(Perspective setPers){ perspective = setPers; }
-void rObject::setShaderId(ShaderId setID) 		 { sID = setID; }
+void rObject::setShaderId(ShaderId setID) 			 { sID = setID; }
 void rObject::setTextureId(TextureId setID) 		 { tID = setID; }
 
 /* Getters */
-const std::vector <ModelId>& rObject::getVAOs() const	{ return Models; }
+const std::vector <ModelId>& rObject::getModels() const	{ return Models; }
 const glm::vec3& rObject::getPosition() const			{ return position; }
 const glm::vec3& rObject::getColor() const				{ return color; }
 const glm::vec2& rObject::getSize() const				{ return size; }

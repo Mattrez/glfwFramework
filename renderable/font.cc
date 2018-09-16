@@ -1,4 +1,4 @@
-#include "renderable/font.h"
+#include "font.h"
 
 Font::Font(const std::string& fontPath)
 {
@@ -40,6 +40,20 @@ Font::Font(const std::string& fontPath)
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			static_cast <GLuint> (face->glyph->advance.x));
 
-        Characters.emplace(std::pair<GLchar, std::unique_ptr<Character>>(c, std::move(character)));	
+        Characters.emplace(std::pair<GLchar, std::shared_ptr<Character>>(c, std::move(character)));	
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+}
+
+std::shared_ptr<Character> Font::getCharacter(char character)
+{
+	auto searchFind = Characters.find(character);
+	if (searchFind == Characters.end()) { std::cout << "NOT FOUND! CHARACTER\n"; return searchFind->second; }
+	else{
+		return searchFind->second;
 	}
 }

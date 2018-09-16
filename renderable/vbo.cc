@@ -8,9 +8,10 @@ VBO::VBO(float data[], glm::uvec2 size, GLenum drawType) :
 	glGenBuffers(1, &VBOId);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOId);
 	glBufferData(GL_ARRAY_BUFFER,
-				 size.x * size.y,
+				 (size.x * size.y),
 				 data,
 				 drawType);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 VBO::~VBO()
@@ -20,12 +21,14 @@ VBO::~VBO()
 
 void VBO::bind() const
 {
-	glBindBuffer(VBOId, GL_ARRAY_BUFFER);
+//	glBindBuffer(VBOId, GL_ARRAY_BUFFER);
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, VBOId));
 }
 
 void VBO::unbind() const
 {
-	glBindBuffer(0, GL_ARRAY_BUFFER);
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
 unsigned int VBO::getId() const { return VBOId; }

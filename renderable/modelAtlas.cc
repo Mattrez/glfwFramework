@@ -1,4 +1,4 @@
-#include "renderable/modelAtlas.h"
+#include "modelAtlas.h"
 
 ModelAtlas& ModelAtlas::get()
 {
@@ -25,7 +25,10 @@ void ModelAtlas::addModel(ModelId ID,
 std::shared_ptr <RenderData> ModelAtlas::getModel(ModelId ID)
 {
 	auto searchFind = Models.find(ID);
-	if (searchFind == Models.end()) { std::cout << "NOT FOUND! MODEL\n"; return searchFind->second; }
+	if (searchFind == Models.end())
+	{
+		std::cout << "NOT FOUND! MODEL\n"; return searchFind->second;
+	}
 	else{
 		return searchFind->second;
 	}

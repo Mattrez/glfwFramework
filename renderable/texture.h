@@ -5,6 +5,8 @@
 #include <iostream> // for cout
 
 #include "utils/GLIncludes.h"
+#include "utils/macros.h"
+
 #include "includes/stb_image.h"
 
 class Texture

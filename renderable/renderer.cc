@@ -1,4 +1,4 @@
-#include "renderable/renderer.h"
+#include "renderer.h"
 
 Renderer::Renderer()
 { }
@@ -28,7 +28,7 @@ void Renderer::draw(rObject* prObject)
 		}
 	}
 
-	const auto& VAOs = prObject->getVAOs();
+	const auto& VAOs = prObject->getModels();
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
 		/* Binding all of the VAOs */
@@ -66,56 +66,78 @@ void Renderer::draw(rObject* prObject)
 
 void Renderer::drawText(TextObject* pTObject)
 {
-	pTObject = nullptr;
-// Activate corresponding render state	
-//    shader.Use();
-//    glUniform3f(glGetUniformLocation(shader.Program, "textColor"), color.x, color.y, color.z);
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindVertexArray(VAO);
-//
-//    // Iterate through all characters
-//    std::string::const_iterator c;
-//    for (c = text.begin(); c != text.end(); c++) 
-//    {
-//        Character ch = Characters[*c];
-//
-//        GLfloat xpos = x + ch.Bearing.x * scale;
-//        GLfloat ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
-//
-//        GLfloat w = ch.Size.x * scale;
-//        GLfloat h = ch.Size.y * scale;
-//        // Update VBO for each character
-//        GLfloat vertices[6][4] = {
-//            { xpos,     ypos + h,   0.0, 0.0 },            
-//            { xpos,     ypos,       0.0, 1.0 },
-//            { xpos + w, ypos,       1.0, 1.0 },
-//
-//            { xpos,     ypos + h,   0.0, 0.0 },
-//            { xpos + w, ypos,       1.0, 1.0 },
-//            { xpos + w, ypos + h,   1.0, 0.0 }           
-//        };
-//        // Render glyph texture over quad
-//        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-//        // Update content of VBO memory
-//        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
-//
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//        // Render quad
-//        glDrawArrays(GL_TRIANGLES, 0, 6);
-//        // Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-//        x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-//    }
-//    glBindVertexArray(0);
-//    glBindTexture(GL_TEXTURE_2D, 0);
-
 	/* Binding the shader */
 	auto pShader = ShaderAtlas::get().getShader(ShaderId::Text);
 	pShader->use();
-    glUniform3f(glGetUniformLocation(pShader->getShaderID(), "textColor"),
-				255.0f,
-				255.0f,
-				255.0f);
+	glm::mat4 testProj = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(800));
+    glUniformMatrix4fv(glGetUniformLocation(pShader->getShaderID(), "projection"), 1, GL_FALSE, glm::value_ptr(testProj));
+//	ShaderAtlas::get().getShader(pTObject->getShaderId())->setMat4("projection", ortho);
+    GLCall(glUniform3f(glGetUniformLocation(pShader->getShaderID(), "textColor"),
+					   0.3f,
+					   0.6f,
+					   0.9f));
+
+	/* Making handles for easier use */
+	auto pMA = ModelAtlas::get().getModel(pTObject->getModelId());
+	auto pFA = FontAtlas::get().getFont(FontId::Basic);
+
+	pMA->getVAO().bind();
+	float x = pTObject->getPosition().x;
+
+	std::string rndrText = pTObject->getText();
+
+	for (const auto& c : rndrText)
+	{
+		auto ch = pFA->getCharacter(c);
+
+		float xPos = x + ch->bearing.x * pTObject->getSize().x;
+		float yPos = pTObject->getPosition().y - (ch->size.y - ch->bearing.y) * pTObject->getSize().y;
+
+		float w = ch->size.x * pTObject->getSize().x;
+		float h = ch->size.y * pTObject->getSize().y;
+
+//		float verices [] =
+//		{
+//			xPos,		yPos + h,	0.0f,	0.0f,
+//			xPos,		yPos,		0.0f,	1.0f,
+//			xPos + w,	yPos + h,	1.0f,   0.0f,
+//			xPos + w,	yPos,		1.0f,	1.0f,
+//		};
+
+		GLfloat verices[6][4] = {
+            { xPos,     yPos + h,   0.0, 0.0 },            
+            { xPos,     yPos,       0.0, 1.0 },
+            { xPos + w, yPos,       1.0, 1.0 },
+
+            { xPos,     yPos + h,   0.0, 0.0 },
+            { xPos + w, yPos,       1.0, 1.0 },
+            { xPos + w, yPos + h,   1.0, 0.0 }           
+        };
+
+		/* Binding the currently drawn Gylph texture */
+		ch->charTexture->bind();
+
+		/* Updating VBO with given information about the currently drawn Glyph */
+		pMA->getVBO().bind();
+		GLCall(glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verices), verices));
+		pMA->getVBO().unbind();
+
+		GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+
+//		pMA->getEBO().bind();
+//		glDrawElements(GL_TRIANGLES,
+//					   pMA->getEBO().getCount(),
+//					   GL_UNSIGNED_INT,
+//					   0);
+
+		x += (ch->advance >> 6) * pTObject->getSize().x; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+
+		/* No use for the Texture anymore */
+		//pMA->getVBO().unbind();
+		ch->charTexture->unbind();
+	}
+	/* Freeing the VAO */
+	pMA->getVAO().unbind();
 }
 
 Camera& Renderer::getCamera() { return camera; }

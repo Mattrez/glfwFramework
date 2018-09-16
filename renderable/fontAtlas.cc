@@ -1,4 +1,4 @@
-#include "renderable/fontAtlas.h"
+#include "fontAtlas.h"
 
 FontAtlas& FontAtlas::get()
 {

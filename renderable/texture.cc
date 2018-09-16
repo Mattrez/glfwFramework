@@ -91,14 +91,14 @@ void Texture::setMagFilter (GLuint setValue)
 
 void Texture::bind(unsigned int index) const
 {
-	glActiveTexture(GL_TEXTURE0 + index);
-	glBindTexture(GL_TEXTURE_2D, ID);
+	GLCall(glActiveTexture(GL_TEXTURE0 + index));
+	GLCall(glBindTexture(GL_TEXTURE_2D, ID));
 }
 
 void Texture::unbind(unsigned int index) const
 {
-	glDisable(GL_TEXTURE0 + index);
-	glBindTexture(GL_TEXTURE_2D, 0);
+//	GLCall(glDisable(GL_TEXTURE_2D));
+	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 unsigned int Texture::getID() const { return ID; }

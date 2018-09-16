@@ -4,22 +4,22 @@
 
 VAO::VAO()
 {
-	glGenVertexArrays(1, &VAOId);
+	GLCall(glGenVertexArrays(1, &VAOId));
 }
 
 VAO::~VAO()
 {
-	glDeleteVertexArrays(1, &VAOId);
+	GLCall(glDeleteVertexArrays(1, &VAOId));
 }
 
 void VAO::bind() const
 {
-	glBindVertexArray(VAOId);
+	GLCall(glBindVertexArray(VAOId));
 }
 
 void VAO::unbind() const
 {
-	glBindVertexArray(0);
+	GLCall(glBindVertexArray(0));
 }
 
 /* Adding information about data to later use in puting it into buffer layouts */
@@ -29,12 +29,12 @@ void VAO::addToElements(unsigned int count, unsigned int GLtype, unsigned int no
 }
 
 void VAO::populateLayouts(const VBO& vbo, const EBO& ebo)
-{
+{	
+	/* Binding the VAO first and then the EBO for safety */
+	this->bind();
+
 	/* Binding the given VBO for data */
 	vbo.bind();
-
-	/* Binding the VAO first and then the EBO for safety */
-	VAO::bind();
 
 	/* Calculate stride */
 	unsigned int stride = 0;
@@ -53,18 +53,20 @@ void VAO::populateLayouts(const VBO& vbo, const EBO& ebo)
 	/* Setting all of the buffer layouts with data according to the elements */
 	for (unsigned int i = 0; i < elements.size(); i++)
 	{
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Casting to uintptr_t so that compiler is happy */
-			elements[i].normalized, stride * vbo.getTypeSize(), (void*)(uintptr_t)(offset * vbo.getTypeSize()));
+		GLCall(glEnableVertexAttribArray(i));
+		GLCall(glVertexAttribPointer(i, elements[i].count, elements[i].type, /* Casting to uintptr_t so that compiler is happy */
+									 elements[i].normalized, stride * vbo.getTypeSize(), (void*)(uintptr_t)(offset * vbo.getTypeSize())));
 
 		offset += elements[i].count;
 	}
 
-	/* Unbinding the given VBO because it's not needed anymore */
+	/* Unbinding the given VAO because it's not needed anymore */
 	vbo.unbind();
+	this->unbind();
 
 	/* Deleting all of the data from the elements vector */
 	elements.clear();
+	elements.shrink_to_fit();
 }
 
 unsigned int VAO::getId() const { return VAOId; }

@@ -33,4 +33,4 @@ add_subdirectory(bin)
 
 add_executable(exec main.cc)
 
-target_link_libraries(exec bin utils renderable objects ${GLFWLIB} glfw GL GLEW freetype)
+target_link_libraries(exec bin renderable utils objects ${GLFWLIB} glfw GL GLEW freetype)

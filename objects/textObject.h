@@ -7,6 +7,7 @@
 
 #include "renderable/fontAtlas.h"
 #include "renderable/shaderAtlas.h"
+#include "renderable/modelAtlas.h"
 
 class TextObject
 {
@@ -24,6 +25,7 @@ public:
 	void				setRotation(float setRotation);
 	void				setText(const std::string& setText);
 	void				setShaderId(ShaderId setID);
+	void				setModelId(ModelId setID);
 
 	/* Getters */
 	const glm::vec3&	getPosition() const;
@@ -31,12 +33,14 @@ public:
 	float				getRotation() const;
 	const std::string&	getText() const; 
 	ShaderId			getShaderId() const;
+	ModelId				getModelId() const;
 private:
 	glm::vec3 position;
 	glm::vec2 size;
 	float rotation;
 	std::string text;
 	ShaderId sID;
+	ModelId mID;
 };
 
 #endif

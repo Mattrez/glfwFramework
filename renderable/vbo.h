@@ -2,6 +2,7 @@
 #define VBO_H
 
 #include "utils/GLIncludes.h"
+#include "utils/macros.h"
 
 class VBO
 {

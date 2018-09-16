@@ -2,8 +2,10 @@
 #define RENDERER_H
 
 #include "utils/GLIncludes.h"
+#include "utils/macros.h"
 /* Specific GL includes */
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "utils/config.h"
 #include "renderable/vao.h"

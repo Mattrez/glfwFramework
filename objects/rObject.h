@@ -31,7 +31,7 @@ public:
 	void setTextureId(TextureId setID);
 
 	/* Getters */
-	const std::vector <ModelId>& getVAOs() const;
+	const std::vector <ModelId>& getModels() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
