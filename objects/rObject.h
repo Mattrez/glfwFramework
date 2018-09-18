@@ -20,6 +20,7 @@ public:
 	rObject();
 
 	void addModel(ModelId ID);
+	void addTexture(TextureId ID);
 
 	/* Setters */
 	void setPosition(glm::vec3 setPosition);
@@ -28,25 +29,24 @@ public:
 	void setRotation(float setRotation);
 	void setPerspective(Perspective setPers);
 	void setShaderId(ShaderId setID);
-	void setTextureId(TextureId setID);
 
 	/* Getters */
 	const std::vector <ModelId>& getModels() const;
+	const std::vector <TextureId>& getTextures() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
 	const glm::vec2& getSize() const;
 	float getRotation() const;
 	ShaderId getShaderId() const;
-	TextureId getTextureId() const;
 	Perspective getPerspective() const;
 private:
 	std::vector <ModelId> Models;
+	std::vector <TextureId> Textures;
 	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 size;
 	float rotation;
 	ShaderId sID;
-	TextureId tID;
 	Perspective perspective;
 public:
 	enum class Perspective

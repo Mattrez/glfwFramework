@@ -131,9 +131,9 @@ App::App()
 
 	/* RenderableObject filling it with data */
 	object.addModel(ModelId::Basic);
+	object.addTexture(TextureId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
-	object.setTextureId(TextureId::Basic);
 
 	tObjext.setModelId(ModelId::Text);
 	tObjext.setPosition({ 25.5f, 25.5f, 1.0f });

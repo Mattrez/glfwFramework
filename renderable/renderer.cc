@@ -8,8 +8,12 @@ void Renderer::draw(rObject* prObject)
 	/* Binding the Shader */
 	ShaderAtlas::get().getShader(prObject->getShaderId())->use();
 
-	/* Binding the single Texture */
-	TextureAtlas::get().getTexture(prObject->getTextureId())->bind();
+	/* Binding the Textures */
+	const auto tIDs = prObject->getTextures();
+	for (unsigned int i = 0; i < tIDs.size(); i++)
+	{
+		TextureAtlas::get().getTexture(tIDs[i])->bind(i);
+	}
 
 	/* Choosing a projection on Perspective var in rObject */
 	switch(prObject->getPerspective())
@@ -61,7 +65,10 @@ void Renderer::draw(rObject* prObject)
 	}
 
 	/* Unbinding the Texture */
-	TextureAtlas::get().getTexture(prObject->getTextureId())->unbind();
+	for (unsigned int i = 0; i < tIDs.size(); i++)
+	{
+		TextureAtlas::get().getTexture(tIDs[i])->unbind(i);
+	}
 }
 
 void Renderer::drawText(TextObject* pTObject)
