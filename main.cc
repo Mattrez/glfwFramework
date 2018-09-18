@@ -5,11 +5,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "includes/stb_image.h"
 
+/* Calls config's ctor */
+auto ctor = Config::get("../res/config.ini");
+
 int main()
 {
-	/* Calls config's ctor */
-	Config::get("../res/config.ini");
-
 	App app;
 
 	app.mainLoop();
