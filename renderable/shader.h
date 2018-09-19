@@ -7,6 +7,7 @@
 #include <iostream> // for cout
 
 #include "utils/GLIncludes.h"
+#include <glm/gtc/type_ptr.hpp>
 
 class Shader
 {

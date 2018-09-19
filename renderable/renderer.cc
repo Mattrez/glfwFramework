@@ -76,9 +76,7 @@ void Renderer::drawText(TextObject* pTObject)
 	/* Binding the shader */
 	auto pShader = ShaderAtlas::get().getShader(ShaderId::Text);
 	pShader->use();
-	glm::mat4 testProj = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(800));
-    glUniformMatrix4fv(glGetUniformLocation(pShader->getShaderID(), "projection"), 1, GL_FALSE, glm::value_ptr(testProj));
-//	ShaderAtlas::get().getShader(pTObject->getShaderId())->setMat4("projection", ortho);
+	ShaderAtlas::get().getShader(pTObject->getShaderId())->setMat4("projection", ortho);
     GLCall(glUniform3f(glGetUniformLocation(pShader->getShaderID(), "textColor"),
 					   0.3f,
 					   0.6f,
@@ -141,5 +139,5 @@ Camera& Renderer::getCamera() { return camera; }
 auto c = Config::get();
 
 Camera Renderer::camera = Camera();
-glm::mat4 Renderer::ortho = glm::ortho(0.0f, static_cast<float> (c.width), 0.0f, static_cast <float> (c.height), 0.1f, 100.0f);
+glm::mat4 Renderer::ortho = glm::ortho(0.0f, static_cast<float> (c.width), 0.0f, static_cast <float> (c.height));
 glm::mat4 Renderer::proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
