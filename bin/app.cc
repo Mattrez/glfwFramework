@@ -117,17 +117,19 @@ App::App()
 
 	/* Basic Shader */
 	ShaderAtlas::get().addShader(ShaderId::Basic,
-								 "../shaders/sVertex.vert",
-								 "../shaders/sFragment.frag");
+								 config.shadersPath + "sVertex.vert",
+								 config.shadersPath + "sFragment.frag");
 
 	/* Basic Text Shader */
 	ShaderAtlas::get().addShader(ShaderId::Text,
-								 "../shaders/sText.vert",
-								 "../shaders/sText.frag");
+								 config.shadersPath + "sText.vert",
+								 config.shadersPath + "sText.frag");
 
-	TextureAtlas::get().addTexture(TextureId::Basic, "../res/logo.png", true);
+	TextureAtlas::get().addTexture(TextureId::Basic,
+								   config.resPath + "logo.png",
+								   true);
 
-	FontAtlas::get().addFont(FontId::Basic, "../res/arial.ttf");
+	FontAtlas::get().addFont(FontId::Basic, config.resPath + "arial.ttf");
 
 	/* RenderableObject filling it with data */
 	object.addModel(ModelId::Basic);

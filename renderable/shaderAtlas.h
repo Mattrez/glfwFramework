@@ -17,8 +17,9 @@ class ShaderAtlas
 public:
 	static ShaderAtlas& get();
 
-	void addShader(ShaderId ID, const char* vertexShaderPath,
-						const char* fragmentShaderPath);
+	void addShader(ShaderId ID,
+				   const std::string& vertexShaderPath,
+				   const std::string& fragmentShaderPath);
 
 	std::shared_ptr <Shader> getShader(ShaderId ID);
 private:

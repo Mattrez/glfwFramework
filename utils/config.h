@@ -2,8 +2,10 @@
 #define CONFIG_H
 
 #include <iostream> // for cout
+#include <vector>
 #include <fstream>
-#include <algorithm>
+#include <algorithm> // for remove_if
+#include <string>
 
 struct Config
 {
@@ -19,6 +21,8 @@ public:
 	float width = 800.0f;
 	float height = 800.0f;
 	const char* windowName = "glfwFramework";
+	std::string shadersPath;
+	std::string resPath;
 };
 
 #endif

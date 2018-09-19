@@ -46,6 +46,14 @@ void Config::setValue(std::string& name, std::string& value)
 	}
 	else if (name == "windowName")
 	{
-		windowName = name.c_str();
+		windowName = value.c_str();
+	}
+	else if (name == "shadersPath")
+	{
+		shadersPath = value;
+	}
+	else if (name == "resPath")
+	{
+		resPath = value;
 	}
 }
