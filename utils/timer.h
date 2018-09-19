@@ -6,15 +6,15 @@
 class Timer
 {
 public:
-	Timer();
+	Timer() = default;
 
 	void setDeltaTime();
 
 	float getDeltaTime() const;
 private:
-	float currentTime;
-	float lastTime;
-	float deltaTime;
+	float currentTime = 0.0f;
+	float lastTime = 0.0f;
+	float deltaTime = 0.0f;
 };
 
 #endif

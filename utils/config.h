@@ -14,7 +14,8 @@ public:
 private:
 	Config(const char* configPath);
 
-	void setValue(std::string& name, std::string& value);
+	void setValue(const std::string& name,
+				  const std::string& value);
 public:
 	bool created = false;
 	float fov = 45.0f;

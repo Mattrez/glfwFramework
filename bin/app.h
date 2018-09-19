@@ -36,8 +36,8 @@ private:
 	struct mouseData
 	{
 		bool firstMouse = true;
-		double lastX;
-		double lastY;
+		double lastX = 0.0f;
+		double lastY = 0.0f;
 	};
 private:
 	GLFWwindow* pWindow;

@@ -18,7 +18,7 @@ Config::Config(const char* configPath)
 		{
 			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
 			if (line[0] == '#' || line.empty()) { continue; }
-			auto delimiterPos = line.find("=");
+			auto delimiterPos = line.find('=');
 			auto name = line.substr(0, delimiterPos);
 			auto value = line.substr(delimiterPos + 1);
 			setValue(name, value);
@@ -30,7 +30,8 @@ Config::Config(const char* configPath)
 	}
 }
 
-void Config::setValue(std::string& name, std::string& value)
+void Config::setValue(const std::string& name,
+					  const std::string& value)
 {
 	if (name == "fov")
 	{

@@ -2,7 +2,7 @@
 
 void ClearErrorMR()
 {
-	while (glGetError() != GL_NO_ERROR);
+	while (glGetError() != GL_NO_ERROR) { };
 }
 
 bool CheckErrorMR(const char* functionName, const char* file, int line)

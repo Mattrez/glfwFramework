@@ -105,7 +105,7 @@ App::App()
 				 textIndi,
 				 { sizeof(unsigned int), 6 },
 				 GL_STATIC_DRAW,
-				 NULL,
+				 nullptr,
 				 { sizeof(float), 4 * 4 },
 				 GL_DYNAMIC_DRAW);
 
@@ -179,14 +179,22 @@ void App::mainLoop()
 void App::processKeyboard()
 {
 	Camera& cam = Renderer::getCamera();
-	if (glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS)
-		cam.processKeyboard(Camera::Movement::FORWARD, timer.getDeltaTime());
-	if (glfwGetKey(pWindow, GLFW_KEY_S) == GLFW_PRESS)
-		cam.processKeyboard(Camera::Movement::BACKWARD, timer.getDeltaTime());
-	if (glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS)
-		cam.processKeyboard(Camera::Movement::LEFT, timer.getDeltaTime());
-	if (glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS)
-		cam.processKeyboard(Camera::Movement::RIGHT, timer.getDeltaTime());
+	if (glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS) {
+		cam.processKeyboard(Camera::Movement::FORWARD,
+							timer.getDeltaTime());
+	}
+	if (glfwGetKey(pWindow, GLFW_KEY_S) == GLFW_PRESS) {
+		cam.processKeyboard(Camera::Movement::BACKWARD,
+							timer.getDeltaTime());
+	}
+	if (glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS) {
+		cam.processKeyboard(Camera::Movement::LEFT,
+							timer.getDeltaTime());
+	}
+	if (glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS) {
+		cam.processKeyboard(Camera::Movement::RIGHT,
+							timer.getDeltaTime());
+	}
 }
 
 void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
@@ -214,6 +222,7 @@ void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 	/* Not used, if needed comment out */
 	/* App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow)); */
 
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
 		glfwSetWindowShouldClose(pWindow, true);
+	}
 }
