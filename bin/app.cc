@@ -60,6 +60,8 @@ App::App()
 
 	//glEnable(GL_CULL_FACE);
 
+	pRenderer = new Renderer();
+
 	float verties[] =
 	{
 		 0.5f,  0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, //V0
@@ -137,12 +139,12 @@ App::App()
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 
-	tObjext.setModelId(ModelId::Text);
-	tObjext.setPosition({ 25.5f, 25.5f, 1.0f });
-	tObjext.setRotation(0.0f);
-	tObjext.setShaderId(ShaderId::Text);
-	tObjext.setSize({ 1.0f, 1.0f });
-	tObjext.setText("GFrame");
+	tObject.setModelId(ModelId::Text);
+	tObject.setPosition({ 25.5f, 25.5f, 1.0f });
+	tObject.setRotation(0.0f);
+	tObject.setShaderId(ShaderId::Text);
+	tObject.setSize({ 1.0f, 1.0f });
+	tObject.setText("GFrame");
 }
 
 App::~App()
@@ -162,8 +164,8 @@ void App::mainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */
-		Renderer::draw(&object);
-		Renderer::drawText(&tObjext);
+		pRenderer->draw(&object);
+		pRenderer->drawText(&tObject);
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);
@@ -178,7 +180,7 @@ void App::mainLoop()
 
 void App::processKeyboard()
 {
-	Camera& cam = Renderer::getCamera();
+	Camera& cam = pRenderer->getCamera();
 	if (glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS) {
 		cam.processKeyboard(Camera::Movement::FORWARD,
 							timer.getDeltaTime());
@@ -213,7 +215,7 @@ void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos)
 	pApp->data.lastX = xpos;
 	pApp->data.lastY = ypos;
 
-	Camera& cam = Renderer::getCamera();
+	Camera& cam = pApp->pRenderer->getCamera();
 	cam.processMouseMovement(static_cast<float> (xoffset), static_cast<float> (yoffset));
 }
 

@@ -1,7 +1,16 @@
 #include "renderer.h"
 
 Renderer::Renderer()
-{ }
+{
+    /* Config instance */
+	auto c = Config::get();
+	
+	ortho = glm::ortho(0.0f, static_cast<float> (c.width),
+					   0.0f, static_cast <float> (c.height));
+
+	proj = glm::perspective(glm::radians(45.0f),
+							800.0f/800.0f, 0.1f, 100.0f);
+}
 
 void Renderer::draw(rObject* prObject)
 {
@@ -73,18 +82,17 @@ void Renderer::draw(rObject* prObject)
 
 void Renderer::drawText(TextObject* pTObject)
 {
-	/* Binding the shader */
+	/* Making handles for easier use */
 	auto pShader = ShaderAtlas::get().getShader(ShaderId::Text);
+	auto pMA = ModelAtlas::get().getModel(pTObject->getModelId());
+	auto pFA = FontAtlas::get().getFont(FontId::Basic);
+	/* Binding the shader */
 	pShader->use();
 	ShaderAtlas::get().getShader(pTObject->getShaderId())->setMat4("projection", ortho);
     GLCall(glUniform3f(glGetUniformLocation(pShader->getShaderID(), "textColor"),
-					   0.3f,
-					   0.6f,
-					   0.9f));
-
-	/* Making handles for easier use */
-	auto pMA = ModelAtlas::get().getModel(pTObject->getModelId());
-	auto pFA = FontAtlas::get().getFont(FontId::Basic);
+					   pTObject->getColor().x,
+					   pTObject->getColor().y,
+					   pTObject->getColor().z));
 
 	pMA->getVAO().bind();
 	float x = pTObject->getPosition().x;
@@ -132,12 +140,3 @@ void Renderer::drawText(TextObject* pTObject)
 }
 
 Camera& Renderer::getCamera() { return camera; }
-
-/* Static variables */
-
-/* Config instance */
-auto c = Config::get();
-
-Camera Renderer::camera = Camera();
-glm::mat4 Renderer::ortho = glm::ortho(0.0f, static_cast<float> (c.width), 0.0f, static_cast <float> (c.height));
-glm::mat4 Renderer::proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);

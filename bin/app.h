@@ -41,11 +41,12 @@ private:
 	};
 private:
 	GLFWwindow* pWindow;
+	Renderer* pRenderer;
 	Timer timer;
 	mouseData data;
 	/* Debug only */
 	rObject object;
-	TextObject tObjext;
+	TextObject tObject;
 };
 
 #endif

@@ -19,14 +19,13 @@ class Renderer
 public:
 	Renderer();
 
-	/* static void draw(rObject* prObject, ShaderId ID); */
-	static void draw(rObject* prObject);
-	static void drawText(TextObject* pTObject);
-	static Camera& getCamera();
+	void draw(rObject* prObject);
+	void drawText(TextObject* pTObject);
+	Camera& getCamera();
 private:
-	static glm::mat4 ortho;
-	static glm::mat4 proj;
-	static Camera camera;
+	glm::mat4 ortho;
+	glm::mat4 proj;
+	Camera camera;
 };
 
 #endif
