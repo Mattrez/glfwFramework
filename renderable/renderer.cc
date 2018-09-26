@@ -55,7 +55,7 @@ void Renderer::draw(rObject* prObject)
 		model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
 
 		/* Scaling to the size */
-		model = glm::scale(model, glm::vec3(prObject->getSize(), 1.0f));
+		model = glm::scale(model, prObject->getSize());
 
 		/* View matrix */
 		glm::mat4 view = camera.getViewMatrix();

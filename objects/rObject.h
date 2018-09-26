@@ -17,7 +17,7 @@ class rObject
 public:
 	enum class Perspective;
 public:
-	rObject();
+	rObject() = default;
 
 	void addModel(ModelId ID);
 	void addTexture(TextureId ID);
@@ -25,7 +25,7 @@ public:
 	/* Setters */
 	void setPosition(glm::vec3 setPosition);
 	void setColor(glm::vec3 setColor);
-	void setSize(glm::vec2 setSize);
+	void setSize(glm::vec3 setSize);
 	void setRotation(float setRotation);
 	void setPerspective(Perspective setPers);
 	void setShaderId(ShaderId setID);
@@ -35,19 +35,20 @@ public:
 	const std::vector <TextureId>& getTextures() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
-	const glm::vec2& getSize() const;
+	const glm::vec3& getSize() const;
 	float getRotation() const;
 	ShaderId getShaderId() const;
 	Perspective getPerspective() const;
 private:
 	std::vector <ModelId> Models;
 	std::vector <TextureId> Textures;
-	glm::vec3 position;
-	glm::vec3 color;
-	glm::vec2 size;
-	float rotation;
-	ShaderId sID;
-	Perspective perspective;
+	glm::vec3 position = { 0.0f, 0.0f, 0.0f };
+	glm::vec3 color = { 1.0f, 1.0f, 1.0f };
+	glm::vec3 size = { 1.0f, 1.0f, 1.0f };
+	/* App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow)); */
+	float rotation = 0.0f;
+	ShaderId sID = ShaderId::Basic;
+	Perspective perspective = Perspective::PROJ;
 public:
 	enum class Perspective
 	{
