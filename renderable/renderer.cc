@@ -15,13 +15,13 @@ Renderer::Renderer()
 void Renderer::draw(rObject* prObject)
 {
 	/* Binding the Shader */
-	ShaderAtlas::get().getShader(prObject->getShaderId())->use();
+	ShaderAtlas::getShader(prObject->getShaderId())->use();
 
 	/* Binding the Textures */
 	const auto tIDs = prObject->getTextures();
 	for (unsigned int i = 0; i < tIDs.size(); i++)
 	{
-		TextureAtlas::get().getTexture(tIDs[i])->bind(i);
+		TextureAtlas::getTexture(tIDs[i])->bind(i);
 	}
 
 	/* Choosing a projection on Perspective var in rObject */
@@ -30,13 +30,13 @@ void Renderer::draw(rObject* prObject)
 		case rObject::Perspective::ORTHO :
 		{
 			/* Setting a ortho projection */
-			ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("projection", ortho);
+			ShaderAtlas::getShader(prObject->getShaderId())->setMat4("projection", ortho);
 			break;
 		}
 		case rObject::Perspective::PROJ :
 		{
 			/* Setting a proj projection */
-			ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("projection", proj);
+			ShaderAtlas::getShader(prObject->getShaderId())->setMat4("projection", proj);
 			break;
 		}
 	}
@@ -45,7 +45,7 @@ void Renderer::draw(rObject* prObject)
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
 		/* Binding all of the VAOs */
-		ModelAtlas::get().getModel(ModelId::Basic)->getVAO().bind();
+		ModelAtlas::getModel(ModelId::Basic)->getVAO().bind();
 
 		/* Creating and setting the model to the data in the object */
 		glm::mat4 model;
@@ -59,36 +59,36 @@ void Renderer::draw(rObject* prObject)
 
 		/* View matrix */
 		glm::mat4 view = camera.getViewMatrix();
-		ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("view", view);
+		ShaderAtlas::getShader(prObject->getShaderId())->setMat4("view", view);
 
 		/* Setting the shader uniform */
-		ShaderAtlas::get().getShader(prObject->getShaderId())->setMat4("model", model);
+		ShaderAtlas::getShader(prObject->getShaderId())->setMat4("model", model);
 
 		/* Draw call */
 		glDrawElements(GL_TRIANGLES,
-				ModelAtlas::get().getModel(ModelId::Basic)->getEBO().getCount(),
+				ModelAtlas::getModel(ModelId::Basic)->getEBO().getCount(),
 				GL_UNSIGNED_INT, 0);
 
 		/* No use for VAO anymore so unbind it */
-		ModelAtlas::get().getModel(ModelId::Basic)->getVAO().unbind();
+		ModelAtlas::getModel(ModelId::Basic)->getVAO().unbind();
 	}
 
 	/* Unbinding the Texture */
 	for (unsigned int i = 0; i < tIDs.size(); i++)
 	{
-		TextureAtlas::get().getTexture(tIDs[i])->unbind(i);
+		TextureAtlas::getTexture(tIDs[i])->unbind(i);
 	}
 }
 
 void Renderer::drawText(TextObject* pTObject)
 {
 	/* Making handles for easier use */
-	auto pShader = ShaderAtlas::get().getShader(ShaderId::Text);
-	auto pMA = ModelAtlas::get().getModel(pTObject->getModelId());
-	auto pFA = FontAtlas::get().getFont(FontId::Basic);
+	auto pShader = ShaderAtlas::getShader(ShaderId::Text);
+	auto pMA = ModelAtlas::getModel(pTObject->getModelId());
+	auto pFA = FontAtlas::getFont(FontId::Basic);
 	/* Binding the shader */
 	pShader->use();
-	ShaderAtlas::get().getShader(pTObject->getShaderId())->setMat4("projection", ortho);
+	ShaderAtlas::getShader(pTObject->getShaderId())->setMat4("projection", ortho);
     GLCall(glUniform3f(glGetUniformLocation(pShader->getShaderID(), "textColor"),
 					   pTObject->getColor().x,
 					   pTObject->getColor().y,
@@ -172,7 +172,7 @@ void Renderer::create()
 {
 	for (const auto& model : models)
 	{
-		ModelAtlas::get().getModel(model.first)->getVAO().bind();
+		ModelAtlas::getModel(model.first)->getVAO().bind();
 		/* Fill the VBO with new data */
 		transData[model.first]->bind();
 		GLCall(glBufferData(GL_ARRAY_BUFFER,
@@ -220,16 +220,16 @@ void Renderer::flush()
 {
 	for (const auto& model : models)
 	{
-		ShaderAtlas::get().getShader(ShaderId::Basic)->use();
-		TextureAtlas::get().getTexture(TextureId::Basic)->bind();
+		ShaderAtlas::getShader(ShaderId::Basic)->use();
+		TextureAtlas::getTexture(TextureId::Basic)->bind();
 		
 		glm::mat4 proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
-		ShaderAtlas::get().getShader(ShaderId::Basic)->setMat4("projection", proj);
+		ShaderAtlas::getShader(ShaderId::Basic)->setMat4("projection", proj);
 		
 		glm::mat4 view = Renderer::getCamera().getViewMatrix();
-		ShaderAtlas::get().getShader(ShaderId::Basic)->setMat4("view", view);
+		ShaderAtlas::getShader(ShaderId::Basic)->setMat4("view", view);
 		
-		auto pMA = ModelAtlas::get().getModel(model.first);
+		auto pMA = ModelAtlas::getModel(model.first);
 		pMA->getVAO().bind();
 		
 		GLCall(glDrawElementsInstanced(GL_TRIANGLES,
@@ -238,7 +238,7 @@ void Renderer::flush()
 									   0,
 									   model.second.size()));
 		
-		TextureAtlas::get().getTexture(TextureId::Basic)->unbind();
+		TextureAtlas::getTexture(TextureId::Basic)->unbind();
 		glBindVertexArray(0);
 	}
 }

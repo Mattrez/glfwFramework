@@ -18,15 +18,15 @@ class ModelAtlas
 public:
 	static ModelAtlas& get();
 
-	void addModel(ModelId ID,
-				  unsigned int indices[],
-				  glm::uvec2 sizeEBO,
-				  GLenum drawTypeEBO,
-				  float data[],
-				  glm::uvec2 sizeVBO,
-				  GLenum drawTypeVBO);
+	static void addModel(ModelId ID,
+						 unsigned int indices[],
+						 glm::uvec2 sizeEBO,
+						 GLenum drawTypeEBO,
+						 float data[],
+						 glm::uvec2 sizeVBO,
+						 GLenum drawTypeVBO);
 
-	std::shared_ptr <RenderData> getModel(ModelId ID);
+	static std::shared_ptr <RenderData> getModel(ModelId ID);
 
 	ModelAtlas(ModelAtlas const&) = delete;
 	void operator=(ModelAtlas const&) = delete;

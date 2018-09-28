@@ -118,20 +118,20 @@ App::App()
 	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
 
 	/* Basic Shader */
-	ShaderAtlas::get().addShader(ShaderId::Basic,
+	ShaderAtlas::addShader(ShaderId::Basic,
 								 config.shadersPath + "sVertex.vert",
 								 config.shadersPath + "sFragment.frag");
 
 	/* Basic Text Shader */
-	ShaderAtlas::get().addShader(ShaderId::Text,
+	ShaderAtlas::addShader(ShaderId::Text,
 								 config.shadersPath + "sText.vert",
 								 config.shadersPath + "sText.frag");
 
-	TextureAtlas::get().addTexture(TextureId::Basic,
+	TextureAtlas::addTexture(TextureId::Basic,
 								   config.resPath + "logo.png",
 								   true);
 
-	FontAtlas::get().addFont(FontId::Basic, config.resPath + "arial.ttf");
+	FontAtlas::addFont(FontId::Basic, config.resPath + "arial.ttf");
 
 	/* RenderableObject filling it with data */
 	object.addModel(ModelId::Basic);

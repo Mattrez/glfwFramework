@@ -17,11 +17,14 @@ class ShaderAtlas
 public:
 	static ShaderAtlas& get();
 
-	void addShader(ShaderId ID,
+	static void addShader(ShaderId ID,
 				   const std::string& vertexShaderPath,
 				   const std::string& fragmentShaderPath);
 
-	std::shared_ptr <Shader> getShader(ShaderId ID);
+	static std::shared_ptr <Shader> getShader(ShaderId ID);
+
+	ShaderAtlas(ShaderAtlas const&) = delete;
+	void operator=(ShaderAtlas const&) = delete;
 private:
 	ShaderAtlas() = default;
 private:

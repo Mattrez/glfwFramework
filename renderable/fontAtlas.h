@@ -17,9 +17,11 @@ class FontAtlas
 public:
 	static FontAtlas& get();
 
-	void addFont(FontId ID, const std::string& fontPath);
+	static void addFont(FontId ID, const std::string& fontPath);
 
-	std::shared_ptr <Font> getFont(FontId ID);
+	static std::shared_ptr <Font> getFont(FontId ID);
+
+	void operator=(FontAtlas const&) = delete;
 private:
 	std::map <FontId, std::shared_ptr <Font>> Fonts;
 };

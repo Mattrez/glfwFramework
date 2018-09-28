@@ -17,9 +17,9 @@ class TextureAtlas
 public:
 	static TextureAtlas& get();
 
-	void addTexture(TextureId ID, const std::string& texturePath, bool hasAlpha);
+	static void addTexture(TextureId ID, const std::string& texturePath, bool hasAlpha);
 
-	std::shared_ptr <Texture> getTexture(TextureId ID);
+	static std::shared_ptr <Texture> getTexture(TextureId ID);
 
 	TextureAtlas(TextureAtlas const&) = delete;
 	void operator=(TextureAtlas const&) = delete;
