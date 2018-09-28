@@ -45,7 +45,6 @@ private:
 	glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 color = { 1.0f, 1.0f, 1.0f };
 	glm::vec3 size = { 1.0f, 1.0f, 1.0f };
-	/* App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow)); */
 	float rotation = 0.0f;
 	ShaderId sID = ShaderId::Basic;
 	Perspective perspective = Perspective::PROJ;

@@ -139,4 +139,108 @@ void Renderer::drawText(TextObject* pTObject)
 	pMA->getVAO().unbind();
 }
 
+void Renderer::reserve(ModelId ID, size_t size)
+{
+	models[ID].reserve(size);
+	transData.emplace(ID,
+					  std::make_unique <VBO> (nullptr,
+											  glm::vec2(0, 0),
+											  GL_STATIC_DRAW));
+}
+
+void Renderer::submit(rObject* prObject)
+{
+	const auto& VAOs = prObject->getModels();
+	for (unsigned int i = 0; i < VAOs.size(); i++)
+	{
+		/* Creating and setting the model to the data in the object */
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(prObject->getPosition()));
+		model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
+		model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
+
+		/* Scaling to the size */
+		model = glm::scale(model, glm::vec3(prObject->getSize()));
+		/* View matrix */
+
+		models.at(VAOs[i]).emplace_back(std::move(model));
+	}
+}
+
+void Renderer::create()
+{
+	for (const auto& model : models)
+	{
+		ModelAtlas::get().getModel(model.first)->getVAO().bind();
+		/* Fill the VBO with new data */
+		transData[model.first]->bind();
+		GLCall(glBufferData(GL_ARRAY_BUFFER,
+							model.second.size() * sizeof(glm::mat4),
+							model.second.data(),
+							GL_STATIC_DRAW));
+		
+		/* VAO setup */
+		GLCall(glEnableVertexAttribArray(3));
+		GLCall(glVertexAttribPointer(3, 4,
+									 GL_FLOAT,
+									 GL_FALSE,
+									 sizeof(glm::mat4),
+									 (void*)0));
+
+		GLCall(glEnableVertexAttribArray(4));
+		GLCall(glVertexAttribPointer(4, 4,
+									 GL_FLOAT,
+									 GL_FALSE,
+									 sizeof(glm::mat4),
+									 (void*)(sizeof(glm::vec4))));
+
+		GLCall(glEnableVertexAttribArray(5));
+		GLCall(glVertexAttribPointer(5, 4,
+									 GL_FLOAT,
+									 GL_FALSE,
+									 sizeof(glm::mat4),
+									 (void*)(2 * sizeof(glm::vec4))));
+
+		GLCall(glEnableVertexAttribArray(6));
+		GLCall(glVertexAttribPointer(6, 4,
+									 GL_FLOAT,
+									 GL_FALSE,
+									 sizeof(glm::mat4),
+									 (void*)(3 * sizeof(glm::vec4))));
+		
+		GLCall(glVertexAttribDivisor(3, 1));
+		GLCall(glVertexAttribDivisor(4, 1));
+		GLCall(glVertexAttribDivisor(5, 1));
+		GLCall(glVertexAttribDivisor(6, 1));
+	}
+}
+
+void Renderer::flush()
+{
+	for (const auto& model : models)
+	{
+		ShaderAtlas::get().getShader(ShaderId::Basic)->use();
+		TextureAtlas::get().getTexture(TextureId::Basic)->bind();
+		
+		glm::mat4 proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
+		ShaderAtlas::get().getShader(ShaderId::Basic)->setMat4("projection", proj);
+		
+		glm::mat4 view = Renderer::getCamera().getViewMatrix();
+		ShaderAtlas::get().getShader(ShaderId::Basic)->setMat4("view", view);
+		
+		auto pMA = ModelAtlas::get().getModel(model.first);
+		pMA->getVAO().bind();
+		
+		GLCall(glDrawElementsInstanced(GL_TRIANGLES,
+									   pMA->getEBO().getCount(),
+									   GL_UNSIGNED_INT,
+									   0,
+									   model.second.size()));
+		
+		TextureAtlas::get().getTexture(TextureId::Basic)->unbind();
+		glBindVertexArray(0);
+	}
+}
+
 Camera& Renderer::getCamera() { return camera; }

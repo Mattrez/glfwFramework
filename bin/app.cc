@@ -139,12 +139,22 @@ App::App()
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 
+	object2.addModel(ModelId::Basic);
+	object2.addTexture(TextureId::Basic);
+	object2.setPosition({ 0.5f, 0.5f, 0.5f });
+	object2.setShaderId(ShaderId::Basic);
+
 	tObject.setModelId(ModelId::Text);
 	tObject.setPosition({ 25.5f, 25.5f, 1.0f });
 	tObject.setRotation(0.0f);
 	tObject.setShaderId(ShaderId::Text);
 	tObject.setSize({ 1.0f, 1.0f });
 	tObject.setText("GFrame");
+
+	pRenderer->reserve(ModelId::Basic, 2);
+	pRenderer->submit(&object);
+	pRenderer->submit(&object2);
+	pRenderer->create();
 }
 
 App::~App()
@@ -164,8 +174,10 @@ void App::mainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */
-		pRenderer->draw(&object);
-		pRenderer->drawText(&tObject);
+//		pRenderer->draw(&object);
+//		pRenderer->drawText(&tObject);
+
+		pRenderer->flush();
 
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);

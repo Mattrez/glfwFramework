@@ -46,6 +46,7 @@ private:
 	mouseData data;
 	/* Debug only */
 	rObject object;
+	rObject object2;
 	TextObject tObject;
 };
 
