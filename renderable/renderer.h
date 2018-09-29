@@ -18,6 +18,31 @@
 #include <memory> // for unique_ptr
 #include <map>
 
+struct divider
+{
+	explicit divider(ShaderId sID,
+					 const std::vector <TextureId>& tID) :
+	sID(sID), tID(tID)
+	{ }
+
+	bool operator== (const divider& d1)
+	{
+		return (this->sID == d1.sID) && (this->tID == d1.tID);
+	}
+
+	ShaderId sID;
+	std::vector <TextureId> tID;
+	unsigned int amount = 0;
+
+};
+
+struct drawData
+{
+	std::vector <glm::mat4> models;
+	std::unique_ptr <VBO> transformation;
+	std::vector <divider> IDs;
+};
+
 class Renderer
 {
 public:
@@ -35,8 +60,7 @@ public:
 
 	Camera& getCamera();
 private:
-	std::map <ModelId, std::vector <glm::mat4>> models;
-	std::map <ModelId, std::unique_ptr <VBO>> transData;
+	std::map <ModelId, drawData> modelDrawData;
 	glm::mat4 ortho;
 	glm::mat4 proj;
 	Camera camera;

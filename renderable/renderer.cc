@@ -141,16 +141,39 @@ void Renderer::drawText(TextObject* pTObject)
 
 void Renderer::reserve(ModelId ID, size_t size)
 {
-	models[ID].reserve(size);
-	transData.emplace(ID,
-					  std::make_unique <VBO> (nullptr,
-											  glm::vec2(0, 0),
-											  GL_STATIC_DRAW));
+	modelDrawData[ID].models.reserve(size);
+	modelDrawData[ID].transformation = std::make_unique <VBO>
+		(nullptr, glm::vec2(0, 0), GL_STATIC_DRAW);
 }
 
 void Renderer::submit(rObject* prObject)
 {
 	const auto& VAOs = prObject->getModels();
+
+	/* Creating a variable that holds the result of the std::find */
+	auto findResult = std::find(modelDrawData[VAOs[0]].IDs.begin(),
+								modelDrawData[VAOs[0]].IDs.end(),
+								divider(prObject->getShaderId(),
+										prObject->getTextures()));
+
+	/* If that find result is false */
+	if (findResult == modelDrawData[VAOs[0]].IDs.end())
+	{
+		/* Add a new divider object and by accesing the back increase the amount by 1 */
+		modelDrawData[VAOs[0]].IDs.emplace_back(
+			divider(prObject->getShaderId(),
+					prObject->getTextures()));
+
+		modelDrawData[VAOs[0]].IDs.back().amount++;
+	}
+
+	/* If the find result is true */
+	else
+	{
+		/* Increase the amount by 1 by using the interator */
+		findResult->amount++;
+	}
+
 	for (unsigned int i = 0; i < VAOs.size(); i++)
 	{
 		/* Creating and setting the model to the data in the object */
@@ -162,22 +185,22 @@ void Renderer::submit(rObject* prObject)
 
 		/* Scaling to the size */
 		model = glm::scale(model, glm::vec3(prObject->getSize()));
-		/* View matrix */
 
-		models.at(VAOs[i]).emplace_back(std::move(model));
+		/* Adding the transformed model into the vector */
+		modelDrawData.at(VAOs[i]).models.emplace_back(std::move(model));
 	}
 }
 
 void Renderer::create()
 {
-	for (const auto& model : models)
+	for (const auto& model : modelDrawData)
 	{
 		ModelAtlas::getModel(model.first)->getVAO().bind();
 		/* Fill the VBO with new data */
-		transData[model.first]->bind();
+		model.second.transformation->bind();
 		GLCall(glBufferData(GL_ARRAY_BUFFER,
-							model.second.size() * sizeof(glm::mat4),
-							model.second.data(),
+							model.second.models.size() * sizeof(glm::mat4),
+							model.second.models.data(),
 							GL_STATIC_DRAW));
 		
 		/* VAO setup */
@@ -218,28 +241,39 @@ void Renderer::create()
 
 void Renderer::flush()
 {
-	for (const auto& model : models)
+	for (const auto& model : modelDrawData)
 	{
-		ShaderAtlas::getShader(ShaderId::Basic)->use();
-		TextureAtlas::getTexture(TextureId::Basic)->bind();
-		
-		glm::mat4 proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
-		ShaderAtlas::getShader(ShaderId::Basic)->setMat4("projection", proj);
-		
-		glm::mat4 view = Renderer::getCamera().getViewMatrix();
-		ShaderAtlas::getShader(ShaderId::Basic)->setMat4("view", view);
-		
-		auto pMA = ModelAtlas::getModel(model.first);
-		pMA->getVAO().bind();
-		
-		GLCall(glDrawElementsInstanced(GL_TRIANGLES,
-									   pMA->getEBO().getCount(),
-									   GL_UNSIGNED_INT,
-									   0,
-									   model.second.size()));
-		
-		TextureAtlas::getTexture(TextureId::Basic)->unbind();
-		glBindVertexArray(0);
+		for (const auto& ID : model.second.IDs)
+		{
+			ShaderAtlas::getShader(ID.sID)->use();
+
+			for (const auto& t : ID.tID)
+			{
+				TextureAtlas::getTexture(t)->bind();
+			}
+			
+			glm::mat4 proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
+			ShaderAtlas::getShader(ID.sID)->setMat4("projection", proj);
+			
+			glm::mat4 view = Renderer::getCamera().getViewMatrix();
+			ShaderAtlas::getShader(ID.sID)->setMat4("view", view);
+			
+			auto pMA = ModelAtlas::getModel(model.first);
+			pMA->getVAO().bind();
+			
+			GLCall(glDrawElementsInstanced(GL_TRIANGLES,
+										   pMA->getEBO().getCount(),
+										   GL_UNSIGNED_INT,
+										   0,
+										   ID.amount));
+			
+			for (const auto& t : ID.tID)
+			{
+				TextureAtlas::getTexture(t)->unbind();
+			}
+
+			glBindVertexArray(0);
+		}
 	}
 }
 
