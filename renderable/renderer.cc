@@ -14,8 +14,12 @@ Renderer::Renderer()
 
 void Renderer::draw(rObject* prObject)
 {
+	/* Making handles for easier use */
+	auto pMA = ModelAtlas::getModel(prObject->getModel());
+	auto pSA = ShaderAtlas::getShader(prObject->getShaderId());
+
 	/* Binding the Shader */
-	ShaderAtlas::getShader(prObject->getShaderId())->use();
+	pSA->use();
 
 	/* Binding the Textures */
 	const auto tIDs = prObject->getTextures();
@@ -30,48 +34,44 @@ void Renderer::draw(rObject* prObject)
 		case rObject::Perspective::ORTHO :
 		{
 			/* Setting a ortho projection */
-			ShaderAtlas::getShader(prObject->getShaderId())->setMat4("projection", ortho);
+			pSA->setMat4("projection", ortho);
 			break;
 		}
 		case rObject::Perspective::PROJ :
 		{
 			/* Setting a proj projection */
-			ShaderAtlas::getShader(prObject->getShaderId())->setMat4("projection", proj);
+			pSA->setMat4("projection", proj);
 			break;
 		}
 	}
 
-	const auto& VAOs = prObject->getModels();
-	for (unsigned int i = 0; i < VAOs.size(); i++)
-	{
-		/* Binding all of the VAOs */
-		ModelAtlas::getModel(ModelId::Basic)->getVAO().bind();
-
-		/* Creating and setting the model to the data in the object */
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(prObject->getPosition()));
-		model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
-		model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
-
-		/* Scaling to the size */
-		model = glm::scale(model, prObject->getSize());
-
-		/* View matrix */
-		glm::mat4 view = camera.getViewMatrix();
-		ShaderAtlas::getShader(prObject->getShaderId())->setMat4("view", view);
-
-		/* Setting the shader uniform */
-		ShaderAtlas::getShader(prObject->getShaderId())->setMat4("model", model);
-
-		/* Draw call */
-		glDrawElements(GL_TRIANGLES,
-				ModelAtlas::getModel(ModelId::Basic)->getEBO().getCount(),
-				GL_UNSIGNED_INT, 0);
-
-		/* No use for VAO anymore so unbind it */
-		ModelAtlas::getModel(ModelId::Basic)->getVAO().unbind();
-	}
+	/* Binding the VAO */
+	pMA->getVAO().bind();
+	
+	/* Creating and setting the model to the data in the object */
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(prObject->getPosition()));
+	model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
+	model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
+	
+	/* Scaling to the size */
+	model = glm::scale(model, prObject->getSize());
+	
+	/* View matrix */
+	glm::mat4 view = camera.getViewMatrix();
+	pSA->setMat4("view", view);
+	
+	/* Setting the shader uniform */
+	pSA->setMat4("model", model);
+	
+	/* Draw call */
+	glDrawElements(GL_TRIANGLES,
+				   pMA->getEBO().getCount(),
+				   GL_UNSIGNED_INT, 0);
+	
+	/* No use for VAO anymore so unbind it */
+	pMA->getVAO().unbind();
 
 	/* Unbinding the Texture */
 	for (unsigned int i = 0; i < tIDs.size(); i++)
@@ -148,23 +148,24 @@ void Renderer::reserve(ModelId ID, size_t size)
 
 void Renderer::submit(rObject* prObject)
 {
-	const auto& VAOs = prObject->getModels();
+	/* Making a handle for easier use */
+	auto pMA = prObject->getModel();
 
 	/* Creating a variable that holds the result of the std::find */
-	auto findResult = std::find(modelDrawData[VAOs[0]].IDs.begin(),
-								modelDrawData[VAOs[0]].IDs.end(),
+	auto findResult = std::find(modelDrawData[pMA].IDs.begin(),
+								modelDrawData[pMA].IDs.end(),
 								divider(prObject->getShaderId(),
 										prObject->getTextures()));
 
 	/* If that find result is false */
-	if (findResult == modelDrawData[VAOs[0]].IDs.end())
+	if (findResult == modelDrawData[pMA].IDs.end())
 	{
 		/* Add a new divider object and by accesing the back increase the amount by 1 */
-		modelDrawData[VAOs[0]].IDs.emplace_back(
+		modelDrawData[pMA].IDs.emplace_back(
 			divider(prObject->getShaderId(),
 					prObject->getTextures()));
 
-		modelDrawData[VAOs[0]].IDs.back().amount++;
+		modelDrawData[pMA].IDs.back().amount++;
 	}
 
 	/* If the find result is true */
@@ -174,21 +175,18 @@ void Renderer::submit(rObject* prObject)
 		findResult->amount++;
 	}
 
-	for (unsigned int i = 0; i < VAOs.size(); i++)
-	{
-		/* Creating and setting the model to the data in the object */
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(prObject->getPosition()));
-		model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
-		model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
+	/* Creating and setting the model to the data in the object */
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(prObject->getPosition()));
+	model = glm::translate(model, glm::vec3(0.5 * prObject->getSize().x, 0.5 * prObject->getSize().y, 0.0f));
+	model = glm::rotate(model, prObject->getRotation(), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(-0.5 * prObject->getSize().x, -0.5 * prObject->getSize().y, 0.0f));
 
-		/* Scaling to the size */
-		model = glm::scale(model, glm::vec3(prObject->getSize()));
+	/* Scaling to the size */
+	model = glm::scale(model, glm::vec3(prObject->getSize()));
 
-		/* Adding the transformed model into the vector */
-		modelDrawData.at(VAOs[i]).models.emplace_back(std::move(model));
-	}
+	/* Adding the transformed model into the vector */
+	modelDrawData.at(pMA).models.emplace_back(std::move(model));
 }
 
 void Renderer::create()
@@ -252,11 +250,8 @@ void Renderer::flush()
 				TextureAtlas::getTexture(t)->bind();
 			}
 			
-			glm::mat4 proj = glm::perspective(glm::radians(45.0f), 800.0f/800.0f, 0.1f, 100.0f);
 			ShaderAtlas::getShader(ID.sID)->setMat4("projection", proj);
-			
-			glm::mat4 view = Renderer::getCamera().getViewMatrix();
-			ShaderAtlas::getShader(ID.sID)->setMat4("view", view);
+			ShaderAtlas::getShader(ID.sID)->setMat4("view", camera.getViewMatrix());
 			
 			auto pMA = ModelAtlas::getModel(model.first);
 			pMA->getVAO().bind();

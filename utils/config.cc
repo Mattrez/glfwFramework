@@ -47,7 +47,7 @@ void Config::setValue(const std::string& name,
 	}
 	else if (name == "windowName")
 	{
-		windowName = value.c_str();
+		windowName = value;
 	}
 	else if (name == "shadersPath")
 	{

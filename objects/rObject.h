@@ -19,7 +19,7 @@ public:
 public:
 	rObject() = default;
 
-	void addModel(ModelId ID);
+	void setModel(ModelId setID);
 	void addTexture(TextureId ID);
 
 	/* Setters */
@@ -31,7 +31,7 @@ public:
 	void setShaderId(ShaderId setID);
 
 	/* Getters */
-	const std::vector <ModelId>& getModels() const;
+	ModelId getModel() const;
 	const std::vector <TextureId>& getTextures() const;
 	const glm::vec3& getPosition() const;
 	const glm::vec3& getColor() const;
@@ -40,8 +40,8 @@ public:
 	ShaderId getShaderId() const;
 	Perspective getPerspective() const;
 private:
-	std::vector <ModelId> Models;
-	std::vector <TextureId> Textures;
+	ModelId model;
+	std::vector <TextureId> textures;
 	glm::vec3 position = { 0.0f, 0.0f, 0.0f };
 	glm::vec3 color = { 1.0f, 1.0f, 1.0f };
 	glm::vec3 size = { 1.0f, 1.0f, 1.0f };

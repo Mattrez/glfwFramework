@@ -21,7 +21,7 @@ public:
 	float fov = 45.0f;
 	float width = 800.0f;
 	float height = 800.0f;
-	const char* windowName = "glfwFramework";
+	std::string windowName = "glfwFramework";
 	std::string shadersPath;
 	std::string resPath;
 };

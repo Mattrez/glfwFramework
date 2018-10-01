@@ -20,7 +20,7 @@ App::App()
 	auto config = Config::get();
 
 	/* Pointing the window pointer to a window object */
-	pWindow = glfwCreateWindow(config.width, config.height, config.windowName, NULL, NULL);
+	pWindow = glfwCreateWindow(config.width, config.height, config.windowName.c_str(), NULL, NULL);
 
 	/* Basic error checking if the window was created succefully */
 	if (pWindow == NULL)
@@ -134,12 +134,12 @@ App::App()
 	FontAtlas::addFont(FontId::Basic, config.resPath + "arial.ttf");
 
 	/* RenderableObject filling it with data */
-	object.addModel(ModelId::Basic);
+	object.setModel(ModelId::Basic);
 	object.addTexture(TextureId::Basic);
 	object.setPosition({ 0.0f, 0.0f, 0.0f });
 	object.setShaderId(ShaderId::Basic);
 
-	object2.addModel(ModelId::Basic);
+	object2.setModel(ModelId::Basic);
 	object2.addTexture(TextureId::Basic);
 	object2.setPosition({ 0.5f, 0.5f, 0.5f });
 	object2.setShaderId(ShaderId::Basic);
