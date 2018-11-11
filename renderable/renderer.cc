@@ -1,5 +1,12 @@
 #include "renderer.h"
 
+void drawC(ShaderId sID,
+		   ModelId mID,
+		   const std::vector<TextureId>& tID,
+		   unsigned int amount,
+		   Camera camera,
+		   glm::mat4 proj);
+
 Renderer::Renderer()
 {
     /* Config instance */
@@ -139,33 +146,44 @@ void Renderer::drawText(TextObject* pTObject)
 	pMA->getVAO().unbind();
 }
 
-void Renderer::reserve(ModelId ID, size_t size)
+void Renderer::reserve(size_t size)
 {
-	modelDrawData[ID].models.reserve(size);
-	modelDrawData[ID].transformation = std::make_unique <VBO>
-		(nullptr, glm::vec2(0, 0), GL_STATIC_DRAW);
+	modelDrawData.reserve(size);
 }
 
 void Renderer::submit(rObject* prObject)
 {
-	/* Making a handle for easier use */
-	auto pMA = prObject->getModel();
+	/* A boolean to know for later use if the findResult was succefull */
+	bool found;
 
 	/* Creating a variable that holds the result of the std::find */
-	auto findResult = std::find(modelDrawData[pMA].IDs.begin(),
-								modelDrawData[pMA].IDs.end(),
-								divider(prObject->getShaderId(),
-										prObject->getTextures()));
+	auto findResult = std::find_if(modelDrawData.begin(),
+								   modelDrawData.end(),
+								   [&prObject](const drawData& rhs)
+								   {
+									   return (rhs.mID == prObject->getModel())
+									   and (rhs.tID == prObject->getTextures())
+									   and (rhs.sID == prObject->getShaderId());
+								   });
 
 	/* If that find result is false */
-	if (findResult == modelDrawData[pMA].IDs.end())
+	if (findResult == modelDrawData.end())
 	{
-		/* Add a new divider object and by accesing the back increase the amount by 1 */
-		modelDrawData[pMA].IDs.emplace_back(
-			divider(prObject->getShaderId(),
-					prObject->getTextures()));
+		/* Add a new drawData object and by accesing the back increase the amount by 1 */
+		modelDrawData.emplace_back(
+			drawData(prObject->getModel(),
+					 prObject->getShaderId(),
+					 prObject->getTextures()));
 
-		modelDrawData[pMA].IDs.back().amount++;
+		/* Increasing the amount to 1 because we do have a object to draw */
+		modelDrawData.back().amount++;
+
+		/* Creating an empty VBO for that particular object */
+		modelDrawData.back().transformation = std::make_unique <VBO>
+			(nullptr, glm::vec2(0, 0), GL_STATIC_DRAW);
+
+		/* Setting the found bool to false because we didn't found the object already in the vector */
+		found = false;
 	}
 
 	/* If the find result is true */
@@ -173,6 +191,9 @@ void Renderer::submit(rObject* prObject)
 	{
 		/* Increase the amount by 1 by using the interator */
 		findResult->amount++;
+
+		/* Object found in vector so the bool is set to true */
+		found = true;
 	}
 
 	/* Creating and setting the model to the data in the object */
@@ -186,21 +207,38 @@ void Renderer::submit(rObject* prObject)
 	model = glm::scale(model, glm::vec3(prObject->getSize()));
 
 	/* Adding the transformed model into the vector */
-	modelDrawData.at(pMA).models.emplace_back(std::move(model));
+	/* If we found the object we're using the iterator to access the element */
+	if (found) {
+		findResult->models.emplace_back(std::move(model));
+	}
+	/* If the element wasn't found a new one is pushed to the back */
+	/* it can be accessed by getting the back iterator of the vector */
+	else {
+		modelDrawData.back().models.emplace_back(std::move(model));
+	}
 }
 
 void Renderer::create()
 {
 	for (const auto& model : modelDrawData)
 	{
-		ModelAtlas::getModel(model.first)->getVAO().bind();
 		/* Fill the VBO with new data */
-		model.second.transformation->bind();
+		model.transformation->bind();
 		GLCall(glBufferData(GL_ARRAY_BUFFER,
-							model.second.models.size() * sizeof(glm::mat4),
-							model.second.models.data(),
+							model.models.size() * sizeof(glm::mat4),
+							model.models.data(),
 							GL_STATIC_DRAW));
-		
+	}
+}
+
+void Renderer::flush()
+{
+	for (const auto& model : modelDrawData)
+	{
+		/* Bind the VAO and VBO */
+		ModelAtlas::getModel(model.mID)->getVAO().bind();
+		model.transformation->bind();
+
 		/* VAO setup */
 		GLCall(glEnableVertexAttribArray(3));
 		GLCall(glVertexAttribPointer(3, 4,
@@ -234,42 +272,40 @@ void Renderer::create()
 		GLCall(glVertexAttribDivisor(4, 1));
 		GLCall(glVertexAttribDivisor(5, 1));
 		GLCall(glVertexAttribDivisor(6, 1));
+
+		drawInstanced(model);
 	}
 }
 
-void Renderer::flush()
+void Renderer::drawInstanced(const drawData &model)
 {
-	for (const auto& model : modelDrawData)
-	{
-		for (const auto& ID : model.second.IDs)
+		ShaderAtlas::getShader(model.sID)->use();
+		
+		for (const auto& t : model.tID)
 		{
-			ShaderAtlas::getShader(ID.sID)->use();
-
-			for (const auto& t : ID.tID)
-			{
-				TextureAtlas::getTexture(t)->bind();
-			}
-			
-			ShaderAtlas::getShader(ID.sID)->setMat4("projection", proj);
-			ShaderAtlas::getShader(ID.sID)->setMat4("view", camera.getViewMatrix());
-			
-			auto pMA = ModelAtlas::getModel(model.first);
-			pMA->getVAO().bind();
-			
-			GLCall(glDrawElementsInstanced(GL_TRIANGLES,
-										   pMA->getEBO().getCount(),
-										   GL_UNSIGNED_INT,
-										   0,
-										   ID.amount));
-			
-			for (const auto& t : ID.tID)
-			{
-				TextureAtlas::getTexture(t)->unbind();
-			}
-
-			glBindVertexArray(0);
+			TextureAtlas::getTexture(t)->bind();
 		}
-	}
+		
+		ShaderAtlas::getShader(model.sID)->setMat4("projection", proj);
+		ShaderAtlas::getShader(model.sID)->setMat4("view", camera.getViewMatrix());
+		
+		auto pMA = ModelAtlas::getModel(model.mID);
+		pMA->getVAO().bind();
+		
+		GLCall(glDrawElementsInstanced(GL_TRIANGLES,
+									   pMA->getEBO().getCount(),
+									   GL_UNSIGNED_INT,
+									   0,
+									   model.amount));
+		
+		GLCall(glBindVertexArray(0));
+		
+		for (const auto& t : model.tID)
+		{
+			TextureAtlas::getTexture(t)->unbind();
+		}
+
+		ShaderAtlas::getShader(model.sID)->unbind();
 }
 
 Camera& Renderer::getCamera() { return camera; }

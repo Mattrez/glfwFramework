@@ -38,9 +38,25 @@ struct divider
 
 struct drawData
 {
+	explicit drawData(ModelId mID,
+					  ShaderId sID,
+					  const std::vector <TextureId>& tID) :
+	mID(mID), sID(sID), tID(tID)
+	{ }
+
+	bool operator== (const drawData& rhs)
+	{
+		return (rhs.mID == mID)
+		and (rhs.tID == tID)
+		and (rhs.sID == sID);
+	}
+
+	ModelId mID;
+	ShaderId sID;
+	std::vector <TextureId> tID;
+	unsigned int amount = 0;
 	std::vector <glm::mat4> models;
 	std::unique_ptr <VBO> transformation;
-	std::vector <divider> IDs;
 };
 
 class Renderer
@@ -53,14 +69,15 @@ public:
 	void drawText(TextObject* pTObject);
 
 	/* One draw call many objects being drawn */
-	void reserve(ModelId ID, size_t size);
+	void reserve(size_t size);
 	void submit(rObject* prObject);
 	void create();
 	void flush();
+	void drawInstanced(const drawData& model);
 
 	Camera& getCamera();
 private:
-	std::map <ModelId, drawData> modelDrawData;
+	std::vector <drawData> modelDrawData;
 	glm::mat4 ortho;
 	glm::mat4 proj;
 	Camera camera;

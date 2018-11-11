@@ -62,21 +62,29 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 const unsigned int& Shader::getShaderID() const { return shaderID; }
 
 /* Set's the program as this shader */
-void Shader::use() const { glUseProgram(shaderID); }
+void Shader::use() const
+{
+	GLCall(glUseProgram(shaderID));
+}
+
+void Shader::unbind() const
+{
+	GLCall(glUseProgram(0));
+}
 
 void Shader::setInt(const std::string& name, int value) const
 {
-	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
+	GLCall(glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value));
 }
 
 void Shader::setFloat(const std::string& name, float value) const
 {
-	glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value);
+	GLCall(glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value));
 }
 
 void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
+	GLCall(glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat)));
 }
 
 /* Give info about the compile or linking errors that happend */

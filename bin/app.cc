@@ -141,7 +141,7 @@ App::App()
 
 	object2.setModel(ModelId::Basic);
 	object2.addTexture(TextureId::Basic);
-	object2.setPosition({ 0.5f, 0.5f, 0.5f });
+	object2.setPosition({ 0.5f, 0.5f, -0.5f });
 	object2.setShaderId(ShaderId::Basic);
 
 	tObject.setModelId(ModelId::Text);
@@ -151,9 +151,9 @@ App::App()
 	tObject.setSize({ 1.0f, 1.0f });
 	tObject.setText("GFrame");
 
-	pRenderer->reserve(ModelId::Basic, 2);
-	pRenderer->submit(&object);
+	pRenderer->reserve(3);
 	pRenderer->submit(&object2);
+	pRenderer->submit(&object);
 	pRenderer->create();
 }
 
@@ -174,9 +174,6 @@ void App::mainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */
-//		pRenderer->draw(&object);
-//		pRenderer->drawText(&tObject);
-
 		pRenderer->flush();
 
 		/* Swaping the current buffer that is on the screen with a new one */

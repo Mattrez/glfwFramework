@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream> // for cout
 
+#include "utils/macros.h"
 #include "utils/GLIncludes.h"
 #include <glm/gtc/type_ptr.hpp>
 
@@ -16,6 +17,7 @@ public:
 
 	const unsigned int& getShaderID() const;
 	void use() const;
+	void unbind() const;
 
 	/* Uniform setters */
 	void setInt(const std::string& name, int value) const;
