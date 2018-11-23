@@ -3,11 +3,12 @@ cmake_minimum_required(VERSION 3.3)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/bin
     ${PROJECT_SOURCE_DIR}/includes
-    ${PROJECT_SOURCE_DIR}/objects
-    ${PROJECT_SOURCE_DIR}/renderable
-    ${PROJECT_SOURCE_DIR}/utils)
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/frame
+    ${PROJECT_SOURCE_DIR}/src/objects
+    ${PROJECT_SOURCE_DIR}/src/renderable
+    ${PROJECT_SOURCE_DIR}/src/utils)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,11 +27,11 @@ find_package(Freetype REQUIRED)
 
 include_directories(${FREETYPE_INCLUDE_DIRS})
 
-add_subdirectory(utils)
-add_subdirectory(renderable)
-add_subdirectory(objects)
-add_subdirectory(bin)
+add_subdirectory(src/utils)
+add_subdirectory(src/renderable)
+add_subdirectory(src/objects)
+add_subdirectory(src/frame)
 
-add_executable(exec main.cc)
+add_executable(exec src/main.cc)
 
-target_link_libraries(exec bin objects renderable utils ${GLFWLIB} glfw GL GLEW freetype)
+target_link_libraries(exec frame objects renderable utils ${GLFWLIB} glfw GL GLEW freetype)

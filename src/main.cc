@@ -1,6 +1,6 @@
 #include <iostream> // for cout
 
-#include "bin/app.h"
+#include "frame/app.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "includes/stb_image.h"
