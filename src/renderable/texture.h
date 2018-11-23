@@ -29,7 +29,7 @@ public:
 	void setMagFilter 	(GLuint setValue);
 
 	void bind 		(unsigned int index = 0) const;
-	void unbind 	(unsigned int index = 0) const;
+	void unbind 	() const;
 
 	unsigned int getID() const;
 private:

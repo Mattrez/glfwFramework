@@ -83,7 +83,7 @@ void Renderer::draw(rObject* prObject)
 	/* Unbinding the Texture */
 	for (unsigned int i = 0; i < tIDs.size(); i++)
 	{
-		TextureAtlas::getTexture(tIDs[i])->unbind(i);
+		TextureAtlas::getTexture(tIDs[i])->unbind();
 	}
 }
 
@@ -292,7 +292,7 @@ void Renderer::drawInstanced(const drawData &model)
 		auto pMA = ModelAtlas::getModel(model.mID);
 		pMA->getVAO().bind();
 		
-		GLCall(glDrawElementsInstanced(GL_TRIANGLES,
+		GLCall(glDrawElementsInstanced(pMA->getDrawType(),
 									   pMA->getEBO().getCount(),
 									   GL_UNSIGNED_INT,
 									   0,

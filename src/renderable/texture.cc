@@ -95,9 +95,8 @@ void Texture::bind(unsigned int index) const
 	GLCall(glBindTexture(GL_TEXTURE_2D, ID));
 }
 
-void Texture::unbind(unsigned int index) const
+void Texture::unbind() const
 {
-//	GLCall(glDisable(GL_TEXTURE_2D));
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
