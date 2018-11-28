@@ -145,11 +145,10 @@ App::App()
 	object2.setShaderId(ShaderId::Basic);
 
 	tObject.setModelId(ModelId::Text);
-	tObject.setPosition({ 25.5f, 25.5f, 1.0f });
+	tObject.setPosition({ 20.0f, 580.0f, 1.0f });
 	tObject.setRotation(0.0f);
 	tObject.setShaderId(ShaderId::Text);
-	tObject.setSize({ 1.0f, 1.0f });
-	tObject.setText("GFrame");
+	tObject.setSize({ 0.3f, 0.3f });
 
 	pRenderer->reserve(3);
 	pRenderer->submit(&object2);
@@ -170,10 +169,13 @@ void App::mainLoop()
 		/* Updates delta time */
 		timer.setDeltaTime();
 
+		tObject.setText(dtos(msToFps(timer.getDeltaTime())) + "fps");
+
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/* Draw call */
+		pRenderer->drawText(&tObject);
 		pRenderer->flush();
 
 		/* Swaping the current buffer that is on the screen with a new one */

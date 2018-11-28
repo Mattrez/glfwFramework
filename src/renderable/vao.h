@@ -5,7 +5,7 @@
 #include <numeric> // for std::accumulate
 
 #include "utils/GLIncludes.h"
-#include "utils/macros.h"
+#include "utils/GLMacros.h"
 
 #include "renderable/vbo.h"
 #include "renderable/ebo.h"

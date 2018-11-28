@@ -7,6 +7,7 @@
 
 #include "utils/config.h"
 #include "utils/timer.h"
+#include "utils/macros.h"
 #include "renderable/renderer.h"
 #include "renderable/vao.h"
 #include "renderable/vbo.h"

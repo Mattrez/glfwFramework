@@ -2,7 +2,7 @@
 #define RENDERER_H
 
 #include "utils/GLIncludes.h"
-#include "utils/macros.h"
+#include "utils/GLMacros.h"
 /* Specific GL includes */
 #include <glm/gtc/matrix_transform.hpp>
 

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iostream> // for cout
 
-#include "utils/macros.h"
+#include "utils/GLMacros.h"
 #include "utils/GLIncludes.h"
 #include <glm/gtc/type_ptr.hpp>
 

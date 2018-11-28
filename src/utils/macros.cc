@@ -1,16 +1,13 @@
 #include "utils/macros.h"
 
-void ClearErrorMR()
+double msToFps(float ms)
 {
-	while (glGetError() != GL_NO_ERROR) { };
+	return 1 / ms;
 }
 
-bool CheckErrorMR(const char* functionName, const char* file, int line)
+std::string dtos(double val)
 {
-	while (GLenum error = glGetError())
-	{
-		std::cout << "[OpenGL ERROR]: " << error << " : Func " << functionName << " : File " << file << " : Lile " << line << '\n';
-		return false;
-	}
-	return true;
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << val;
+	return stream.str();
 }

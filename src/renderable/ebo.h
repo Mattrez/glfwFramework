@@ -2,7 +2,7 @@
 #define EBO_H
 
 #include "utils/GLIncludes.h"
-#include "utils/macros.h"
+#include "utils/GLMacros.h"
 
 class EBO
 {
