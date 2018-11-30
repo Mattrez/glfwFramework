@@ -2,5 +2,7 @@
 
 #include <iomanip>
 
-double msToFps(float ms);
-std::string dtos(double val);
+namespace gf {
+	double msToFps(float ms);
+	std::string dtos(double val);
+}

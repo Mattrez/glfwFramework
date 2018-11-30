@@ -173,7 +173,7 @@ void App::mainLoop()
 		/* Updates delta time */
 		timer.setDeltaTime();
 
-		tObject.setText(dtos(msToFps(timer.getDeltaTime())) + "fps");
+		tObject.setText(gf::dtos(gf::msToFps(timer.getDeltaTime())) + "fps");
 
 		/* Clearing the screen with set color */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
