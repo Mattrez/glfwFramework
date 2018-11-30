@@ -40,6 +40,12 @@ void ModelAtlas::addModel(ModelId ID,
 																	   drawType)));
 }
 
+void ModelAtlas::addModel(ModelId ID,
+						  std::unique_ptr <RenderData> model)
+{
+	get().Models.emplace(ID, std::move(model));
+}
+
 std::shared_ptr <RenderData> ModelAtlas::getModel(ModelId ID)
 {
 	auto searchFind = get().Models.find(ID);

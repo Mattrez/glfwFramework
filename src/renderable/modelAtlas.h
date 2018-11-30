@@ -35,6 +35,9 @@ public:
 						 GLenum drawTypeVBO,
 						 unsigned int drawType);
 
+	static void addModel(ModelId ID,
+						 std::unique_ptr <RenderData> model);
+
 	static std::shared_ptr <RenderData> getModel(ModelId ID);
 
 	ModelAtlas(ModelAtlas const&) = delete;

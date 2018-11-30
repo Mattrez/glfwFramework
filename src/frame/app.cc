@@ -84,13 +84,15 @@ App::App()
 
 	auto& rMA = ModelAtlas::get();
 
+	auto obj = std::make_unique <RenderData> (indi,
+											  glm::vec2(sizeof(unsigned int), 6),
+											  GL_STATIC_DRAW,
+											  verties,
+											  glm::vec2(sizeof(float), 4 * 8),
+											  GL_STATIC_DRAW);
+
 	rMA.addModel(ModelId::Basic,
-				 indi,
-				 { sizeof(unsigned int), 6 },
-				 GL_STATIC_DRAW,
-				 verties,
-				 { sizeof(float), 4 * 8 },
-				 GL_STATIC_DRAW);
+				 std::move(obj));
 
 	auto pBM = rMA.getModel(ModelId::Basic);
 
@@ -103,13 +105,15 @@ App::App()
 
 	pBM->getVAO().populateLayouts(pBM->getVBO(), pBM->getEBO());
 
+	obj = std::make_unique <RenderData> (textIndi,
+										 glm::vec2(sizeof(unsigned int), 6),
+										 GL_STATIC_DRAW,
+										 nullptr,
+										 glm::vec2(sizeof(float), 4 * 4),
+										 GL_DYNAMIC_DRAW);
+	
 	rMA.addModel(ModelId::Text,
-				 textIndi,
-				 { sizeof(unsigned int), 6 },
-				 GL_STATIC_DRAW,
-				 nullptr,
-				 { sizeof(float), 4 * 4 },
-				 GL_DYNAMIC_DRAW);
+				 std::move(obj));
 
 	pBM = rMA.getModel(ModelId::Text);
 

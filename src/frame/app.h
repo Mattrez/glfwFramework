@@ -2,6 +2,7 @@
 #define APP_H
 
 #include <iostream> // for cout
+#include <memory>
 
 #include "utils/GLIncludes.h"
 
