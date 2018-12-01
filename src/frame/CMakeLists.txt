@@ -1,1 +1,1 @@
-add_library(frame app.cc)
+add_library(frame OBJECT app.cc)

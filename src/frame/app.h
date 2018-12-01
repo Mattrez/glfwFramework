@@ -6,6 +6,7 @@
 
 #include "utils/GLIncludes.h"
 
+#include "frame/app.h"
 #include "utils/config.h"
 #include "utils/timer.h"
 #include "utils/macros.h"
@@ -27,10 +28,10 @@ class App
 {
 public:
 	App();
-	~App();
+	virtual ~App();
 
-	void mainLoop();
-	void processKeyboard();
+	virtual void mainLoop();
+	virtual void processKeyboard();
 
 	friend void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos);
 	friend void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
@@ -44,6 +45,7 @@ private:
 private:
 	GLFWwindow* pWindow;
 	Renderer* pRenderer;
+	Config config;
 	Timer timer;
 	mouseData data;
 	/* Debug only */

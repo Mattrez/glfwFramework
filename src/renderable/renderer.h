@@ -62,7 +62,7 @@ struct drawData
 class Renderer
 {
 public:
-	Renderer();
+	Renderer(const Config& cfg);
 
 	/* One draw call one object being drawn */
 	void draw(rObject* prObject);

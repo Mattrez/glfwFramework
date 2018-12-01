@@ -10,10 +10,10 @@
 struct Config
 {
 public:
-	static Config& get(const std::string& configPath = "");
-private:
-	Config(const char* configPath);
+//	static Config& get(const std::string& configPath = "");
 
+	Config(const char* configPath);
+private:
 	void setValue(const std::string& name,
 				  const std::string& value);
 public:

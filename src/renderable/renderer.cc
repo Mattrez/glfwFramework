@@ -7,13 +7,10 @@ void drawC(ShaderId sID,
 		   Camera camera,
 		   glm::mat4 proj);
 
-Renderer::Renderer()
+Renderer::Renderer(const Config& cfg)
 {
-    /* Config instance */
-	auto c = Config::get();
-	
-	ortho = glm::ortho(0.0f, static_cast<float> (c.width),
-					   0.0f, static_cast <float> (c.height));
+	ortho = glm::ortho(0.0f, static_cast<float> (cfg.width),
+					   0.0f, static_cast <float> (cfg.height));
 
 	proj = glm::perspective(glm::radians(45.0f),
 							800.0f/800.0f, 0.1f, 100.0f);

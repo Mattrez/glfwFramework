@@ -1,11 +1,11 @@
 #include "utils/config.h"
 
 /* Default singelton */
-Config& Config::get(const std::string& configPath)
-{
-	static Config instance (configPath.c_str());
-	return instance;
-}
+//Config& Config::get(const std::string& configPath)
+//{
+//	static Config instance (configPath.c_str());
+//	return instance;
+//}
 
 Config::Config(const char* configPath)
 {

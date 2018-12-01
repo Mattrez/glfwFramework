@@ -1,18 +1,24 @@
-#include <iostream> // for cout
+#include "GFrame.h"
 
-#include "frame/app.h"
+class Debug : public App
+{
+public:
+	Debug()
+	{
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "includes/stb_image.h"
+	}
 
-/* Calls config's ctor */
-auto ctor = Config::get("../res/config.ini");
+	~Debug() override
+	{
+
+	}
+};
 
 int main()
 {
-	App app;
+	Debug* app = new Debug();
 
-	app.mainLoop();
+	app->mainLoop();
 
 	return 0;
 }

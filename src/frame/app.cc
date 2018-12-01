@@ -4,7 +4,8 @@
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-App::App()
+App::App() :
+	config("../res/config.ini")
 {
 	/* Initializaing GLFW */
 	if (!glfwInit())
@@ -16,8 +17,6 @@ App::App()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	auto config = Config::get();
 
 	/* Pointing the window pointer to a window object */
 	pWindow = glfwCreateWindow(config.width, config.height, config.windowName.c_str(), NULL, NULL);
@@ -60,7 +59,7 @@ App::App()
 
 	//glEnable(GL_CULL_FACE);
 
-	pRenderer = new Renderer();
+	pRenderer = new Renderer(config);
 
 	float verties[] =
 	{
@@ -154,7 +153,7 @@ App::App()
 	tObject.setShaderId(ShaderId::Text);
 	tObject.setSize({ 0.3f, 0.3f });
 
-	pRenderer->reserve(3);
+	pRenderer->reserve(2);
 	pRenderer->submit(&object2);
 	pRenderer->submit(&object);
 	pRenderer->create();

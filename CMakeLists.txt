@@ -34,4 +34,12 @@ add_subdirectory(src/frame)
 
 add_executable(exec src/main.cc)
 
-target_link_libraries(exec frame objects renderable utils ${GLFWLIB} glfw GL GLEW freetype)
+add_library(gFrame STATIC
+	$<TARGET_OBJECTS:utils>
+	$<TARGET_OBJECTS:renderable>
+	$<TARGET_OBJECTS:objects>
+	$<TARGET_OBJECTS:frame>)
+
+target_link_libraries(gFrame ${GLFWLIB} glfw GL GLEW freetype)
+
+target_link_libraries(exec gFrame)

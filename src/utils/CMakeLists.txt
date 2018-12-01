@@ -1,1 +1,1 @@
-add_library(utils config.cc timer.cc macros.cc GLMacros.cc)
+add_library(utils OBJECT config.cc timer.cc macros.cc GLMacros.cc)
