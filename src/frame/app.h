@@ -35,6 +35,9 @@ public:
 
 	friend void mouse_callback(GLFWwindow* pWindow, double xpos, double ypos);
 	friend void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mods);
+	friend void framebuffer_size_callback(GLFWwindow* pWindow, int width, int height);
+protected:
+	virtual void tick();
 private:
 	struct mouseData
 	{
@@ -42,16 +45,12 @@ private:
 		double lastX = 0.0f;
 		double lastY = 0.0f;
 	};
-private:
+protected:
 	GLFWwindow* pWindow;
 	Renderer* pRenderer;
 	Config config;
 	Timer timer;
 	mouseData data;
-	/* Debug only */
-	rObject object;
-	rObject object2;
-	TextObject tObject;
 };
 
 #endif

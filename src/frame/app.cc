@@ -3,6 +3,7 @@
 /* All of GLFW callbacks declaration */
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void framebuffer_size_callback(GLFWwindow* pWindow, int width, int height);
 
 App::App() :
 	config("../res/config.ini")
@@ -32,6 +33,7 @@ App::App() :
 	glfwSetWindowUserPointer(pWindow, this);
 	glfwSetCursorPosCallback(pWindow, mouse_callback);
 	glfwSetKeyCallback(pWindow, key_callback);
+	glfwSetFramebufferSizeCallback(pWindow, framebuffer_size_callback);
 
 	/* Making the window poniter as the current openGL context */
 	glfwMakeContextCurrent(pWindow);
@@ -135,28 +137,6 @@ App::App() :
 								   true);
 
 	FontAtlas::addFont(FontId::Basic, config.resPath + "arial.ttf");
-
-	/* RenderableObject filling it with data */
-	object.setModel(ModelId::Basic);
-	object.addTexture(TextureId::Basic);
-	object.setPosition({ 0.0f, 0.0f, 0.0f });
-	object.setShaderId(ShaderId::Basic);
-
-	object2.setModel(ModelId::Basic);
-	object2.addTexture(TextureId::Basic);
-	object2.setPosition({ 0.5f, 0.5f, -0.5f });
-	object2.setShaderId(ShaderId::Basic);
-
-	tObject.setModelId(ModelId::Text);
-	tObject.setPosition({ 20.0f, 580.0f, 1.0f });
-	tObject.setRotation(0.0f);
-	tObject.setShaderId(ShaderId::Text);
-	tObject.setSize({ 0.3f, 0.3f });
-
-	pRenderer->reserve(2);
-	pRenderer->submit(&object2);
-	pRenderer->submit(&object);
-	pRenderer->create();
 }
 
 App::~App()
@@ -165,22 +145,19 @@ App::~App()
 	glfwTerminate();
 }
 
+void App::tick()
+{
+		/* Clearing the screen with set color */
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void App::mainLoop()
 {
 	while(!glfwWindowShouldClose(pWindow))
 	{
-		/* Updates delta time */
-		timer.setDeltaTime();
-
-		tObject.setText(gf::dtos(gf::msToFps(timer.getDeltaTime())) + "fps");
-
-		/* Clearing the screen with set color */
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		/* Draw call */
-		pRenderer->drawText(&tObject);
-		pRenderer->flush();
-
+		/* Calling the tick function that is changed by the end user */
+		tick();
+			
 		/* Swaping the current buffer that is on the screen with a new one */
 		glfwSwapBuffers(pWindow);
 
@@ -241,4 +218,16 @@ void key_callback(GLFWwindow* pWindow, int key, int scancode, int action, int mo
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
 		glfwSetWindowShouldClose(pWindow, true);
 	}
+}
+
+void framebuffer_size_callback(GLFWwindow* pWindow, int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	App* pApp = static_cast <App*>(glfwGetWindowUserPointer(pWindow));
+	pApp->config.width = width;
+	pApp->config.height = height;
+
+	/* Update projections with the new width and height */
+	pApp->pRenderer->updateProjections(pApp->config);
 }

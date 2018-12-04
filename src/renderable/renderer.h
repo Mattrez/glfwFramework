@@ -75,6 +75,7 @@ public:
 	void flush();
 	void drawInstanced(const drawData& model);
 
+	void updateProjections(const Config& cfg);
 	Camera& getCamera();
 private:
 	std::vector <drawData> modelDrawData;

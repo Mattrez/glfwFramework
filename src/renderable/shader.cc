@@ -26,7 +26,7 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 		vertexCode = vShaderStream.str();
 		fragmentCode = fShaderStream.str();
 	}
-	catch(std::ifstream::failure e)
+	catch(std::ifstream::failure& e)
 	{
 		std::cout << "[ERROR]: Failed to read shader's file succesufully\n";
 	}
@@ -35,8 +35,6 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
 	const char* vShaderCode = vertexCode.c_str();
 	const char* fShaderCode = fragmentCode.c_str();
 	unsigned int vertex, fragment;
-//	int success;
-//	char infoLog[512];
 	/* Creating the Vertex Shader */
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vShaderCode, NULL);

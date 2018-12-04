@@ -9,11 +9,18 @@ void drawC(ShaderId sID,
 
 Renderer::Renderer(const Config& cfg)
 {
+	/* Set the projection values */
+	updateProjections(cfg);
+}
+
+void Renderer::updateProjections(const Config& cfg)
+{
+	/* Updating the projections with given arguments by the config object */
 	ortho = glm::ortho(0.0f, static_cast<float> (cfg.width),
 					   0.0f, static_cast <float> (cfg.height));
 
 	proj = glm::perspective(glm::radians(45.0f),
-							800.0f/800.0f, 0.1f, 100.0f);
+							cfg.width/cfg.height, 0.1f, 100.0f);
 }
 
 void Renderer::draw(rObject* prObject)
