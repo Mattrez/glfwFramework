@@ -22,7 +22,7 @@ public:
 		object2.setShaderId(ShaderId::Basic);
 		
 		tObject.setModelId(ModelId::Text);
-		tObject.setPosition({ 20.0f, 580.0f, 1.0f });
+		tObject.setPosition({ 2.5f, 97.5f, 1.0f });
 		tObject.setShaderId(ShaderId::Text);
 		tObject.setSize({ 0.3f, 0.3f });
 		

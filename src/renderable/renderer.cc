@@ -7,7 +7,8 @@ void drawC(ShaderId sID,
 		   Camera camera,
 		   glm::mat4 proj);
 
-Renderer::Renderer(const Config& cfg)
+Renderer::Renderer(const Config& cfg) :
+	rConfig(cfg)
 {
 	/* Set the projection values */
 	updateProjections(cfg);
@@ -106,7 +107,7 @@ void Renderer::drawText(TextObject* pTObject)
 					   pTObject->getColor().z));
 
 	pMA->getVAO().bind();
-	float x = pTObject->getPosition().x;
+	float x = rConfig.width / 100 * pTObject->getPosition().x;
 
 	std::string rndrText = pTObject->getText();
 
@@ -115,7 +116,8 @@ void Renderer::drawText(TextObject* pTObject)
 		auto ch = pFA->getCharacter(c);
 
 		float xPos = x + ch->bearing.x * pTObject->getSize().x;
-		float yPos = pTObject->getPosition().y - (ch->size.y - ch->bearing.y) * pTObject->getSize().y;
+		float y = rConfig.height / 100 * pTObject->getPosition().y;
+		float yPos = y - (ch->size.y - ch->bearing.y) * pTObject->getSize().y;
 
 		float w = ch->size.x * pTObject->getSize().x;
 		float h = ch->size.y * pTObject->getSize().y;

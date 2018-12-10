@@ -82,6 +82,7 @@ private:
 	glm::mat4 ortho;
 	glm::mat4 proj;
 	Camera camera;
+	const Config& rConfig;
 };
 
 #endif
